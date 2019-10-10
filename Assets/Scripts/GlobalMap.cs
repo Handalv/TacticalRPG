@@ -2,23 +2,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// namespace conflict System.Random and UnityEngine.Random
+using Random = UnityEngine.Random;
 
 public class GlobalMap : MonoBehaviour
 {
+    public GlobalMapGenerator mapGenerator;
     public GameObject selectedUnit;
 
     public int mapSizeX;
     public int mapSizeZ;
 
-    MapTile[,] tiles;
+    public GlobalTile[,] tiles;
     Node[,] graph;
 
     void Start()
     {
+        if (mapGenerator == null)
+        {
+            Debug.Log("MapGenerator in GlobalMap is null by default");
+            mapGenerator = GetComponent<GlobalMapGenerator>();
+        }
+
         GenerateMapVisual();
         GeneratePathfindingGraph();
-
         SpawnPlayer();
+
+        mapGenerator.GenerateMapObjects();
     }
 
     void GeneratePathfindingGraph()
@@ -74,7 +84,7 @@ public class GlobalMap : MonoBehaviour
 
     void GenerateMapVisual()
     {
-        tiles = new MapTile[mapSizeX, mapSizeZ];
+        tiles = new GlobalTile[mapSizeX, mapSizeZ];
         for (int x = 0; x < mapSizeX; x++)
             for (int z = 0; z < mapSizeZ; z++)
             {
@@ -82,7 +92,7 @@ public class GlobalMap : MonoBehaviour
                 tile.transform.position = ConvertTileCoordToWorld(x, z);
                 tile.transform.parent = gameObject.transform;
 
-                MapTile maptile = tile.GetComponent<MapTile>();
+                GlobalTile maptile = tile.GetComponent<GlobalTile>();
                 maptile.tileX = x;
                 maptile.tileZ = z;
                 maptile.map = this;
@@ -95,11 +105,10 @@ public class GlobalMap : MonoBehaviour
     {
         selectedUnit = GameObject.Instantiate(Resources.Load("PlayerUnit")) as GameObject;
 
-        //int x = Random.Range(0, mapSizeX);
-        //int z = Random.Range(0, mapSizeZ);
+        int x = Random.Range(0, mapSizeX);
+        int z = Random.Range(0, mapSizeZ);
 
-        //TODO TEST
-        int x = 0, z = 1;
+        tiles[x, z].mapObjects.Add(selectedUnit.GetComponent<MapObject>());
 
         selectedUnit.transform.position = ConvertTileCoordToWorld(x, z);
         RemoveGraphWarFog(x, z);
@@ -127,15 +136,21 @@ public class GlobalMap : MonoBehaviour
         }
     }
 
-    public void MoveUnit(int x, int z)
+    public void MoveUnit(int x, int z, GameObject unit = null)
     {
-        Vector3 unitTile = ConvertWorldCoordToTile(selectedUnit.transform.position);
-        int X = (int)unitTile.x;
-        int Z = (int)unitTile.z;
+        if (unit == null)
+            unit = selectedUnit;
+        Vector3 unitTile = ConvertWorldCoordToTile(unit.transform.position);
+        int oldX = (int)unitTile.x;
+        int oldZ = (int)unitTile.z;
+        tiles[oldX,oldZ].mapObjects.Remove(unit.GetComponent<MapObject>());
         //Debug.Log("x = " + X + "  z = " + Z + " -----------------------" + graph[X, Z].neighbours.Count);
-        SetGraphWarFog(X, Z);
-        selectedUnit.transform.position = ConvertTileCoordToWorld(x, z);
-        RemoveGraphWarFog(x, z);
+        if (unit == selectedUnit)
+        {
+            SetGraphWarFog(oldX, oldZ);
+            selectedUnit.transform.position = ConvertTileCoordToWorld(x, z);
+            RemoveGraphWarFog(x, z);
+        }
     }
 
     public static Vector3 ConvertTileCoordToWorld(int x, int z, int y = 0)
@@ -149,22 +164,26 @@ public class GlobalMap : MonoBehaviour
         return new Vector3(worldX, y, worldZ);
     }
 
+    // the most buggy part
     // unexpected for me 5.4f / 1.8f == 2  but 5.401f /1.8f == 3
     // soo we add every world pos +0.01 before converting to get correct answer
+
+    // For now i using that to get X and Z of objects what has a MapObject script
+    // so i can just storage their X and Z in the script
     public static Vector3 ConvertWorldCoordToTile(Vector3 worldTile)
     {
         float tileZ = (worldTile.z+0.01f)/ 1.55f;
         //Debug.Log(""+ worldTile.z + " / 1,55 = " + (int)tileZ);
         float tileX = 0;
-        if (worldTile.z % 1.55f == 0)
+        if (worldTile.x % 1.8f == 0)
         {
-            tileX = (worldTile.x + 0.9f + 0.01f) / 1.8f;
-            //Debug.Log("(" + worldTile.x + "+0,9) / 1,8 = " + (int)tileX);
+            tileX = (worldTile.x + 0.01f) / 1.8f;
+            //Debug.Log("" + worldTile.x + " / 1,8 = " + (int)tileX);
         }
         else
         {
-            tileX = (worldTile.x+0.01f) / 1.8f;
-           //Debug.Log("" + worldTile.x + " / 1,8 = " + (int)tileX);
+            tileX = (worldTile.x + 0.9f + 0.01f) / 1.8f;
+            //Debug.Log("(" + worldTile.x + "+0,9) / 1,8 = " + (int)tileX);
         }
 
 

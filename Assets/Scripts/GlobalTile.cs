@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapTile : MonoBehaviour
+public class GlobalTile : MonoBehaviour
 {
     //public TileType TileType;
     public TileType type;
@@ -20,6 +20,10 @@ public class MapTile : MonoBehaviour
         set
         {
             warFog.SetActive(value);
+            foreach(MapObject obj in mapObjects)
+            {
+                obj.graphic.SetActive(!value);
+            }
         }
         get
         {

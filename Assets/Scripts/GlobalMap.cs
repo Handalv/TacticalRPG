@@ -14,7 +14,27 @@ public class GlobalMap : MonoBehaviour
     public int mapSizeZ;
 
     public GlobalTile[,] tiles;
-    Node[,] graph;
+    public Node[,] graph;
+
+    //TEST PlayerPrefs variable
+    public PlayerPrefs playerPrefs;
+
+    // AWAKE INSTANCE
+    public static GlobalMap instance;
+    void Awake()
+    {
+        if (instance != null)
+            Debug.Log("More than 1 GLobalMap");
+        instance = this;
+
+        //TEST PlayerPrefs setup
+        if (playerPrefs == null)
+        {
+            Debug.Log("PlayerPrefs in MapGenerator is null by default");
+            playerPrefs = GetComponent<PlayerPrefs>();
+        }
+        //END TEST
+    }
 
     void Start()
     {
@@ -26,9 +46,21 @@ public class GlobalMap : MonoBehaviour
 
         GenerateMapVisual();
         GeneratePathfindingGraph();
-        SpawnPlayer();
 
+        
+        mapGenerator.GenerateRelationships();
+
+        SpawnPlayer();
         mapGenerator.GenerateMapObjects();
+    }
+
+    void Update()
+    {
+        //TEST Remove warfog
+        if (Input.GetKeyDown(KeyCode.W))
+            foreach (GlobalTile tile in tiles)
+                RemoveGraphWarFog(tile.tileX,tile.tileZ);
+        //END TEST
     }
 
     void GeneratePathfindingGraph()
@@ -136,6 +168,14 @@ public class GlobalMap : MonoBehaviour
         }
     }
 
+    void SetGraphWarFogInRange(int x, int z, int Range = 0)
+    {
+        if (Range == 0)
+            Range = playerPrefs.visionRange;
+
+        //UNDONE
+    }
+
     public void MoveUnit(int x, int z, GameObject unit = null)
     {
         if (unit == null)
@@ -148,9 +188,15 @@ public class GlobalMap : MonoBehaviour
         if (unit == selectedUnit)
         {
             SetGraphWarFog(oldX, oldZ);
-            selectedUnit.transform.position = ConvertTileCoordToWorld(x, z);
+            //selectedUnit.transform.position = ConvertTileCoordToWorld(x, z);
             RemoveGraphWarFog(x, z);
         }
+        else
+        {
+            unit.GetComponent<MapObject>().graphic.SetActive(!tiles[x, z].warFogEnabled);
+        }
+        unit.transform.position = ConvertTileCoordToWorld(x, z);
+        tiles[x, z].mapObjects.Add(unit.GetComponent<MapObject>());
     }
 
     public static Vector3 ConvertTileCoordToWorld(int x, int z, int y = 0)

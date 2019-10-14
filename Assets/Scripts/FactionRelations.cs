@@ -5,58 +5,34 @@ using UnityEngine;
 
 public class FactionRelations : MonoBehaviour
 {
-    //public FactionType[] factions;
-    //public string[] factionNames;
-    //public int[,] relations;
+    public List<Faction> factions;
 
-    public Faction[] factions;
-
-    void Start()
+    public Faction SetNewFaction(string title, FactionType type, int baseRelation)
     {
-        foreach (Faction faction in factions) {
-            for(int i = 0; i < factions.Length; i++)
+        Faction newFaction = new Faction();
+        newFaction.title = title;
+        newFaction.type = type;
+        newFaction.baseRelation = baseRelation;
+        newFaction.relations = new List<int>();
+
+        if (factions.Count > 0)
+            foreach (Faction faction in factions)
             {
-                //if (faction.relations.Length < factions.Length)
-                //    faction.relations = new int[factions.Length];
-
-
-                if (factions[i].title == faction.title)
-                    continue;
-
-
-                switch (faction.type)
-                {
-                    case FactionType.Neutral:
-                        faction.relations[i] = 0;
-                        break;
-                    case FactionType.Bandits:
-                        faction.relations[i] = -70;
-                        break;
-                    case FactionType.Deserters:
-                        faction.relations[i] = -40;
-                        break;
-                    //case FactionType.Player:
-                    //    break;
-                    //case FactionType.Kingdom:
-                    //    break;
-                    //case FactionType.FreeCity:
-                    //    break;
-                    default:
-                        faction.relations[i] = 0;
-                        break;
-                }
+                faction.relations.Add(newFaction.baseRelation);
+                newFaction.relations.Add(faction.baseRelation);
             }
-        }
-                
+        factions.Add(newFaction);
+        return newFaction;
     }
 }
 
 [Serializable]
-public struct Faction
+public class Faction //can be struct
 {
-    public FactionType type;
+    public int baseRelation;
     public string title;
-    public int[] relations;
+    public FactionType type;
+    public List<int> relations;
 }
 
 [Serializable]

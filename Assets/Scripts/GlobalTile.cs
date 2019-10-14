@@ -10,6 +10,7 @@ public class GlobalTile : MonoBehaviour
     public int tileZ;
     public GlobalMap map;
     public bool isWalkable = true;
+    public float movementCost = 5f;
 
     public List<MapObject> mapObjects;
 
@@ -30,7 +31,8 @@ public class GlobalTile : MonoBehaviour
             return warFog.activeSelf;
         }
     }
-
+    // Ёмаё я уже и забыл как ходьба реализована
+    //TODO Raycast on Title layer instread this
     private void OnMouseUp()
     {
         if(!warFogEnabled)

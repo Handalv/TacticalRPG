@@ -7,6 +7,10 @@ using Random = UnityEngine.Random;
 
 public class GlobalMap : MonoBehaviour
 {
+    public bool globalWarfogEnabled = true;
+
+    public bool GAMEPAUSED = false;
+
     public GlobalMapGenerator mapGenerator;
     public GameObject selectedUnit;
 
@@ -15,6 +19,9 @@ public class GlobalMap : MonoBehaviour
 
     public GlobalTile[,] tiles;
     public Node[,] graph;
+
+    public UIGlobalMap UI;
+
 
     //TEST PlayerPrefs variable
     public PlayerPrefs playerPrefs;
@@ -58,9 +65,42 @@ public class GlobalMap : MonoBehaviour
     {
         //TEST Remove warfog
         if (Input.GetKeyDown(KeyCode.W))
-            foreach (GlobalTile tile in tiles)
-                RemoveGraphWarFog(tile.tileX,tile.tileZ);
+        {
+            if (globalWarfogEnabled)
+            {
+                foreach (GlobalTile tile in tiles)
+                    RemoveGraphWarFog(tile.tileX, tile.tileZ);
+                globalWarfogEnabled = false;
+            }
+            else
+            {
+                int playerX=0, playerZ=0;
+                globalWarfogEnabled = true;
+                foreach (GlobalTile tile in tiles)
+                {
+                    SetGraphWarFog(tile.tileX, tile.tileZ);
+                    if (tile.mapObjects.Count != 0)
+                        foreach (MapObject mo in tile.mapObjects)
+                        {
+                            //UNDONE valid player check
+                            // dont have some "playerunit" script to throw the "Player" tag, which is using only here
+                            // It's can be faction check (but they are unfinished too)
+                            if (mo.CompareTag("Player"))
+                            {
+                                playerX = tile.tileX;
+                                playerZ = tile.tileZ;
+                            }
+                        }
+                }
+                RemoveGraphWarFog(playerX, playerZ);
+            }
+        }
         //END TEST
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            GAMEPAUSED = !GAMEPAUSED;
+            UI.SetPauseVision(GAMEPAUSED);
+        }
     }
 
     void GeneratePathfindingGraph()
@@ -158,13 +198,16 @@ public class GlobalMap : MonoBehaviour
     }
     void SetGraphWarFog(int x, int z)
     {
-        tiles[x, z].warFogEnabled = true;
-
-        //Debug.Log("x = " + x + "  z = " + z + " -----------------------" + graph[x, z].neighbours.Count);
-        foreach (Node n in graph[x, z].neighbours)
+        if (globalWarfogEnabled)
         {
-            //Debug.Log("x = " + n.x + "  z = " + n.z);
-            tiles[n.x, n.z].warFogEnabled = true;
+            tiles[x, z].warFogEnabled = true;
+
+            //Debug.Log("x = " + x + "  z = " + z + " -----------------------" + graph[x, z].neighbours.Count);
+            foreach (Node n in graph[x, z].neighbours)
+            {
+                //Debug.Log("x = " + n.x + "  z = " + n.z);
+                tiles[n.x, n.z].warFogEnabled = true;
+            }
         }
     }
 
@@ -173,7 +216,7 @@ public class GlobalMap : MonoBehaviour
         if (Range == 0)
             Range = playerPrefs.visionRange;
 
-        //UNDONE
+        //UNDONE Warfog Range
     }
 
     public void MoveUnit(int x, int z, GameObject unit = null)
@@ -188,7 +231,6 @@ public class GlobalMap : MonoBehaviour
         if (unit == selectedUnit)
         {
             SetGraphWarFog(oldX, oldZ);
-            //selectedUnit.transform.position = ConvertTileCoordToWorld(x, z);
             RemoveGraphWarFog(x, z);
         }
         else
@@ -196,9 +238,18 @@ public class GlobalMap : MonoBehaviour
             unit.GetComponent<MapObject>().graphic.SetActive(!tiles[x, z].warFogEnabled);
         }
         unit.transform.position = ConvertTileCoordToWorld(x, z);
+
+        if (tiles[x, z].mapObjects.Count > 0)
+        {
+            //TODO battle and others checks
+            UI.OpenBattleMessage();
+        }
+
         tiles[x, z].mapObjects.Add(unit.GetComponent<MapObject>());
+
     }
 
+    // If i decieding to keep instance, this dont need to be static,
     public static Vector3 ConvertTileCoordToWorld(int x, int z, int y = 0)
     {
         float worldZ = z * 1.55f;

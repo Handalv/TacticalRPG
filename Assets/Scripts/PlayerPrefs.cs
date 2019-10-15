@@ -7,4 +7,9 @@ public class PlayerPrefs : MonoBehaviour
     public string nickname;
     public int visionRange = 1;
     public int gold;
+
+    private void OnMouseUp()
+    {
+        //UNDONE RAYCAST
+    }
 }

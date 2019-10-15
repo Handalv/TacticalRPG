@@ -35,7 +35,9 @@ public class GlobalTile : MonoBehaviour
     //TODO Raycast on Title layer instread this
     private void OnMouseUp()
     {
-        if(!warFogEnabled)
-            map.MoveUnit(tileX, tileZ);
+        if (!GlobalMap.instance.GAMEPAUSED)
+            if (!warFogEnabled)
+                map.MoveUnit(tileX, tileZ);
+
     }
 }

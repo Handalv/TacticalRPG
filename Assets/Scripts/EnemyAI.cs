@@ -7,21 +7,33 @@ public class EnemyAI : MonoBehaviour
 {
 
     MapObject mapObject;
-    float currentMovement;
+    float movementCD;
+    GlobalTile tileToMove;
 
     void Start()
     {
         mapObject = GetComponent<MapObject>();
+        MoveAround();
     }
 
     void Update()
     {
-        //TEST move enemys on Key
-        if (Input.GetKeyDown(KeyCode.E))
+        if (!GlobalMap.instance.GAMEPAUSED)
         {
-            MoveAround();
+            if (movementCD > 0)
+            {
+                movementCD -= Time.deltaTime;
+            }
+            else
+            {
+                if (tileToMove != null)
+                {
+                    GlobalMap.instance.MoveUnit(tileToMove.tileX, tileToMove.tileZ, gameObject);
+                    tileToMove = null;
+                    MoveAround();
+                }
+            }
         }
-        //END TEST
     }
 
     public bool MoveAround()
@@ -40,7 +52,8 @@ public class EnemyAI : MonoBehaviour
         if (avliableTiles.Count == 0)
             return false;
         int r = Random.Range(0, avliableTiles.Count);
-        GlobalMap.instance.MoveUnit(avliableTiles[r].tileX, avliableTiles[r].tileZ, gameObject);
+        movementCD = avliableTiles[r].movementCost;
+        tileToMove = avliableTiles[r];
         return true;
     }
 }

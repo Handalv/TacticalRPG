@@ -31,13 +31,4 @@ public class GlobalTile : MonoBehaviour
             return warFog.activeSelf;
         }
     }
-    // Ёмаё я уже и забыл как ходьба реализована
-    //TODO Raycast on Title layer instread this
-    private void OnMouseUp()
-    {
-        if (!GlobalMap.instance.GAMEPAUSED)
-            if (!warFogEnabled)
-                map.MoveUnit(tileX, tileZ);
-
-    }
 }

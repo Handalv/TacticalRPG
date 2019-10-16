@@ -54,7 +54,6 @@ public class GlobalMap : MonoBehaviour
         GenerateMapVisual();
         GeneratePathfindingGraph();
 
-        
         mapGenerator.GenerateRelationships();
 
         SpawnPlayer();
@@ -246,7 +245,6 @@ public class GlobalMap : MonoBehaviour
         }
 
         tiles[x, z].mapObjects.Add(unit.GetComponent<MapObject>());
-
     }
 
     // If i decieding to keep instance, this dont need to be static,
@@ -282,7 +280,6 @@ public class GlobalMap : MonoBehaviour
             tileX = (worldTile.x + 0.9f + 0.01f) / 1.8f;
             //Debug.Log("(" + worldTile.x + "+0,9) / 1,8 = " + (int)tileX);
         }
-
 
         return new Vector3(tileX, worldTile.y, tileZ);
     }

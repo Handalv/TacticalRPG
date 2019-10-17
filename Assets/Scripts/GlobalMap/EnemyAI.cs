@@ -5,55 +5,42 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-
-    MapObject mapObject;
-    float movementCD;
-    Tile tileToMove;
+    Unit unit;
 
     void Start()
     {
-        mapObject = GetComponent<MapObject>();
-        MoveAround();
+        unit = GetComponent<Unit>();
+        //MoveAround();
     }
 
     void Update()
     {
         if (!GlobalMap.instance.GAMEPAUSED)
         {
-            if (movementCD > 0)
+            if (unit.currentPath == null)
             {
-                movementCD -= Time.deltaTime;
-            }
-            else
-            {
-                if (tileToMove != null)
-                {
-                    GlobalMap.instance.MoveUnit(tileToMove.tileX, tileToMove.tileZ, gameObject);
-                    tileToMove = null;
-                    MoveAround();
-                }
+                MoveAround();
             }
         }
     }
 
+    //return true if has tiles avalible to move
     public bool MoveAround()
     {
-        Vector3 tileCoord = GlobalMap.ConvertWorldCoordToTile(transform.position);
-        int currX = (int)tileCoord.x;
-        int currZ = (int)tileCoord.z;
-
-        List<Tile> avliableTiles = new List<Tile>();
-        foreach(Node n in GlobalMap.instance.graph[currX, currZ].neighbours)
+        List<Node> avliableTiles = new List<Node>();
+        foreach(Node n in GlobalMap.instance.graph[unit.tileX, unit.tileZ].neighbours)
         {
             if (GlobalMap.instance.tiles[n.x, n.z].mapObjects.Count < 1)
-                avliableTiles.Add(GlobalMap.instance.tiles[n.x, n.z]);
+                avliableTiles.Add(n);
         }     
 
         if (avliableTiles.Count == 0)
             return false;
         int r = Random.Range(0, avliableTiles.Count);
-        movementCD = avliableTiles[r].movementCost;
-        tileToMove = avliableTiles[r];
+        List<Node> path = new List<Node>();
+        path.Add(GlobalMap.instance.graph[unit.tileX, unit.tileZ]);
+        path.Add(avliableTiles[r]);
+        unit.SetDestanation(path);
         return true;
     }
 }

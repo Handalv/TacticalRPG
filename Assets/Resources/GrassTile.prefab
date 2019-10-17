@@ -223,5 +223,6 @@ MonoBehaviour:
   tileZ: 0
   map: {fileID: 0}
   isWalkable: 1
+  movementCost: 2
   mapObjects: []
   warFog: {fileID: 1487431997167819051}

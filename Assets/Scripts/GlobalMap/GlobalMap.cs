@@ -5,12 +5,8 @@ using UnityEngine;
 public class GlobalMap : TileMap
 {
     public GlobalMapGenerator mapGenerator;
-    public GameObject selectedUnit;
 
     public UIGlobalMap UI;
-
-    //TEST PlayerPrefs variable
-    public PlayerPrefs playerPrefs;
 
     // AWAKE INSTANCE
     public static GlobalMap instance;
@@ -19,18 +15,11 @@ public class GlobalMap : TileMap
         if (instance != null)
             Debug.Log("More than 1 GLobalMap");
         instance = this;
-
-        //TEST PlayerPrefs setup
-        if (playerPrefs == null)
-        {
-            Debug.Log("PlayerPrefs in MapGenerator is null by default");
-            playerPrefs = FindObjectOfType<PlayerPrefs>();
-        }
-        //END TEST
     }
 
     new void Start()
     {
+        //GeneratePathfindingGraph();  -  in base.Start()
         base.Start();
         if (mapGenerator == null)
         {
@@ -39,7 +28,6 @@ public class GlobalMap : TileMap
         }
 
         GenerateMapVisual();
-        //GeneratePathfindingGraph();
 
         mapGenerator.GenerateRelationships();
 
@@ -115,7 +103,12 @@ public class GlobalMap : TileMap
         int x = Random.Range(0, mapSizeX);
         int z = Random.Range(0, mapSizeZ);
 
-        tiles[x, z].mapObjects.Add(selectedUnit.GetComponent<MapObject>());
+        MapObject mo = selectedUnit.GetComponent<MapObject>();
+
+        mo.tileX = x;
+        mo.tileZ = z;
+
+        tiles[x, z].mapObjects.Add(mo);
 
         selectedUnit.transform.position = ConvertTileCoordToWorld(x, z);
         RemoveGraphWarFog(x, z);
@@ -124,10 +117,8 @@ public class GlobalMap : TileMap
     void RemoveGraphWarFog(int x, int z)
     {
         tiles[x, z].warFogEnabled = false;
-        //Debug.Log("-----------------------" + graph[x, z].neighbours.Count);
         foreach (Node n in graph[x, z].neighbours)
         {
-            //Debug.Log("x = " + n.x + "  z = " + n.z);
             tiles[n.x, n.z].warFogEnabled = false;
         }
     }
@@ -136,11 +127,8 @@ public class GlobalMap : TileMap
         if (globalWarfogEnabled)
         {
             tiles[x, z].warFogEnabled = true;
-
-            //Debug.Log("x = " + x + "  z = " + z + " -----------------------" + graph[x, z].neighbours.Count);
             foreach (Node n in graph[x, z].neighbours)
             {
-                //Debug.Log("x = " + n.x + "  z = " + n.z);
                 tiles[n.x, n.z].warFogEnabled = true;
             }
         }
@@ -149,7 +137,10 @@ public class GlobalMap : TileMap
     void SetGraphWarFogInRange(int x, int z, int Range = 0)
     {
         if (Range == 0)
-            Range = playerPrefs.visionRange;
+        {
+
+        }
+            //Range = playerPrefs.visionRange;
 
         //UNDONE Warfog Range
     }
@@ -158,40 +149,36 @@ public class GlobalMap : TileMap
     {
         if (unit == null)
             unit = selectedUnit;
-        Vector3 unitTile = ConvertWorldCoordToTile(unit.transform.position);
-        int oldX = (int)unitTile.x;
-        int oldZ = (int)unitTile.z;
-        tiles[oldX,oldZ].mapObjects.Remove(unit.GetComponent<MapObject>());
-        //Debug.Log("x = " + X + "  z = " + Z + " -----------------------" + graph[X, Z].neighbours.Count);
+
+        MapObject unitMO = unit.GetComponent<MapObject>();
+
+        tiles[unitMO.tileX, unitMO.tileZ].mapObjects.Remove(unitMO);
         if (unit == selectedUnit)
         {
-            SetGraphWarFog(oldX, oldZ);
+            SetGraphWarFog(unitMO.tileX, unitMO.tileZ);
             RemoveGraphWarFog(x, z);
         }
         else
         {
-            unit.GetComponent<MapObject>().graphic.SetActive(!tiles[x, z].warFogEnabled);
+            unitMO.graphic.SetActive(!tiles[x, z].warFogEnabled);
         }
+
         unit.transform.position = ConvertTileCoordToWorld(x, z);
 
         if (tiles[x, z].mapObjects.Count > 0)
         {
             //TODO battle and others checks
+            Debug.Log("Battle at " + x + " " + z);
+            foreach (MapObject mapObject in tiles[x, z].mapObjects)
+            {
+                Debug.Log("На " + mapObject.gameObject.name + "напал");
+                Debug.Log(unitMO.gameObject.name);
+            }
             UI.OpenBattleMessage();
         }
 
-        tiles[x, z].mapObjects.Add(unit.GetComponent<MapObject>());
+        unitMO.tileX = x;
+        unitMO.tileZ = z;
+        tiles[x, z].mapObjects.Add(unitMO);
     }
 }
-
-//[System.Serializable]
-//public enum TileType
-//{
-//    GrassTile,
-//    SandTile,
-//    WaterTile,
-//    RockTIle,
-//    SnowTile,
-//    RoadTile,
-//    SwampTile
-//}

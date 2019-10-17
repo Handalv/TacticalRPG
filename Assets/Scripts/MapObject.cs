@@ -6,6 +6,8 @@ public class MapObject : MonoBehaviour
 {
     //We can keep X and Z of this here to avoid of using ConvertWorldCoordToTile
     public GameObject graphic;
+    public int tileX;
+    public int tileZ;
 
     public Faction faction;
 

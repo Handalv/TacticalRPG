@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TileMap : MonoBehaviour
 {
+    public GameObject selectedUnit;
 
     public bool globalWarfogEnabled = true;
 
@@ -19,10 +20,6 @@ public class TileMap : MonoBehaviour
     {
         GeneratePathfindingGraph();
     }
-    //void Update()
-    //{
-        
-    //}
 
     protected void GeneratePathfindingGraph()
     {
@@ -87,12 +84,9 @@ public class TileMap : MonoBehaviour
         return new Vector3(worldX, y, worldZ);
     }
 
-    // the most buggy part
+    // the most buggy part, and removed for now
     // unexpected for me 5.4f / 1.8f == 2  but 5.401f /1.8f == 3
     // soo we add every world pos +0.01 before converting to get correct answer
-
-    // For now i using that to get X and Z of objects what has a MapObject script
-    // so i can just storage their X and Z in the script
     public static Vector3 ConvertWorldCoordToTile(Vector3 worldTile)
     {
         float tileZ = (worldTile.z + 0.01f) / 1.55f;
@@ -108,6 +102,96 @@ public class TileMap : MonoBehaviour
 
         return new Vector3(tileX, worldTile.y, tileZ);
     }
+
+    //TODO i need to deal with pathfinding
+    // but the question, is the pathfinding correct for both map or it's should to be different?
+
+    // this expects for battle map, but now needs to addaptive to global
+
+    public void GeneratePathTo(int x, int z, GameObject unit = null)
+    {
+        if (unit == null)
+            unit = selectedUnit;
+        Unit unitComp = unit.GetComponent<Unit>();
+
+        unitComp.currentPath = null;
+
+        //if (UnitCanEnterTile(x, z) == false)
+        //{
+        //    return;
+        //}
+
+
+        List<Node> unvisited = new List<Node>();
+
+        Dictionary<Node, float> dist = new Dictionary<Node, float>();
+        Dictionary<Node, Node> prev = new Dictionary<Node, Node>();
+        Node source = graph[unitComp.tileX, unitComp.tileZ];
+        Node target = graph[x, z];
+        dist[source] = 0;
+        prev[source] = null;
+
+        foreach (Node v in graph)
+        {
+            if (v != source)
+            {
+                dist[v] = Mathf.Infinity;
+                prev[v] = null;
+            }
+            unvisited.Add(v);
+        }
+
+        while (unvisited.Count > 0)
+        {
+            Node u = null;
+            foreach (Node possibleU in unvisited)
+            {
+                if (u == null || dist[possibleU] < dist[u])
+                {
+                    u = possibleU;
+                }
+            }
+
+            if (u == target)
+            {
+                break;
+            }
+
+            unvisited.Remove(u);
+
+            foreach (Node v in u.neighbours)
+            {
+                //float alt = dist[u] + u.DistanceTo(v);
+                float alt = dist[u] + tiles[v.x, v.z].movementCost;
+                if (alt < dist[v])
+                {
+                    dist[v] = alt;
+                    prev[v] = u;
+                }
+            }
+        }
+
+        if (prev[target] == null)
+        {
+            //no way to the target
+            return;
+        }
+
+        List<Node> currentPath = new List<Node>();
+        Node curr = target;
+
+        while (curr != null)
+        {
+            currentPath.Add(curr);
+            curr = prev[curr];
+        }
+
+        // Linq, hmm but i did not include linq
+            //using System.Linq;
+        currentPath.Reverse();
+        unitComp.SetDestanation(currentPath);
+    }
+
 }
 
 [System.Serializable]

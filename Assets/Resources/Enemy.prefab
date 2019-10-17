@@ -102,8 +102,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5781196465148413389}
-  - component: {fileID: 7591329641564654088}
   - component: {fileID: -7045673847135160564}
+  - component: {fileID: 5605289102800418731}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -126,24 +126,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7591329641564654088
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2934691334514249080}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66d734c9eff7bd446aa3239cb8014a94, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  graphic: {fileID: 2709767651275368961}
-  faction:
-    baseRelation: 0
-    title: 
-    type: 0
-    relations: 
 --- !u!114 &-7045673847135160564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,3 +138,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd1865009a5ea384ca0288284056fe7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5605289102800418731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2934691334514249080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f898e09f3b45545bc93479788f6b88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  graphic: {fileID: 2709767651275368961}
+  faction:
+    baseRelation: 0
+    title: 
+    type: 0
+    relations: 
+  movementCD: 0
+  tileToMove: {fileID: 0}

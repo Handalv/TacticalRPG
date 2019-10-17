@@ -1,22 +1,23 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerPrefs : MonoBehaviour
+public class PlayerControls : MonoBehaviour
 {
-    public string nickname;
     public int visionRange = 1;
-    public int gold;
+    public GlobalMap map;
+    public Unit selectedUnit;
 
-    //private void Awake()
-    //{
-    //    DontDestroyOnLoad(this.gameObject);
-    //}
-
-    private void Update()
+    void Start()
     {
-        //UNDONE RAYCAST
+        map = GlobalMap.instance;
+        selectedUnit = map.selectedUnit.GetComponent<Unit>();
+    }
 
+    void Update()
+    {
+        //TODO Check overlay pointer
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Debug.DrawRay(transform.position, ray.direction);
         RaycastHit[] hits;
@@ -29,8 +30,9 @@ public class PlayerPrefs : MonoBehaviour
                 {
                     Tile hitTile = hit.collider.gameObject.GetComponent<Tile>();
                     if (hitTile != null)
-                        if (!hitTile.warFogEnabled)
-                            GlobalMap.instance.MoveUnit(hitTile.tileX, hitTile.tileZ);
+                    {
+                        map.GeneratePathTo(hitTile.tileX, hitTile.tileZ);
+                    }
                 }
             }
         }

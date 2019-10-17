@@ -45,6 +45,9 @@ public class GlobalMapGenerator : MonoBehaviour
             GameObject enemy = GameObject.Instantiate(Resources.Load("Enemy")) as GameObject;
             MapObject mapObject = enemy.GetComponent<MapObject>();
 
+            mapObject.tileX = X;
+            mapObject.tileZ = Z;
+
             enemy.transform.position = GlobalMap.ConvertTileCoordToWorld(X, Z);
             tile.mapObjects.Add(mapObject);
             if (tile.warFogEnabled)

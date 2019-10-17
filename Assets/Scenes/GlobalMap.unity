@@ -908,7 +908,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: dd446ff1730935f488a1b7f41fc1c4e1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 190919ae3a557604184eb6321c2a49bc, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1066,8 +1066,8 @@ GameObject:
   - component: {fileID: 1739447062}
   - component: {fileID: 1739447064}
   - component: {fileID: 1739447063}
-  - component: {fileID: 1739447065}
   - component: {fileID: 1739447061}
+  - component: {fileID: 1739447065}
   m_Layer: 0
   m_Name: GlobalMap
   m_TagString: Untagged
@@ -1089,12 +1089,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   globalWarfogEnabled: 1
   GAMEPAUSED: 0
-  mapGenerator: {fileID: 1739447063}
-  selectedUnit: {fileID: 0}
   mapSizeX: 10
   mapSizeZ: 10
+  mapGenerator: {fileID: 1739447063}
+  selectedUnit: {fileID: 0}
   UI: {fileID: 665457537}
-  playerPrefs: {fileID: 1739447065}
+  playerPrefs: {fileID: 0}
 --- !u!4 &1739447062
 Transform:
   m_ObjectHideFlags: 0

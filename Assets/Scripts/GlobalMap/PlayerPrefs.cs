@@ -8,6 +8,11 @@ public class PlayerPrefs : MonoBehaviour
     public int visionRange = 1;
     public int gold;
 
+    //private void Awake()
+    //{
+    //    DontDestroyOnLoad(this.gameObject);
+    //}
+
     private void Update()
     {
         //UNDONE RAYCAST
@@ -22,7 +27,7 @@ public class PlayerPrefs : MonoBehaviour
                 hits = Physics.RaycastAll(ray);
                 foreach (RaycastHit hit in hits)
                 {
-                    GlobalTile hitTile = hit.collider.gameObject.GetComponent<GlobalTile>();
+                    Tile hitTile = hit.collider.gameObject.GetComponent<Tile>();
                     if (hitTile != null)
                         if (!hitTile.warFogEnabled)
                             GlobalMap.instance.MoveUnit(hitTile.tileX, hitTile.tileZ);

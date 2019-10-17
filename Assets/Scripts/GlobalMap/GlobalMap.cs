@@ -1,27 +1,13 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-// namespace conflict System.Random and UnityEngine.Random
-using Random = UnityEngine.Random;
 
-public class GlobalMap : MonoBehaviour
+public class GlobalMap : TileMap
 {
-    public bool globalWarfogEnabled = true;
-
-    public bool GAMEPAUSED = false;
-
     public GlobalMapGenerator mapGenerator;
     public GameObject selectedUnit;
 
-    public int mapSizeX;
-    public int mapSizeZ;
-
-    public GlobalTile[,] tiles;
-    public Node[,] graph;
-
     public UIGlobalMap UI;
-
 
     //TEST PlayerPrefs variable
     public PlayerPrefs playerPrefs;
@@ -38,13 +24,14 @@ public class GlobalMap : MonoBehaviour
         if (playerPrefs == null)
         {
             Debug.Log("PlayerPrefs in MapGenerator is null by default");
-            playerPrefs = GetComponent<PlayerPrefs>();
+            playerPrefs = FindObjectOfType<PlayerPrefs>();
         }
         //END TEST
     }
 
-    void Start()
+    new void Start()
     {
+        base.Start();
         if (mapGenerator == null)
         {
             Debug.Log("MapGenerator in GlobalMap is null by default");
@@ -52,7 +39,7 @@ public class GlobalMap : MonoBehaviour
         }
 
         GenerateMapVisual();
-        GeneratePathfindingGraph();
+        //GeneratePathfindingGraph();
 
         mapGenerator.GenerateRelationships();
 
@@ -67,7 +54,7 @@ public class GlobalMap : MonoBehaviour
         {
             if (globalWarfogEnabled)
             {
-                foreach (GlobalTile tile in tiles)
+                foreach (Tile tile in tiles)
                     RemoveGraphWarFog(tile.tileX, tile.tileZ);
                 globalWarfogEnabled = false;
             }
@@ -75,7 +62,7 @@ public class GlobalMap : MonoBehaviour
             {
                 int playerX=0, playerZ=0;
                 globalWarfogEnabled = true;
-                foreach (GlobalTile tile in tiles)
+                foreach (Tile tile in tiles)
                 {
                     SetGraphWarFog(tile.tileX, tile.tileZ);
                     if (tile.mapObjects.Count != 0)
@@ -101,61 +88,10 @@ public class GlobalMap : MonoBehaviour
             UI.SetPauseVision(GAMEPAUSED);
         }
     }
-
-    void GeneratePathfindingGraph()
-    {
-        graph = new Node[mapSizeX, mapSizeZ];
-
-        for (int x = 0; x < mapSizeX; x++)
-            for (int z = 0; z < mapSizeZ; z++)
-            {
-                graph[x, z] = new Node();
-                graph[x, z].x = x;
-                graph[x, z].z = z;
-            }
-        for (int x = 0; x < mapSizeX; x++)
-            for (int z = 0; z < mapSizeZ; z++)
-            {
-                if (z % 2 == 0)
-                {
-                    if (x > 0)
-                    {
-                        graph[x, z].neighbours.Add(graph[x - 1, z]);
-                        if (z > 0)
-                            graph[x, z].neighbours.Add(graph[x - 1, z - 1]);
-                        if (z < mapSizeZ - 1)
-                            graph[x, z].neighbours.Add(graph[x - 1, z + 1]);
-                    }
-                    if (z > 0)
-                        graph[x, z].neighbours.Add(graph[x, z - 1]);
-                    if (z < mapSizeZ - 1)
-                        graph[x, z].neighbours.Add(graph[x, z + 1]);
-                    if (x < mapSizeX - 1)
-                        graph[x, z].neighbours.Add(graph[x + 1, z]);
-                }
-                else
-                {
-                    if (x < mapSizeX - 1)
-                    {
-                        graph[x, z].neighbours.Add(graph[x + 1, z]);
-                        if (z > 0)
-                            graph[x, z].neighbours.Add(graph[x + 1, z - 1]);
-                        if (z < mapSizeZ - 1)
-                            graph[x, z].neighbours.Add(graph[x + 1, z + 1]);
-                    }
-                    if (x > 0)
-                        graph[x, z].neighbours.Add(graph[x - 1, z]);
-                    if (z < mapSizeZ - 1)
-                        graph[x, z].neighbours.Add(graph[x, z + 1]);
-                    if (z > 0)
-                        graph[x, z].neighbours.Add(graph[x, z - 1]);
-                }
-            }
-    }
-
+    
     void GenerateMapVisual()
     {
-        tiles = new GlobalTile[mapSizeX, mapSizeZ];
+        tiles = new Tile[mapSizeX, mapSizeZ];
         for (int x = 0; x < mapSizeX; x++)
             for (int z = 0; z < mapSizeZ; z++)
             {
@@ -163,7 +99,7 @@ public class GlobalMap : MonoBehaviour
                 tile.transform.position = ConvertTileCoordToWorld(x, z);
                 tile.transform.parent = gameObject.transform;
 
-                GlobalTile maptile = tile.GetComponent<GlobalTile>();
+                Tile maptile = tile.GetComponent<Tile>();
                 maptile.tileX = x;
                 maptile.tileZ = z;
                 maptile.map = this;
@@ -246,53 +182,16 @@ public class GlobalMap : MonoBehaviour
 
         tiles[x, z].mapObjects.Add(unit.GetComponent<MapObject>());
     }
-
-    // If i decieding to keep instance, this dont need to be static,
-    public static Vector3 ConvertTileCoordToWorld(int x, int z, int y = 0)
-    {
-        float worldZ = z * 1.55f;
-        float worldX;
-        worldX = x * 1.8f;
-        if (z % 2 == 0)
-            worldX -= 0.9f;
-
-        return new Vector3(worldX, y, worldZ);
-    }
-
-    // the most buggy part
-    // unexpected for me 5.4f / 1.8f == 2  but 5.401f /1.8f == 3
-    // soo we add every world pos +0.01 before converting to get correct answer
-
-    // For now i using that to get X and Z of objects what has a MapObject script
-    // so i can just storage their X and Z in the script
-    public static Vector3 ConvertWorldCoordToTile(Vector3 worldTile)
-    {
-        float tileZ = (worldTile.z+0.01f)/ 1.55f;
-        //Debug.Log(""+ worldTile.z + " / 1,55 = " + (int)tileZ);
-        float tileX = 0;
-        if (worldTile.x % 1.8f == 0)
-        {
-            tileX = (worldTile.x + 0.01f) / 1.8f;
-            //Debug.Log("" + worldTile.x + " / 1,8 = " + (int)tileX);
-        }
-        else
-        {
-            tileX = (worldTile.x + 0.9f + 0.01f) / 1.8f;
-            //Debug.Log("(" + worldTile.x + "+0,9) / 1,8 = " + (int)tileX);
-        }
-
-        return new Vector3(tileX, worldTile.y, tileZ);
-    }
 }
 
-[Serializable]
-public enum TileType
-{
-    GrassTile,
-    SandTile,
-    WaterTile,
-    RockTIle,
-    SnowTile,
-    RoadTile,
-    SwampTile
-}
+//[System.Serializable]
+//public enum TileType
+//{
+//    GrassTile,
+//    SandTile,
+//    WaterTile,
+//    RockTIle,
+//    SnowTile,
+//    RoadTile,
+//    SwampTile
+//}

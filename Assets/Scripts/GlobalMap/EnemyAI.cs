@@ -8,7 +8,7 @@ public class EnemyAI : MonoBehaviour
 
     MapObject mapObject;
     float movementCD;
-    GlobalTile tileToMove;
+    Tile tileToMove;
 
     void Start()
     {
@@ -42,7 +42,7 @@ public class EnemyAI : MonoBehaviour
         int currX = (int)tileCoord.x;
         int currZ = (int)tileCoord.z;
 
-        List<GlobalTile> avliableTiles = new List<GlobalTile>();
+        List<Tile> avliableTiles = new List<Tile>();
         foreach(Node n in GlobalMap.instance.graph[currX, currZ].neighbours)
         {
             if (GlobalMap.instance.tiles[n.x, n.z].mapObjects.Count < 1)

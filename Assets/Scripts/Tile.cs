@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GlobalTile : MonoBehaviour
+public class Tile : MonoBehaviour
 {
     //public TileType TileType;
     public TileType type;
     public int tileX;
     public int tileZ;
-    public GlobalMap map;
+    public TileMap map;
     public bool isWalkable = true;
     public float movementCost = 5f;
 

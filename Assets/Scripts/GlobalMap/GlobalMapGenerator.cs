@@ -25,7 +25,7 @@ public class GlobalMapGenerator : MonoBehaviour
 
     public void GenerateTIles()
     {
-        //TOTO just do it! (somehow)
+        //TODO just do it! (somehow)
     }
 
     public void GenerateMapObjects()
@@ -41,7 +41,7 @@ public class GlobalMapGenerator : MonoBehaviour
                 Z = Random.Range(0, map.mapSizeZ);
             } while (map.tiles[X, Z].mapObjects.Count > 0);
 
-            GlobalTile tile = map.tiles[X, Z];
+            Tile tile = map.tiles[X, Z];
             GameObject enemy = GameObject.Instantiate(Resources.Load("Enemy")) as GameObject;
             MapObject mapObject = enemy.GetComponent<MapObject>();
 

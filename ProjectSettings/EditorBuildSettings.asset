@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 9189f3e5713a44141b39e81097183114
   - enabled: 1
-    path: Assets/Scenes/MainGameme.unity
+    path: Assets/Scenes/GlobalMap.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
     path: Assets/Scenes/BattleMap.unity

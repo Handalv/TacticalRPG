@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8f1ad9abbf5b7643b610dc4cedd718a, type: 3}
-  m_Name: New Tile
+  m_Name: GrassTile
   m_EditorClassIdentifier: 
-  name: New tile
-  material: {fileID: 0}
+  name: GrassTile
+  material: {fileID: 2100000, guid: f3c9f49fd14d22e4dbf52f93aa59d490, type: 2}
   isWalkable: 1
   movementCost: 2

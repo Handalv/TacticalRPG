@@ -7,7 +7,7 @@ public class GlobalMapGenerator : MonoBehaviour
     public GlobalMap map;
     public FactionRelations factionRelations;
 
-    TileType[] tileTypes;
+    public TileType[] tileTypes;
 
     void Awake()
     {
@@ -23,9 +23,30 @@ public class GlobalMapGenerator : MonoBehaviour
         }
     }
 
+    //void sortTiletipes()
+    //{
+
+    //    GrassTile, 0
+    //    SandTile, 1
+    //    WaterTile, 2
+    //    RockTIle, 3
+    //    SnowTile, 4
+    //    RoadTile, 5
+    //    SwampTile 6
+
+    //}
+
     public void GenerateTIles()
     {
         //TODO just do it! (somehow)
+        for (int x = 0; x < map.mapSizeX; x++)
+            for (int z = 0; z < map.mapSizeZ; z++)
+            {
+                if (z % 2 == 0)
+                    map.tiles[x, z].SetTypeChanges(tileTypes[0]);
+                else
+                    map.tiles[x, z].SetTypeChanges(tileTypes[1]);
+            }
     }
 
     public void GenerateMapObjects()

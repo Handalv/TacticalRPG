@@ -15,6 +15,8 @@ public class Tile : MonoBehaviour
 
     public List<MapObject> mapObjects;
 
+    public GameObject GFX;
+
     [SerializeField]
     private GameObject warFog;
     public bool warFogEnabled
@@ -32,4 +34,13 @@ public class Tile : MonoBehaviour
             return warFog.activeSelf;
         }
     }
+
+    public void SetTypeChanges(TileType t)
+    {
+        type = t;
+        GFX.GetComponent<MeshRenderer>().material = t.material;
+        isWalkable = t.isWalkable;
+        movementCost = t.movementCost;
+    }
+
 }

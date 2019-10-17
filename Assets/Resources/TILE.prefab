@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 7539768517119234934}
   - component: {fileID: 5303025549670936768}
   m_Layer: 0
-  m_Name: GrassTile
+  m_Name: TILE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -218,11 +218,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 740ed8d1d3691264495bf47f29a5dd50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
+  type: {fileID: 0}
   tileX: 0
   tileZ: 0
   map: {fileID: 0}
   isWalkable: 1
   movementCost: 2
   mapObjects: []
+  GFX: {fileID: 3842858292539194081}
   warFog: {fileID: 1487431997167819051}

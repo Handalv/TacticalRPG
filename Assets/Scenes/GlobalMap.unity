@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.4964127, b: 0.57481724, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1087,14 +1087,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f419e3036e0fb243988e372eb681a82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedUnit: {fileID: 0}
   globalWarfogEnabled: 1
   GAMEPAUSED: 0
   mapSizeX: 10
   mapSizeZ: 10
   mapGenerator: {fileID: 1739447063}
-  selectedUnit: {fileID: 0}
   UI: {fileID: 665457537}
-  playerPrefs: {fileID: 0}
 --- !u!4 &1739447062
 Transform:
   m_ObjectHideFlags: 0
@@ -1123,6 +1122,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   map: {fileID: 1739447061}
   factionRelations: {fileID: 1739447064}
+  tileTypes:
+  - {fileID: 11400000, guid: 7ed5f2b82bdf05341a6c9b2f08616dbe, type: 2}
+  - {fileID: 11400000, guid: a1bf49611a861ee4d8e6a6611c3fa765, type: 2}
+  - {fileID: 11400000, guid: 125044370d574934bb3380fd2970b93b, type: 2}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 34de6782b7182544ca481ed22630d8db, type: 2}
+  - {fileID: 11400000, guid: 29524d540860404418080dcb59d47084, type: 2}
+  - {fileID: 11400000, guid: dd60610276046eb49960d41e6a3746ea, type: 2}
 --- !u!114 &1739447064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1152,9 +1159,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb4c2a71b2dfa1b469e886b3c2b7374d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nickname: Strag
   visionRange: 1
-  gold: 111
+  map: {fileID: 0}
+  selectedUnit: {fileID: 0}
 --- !u!1 &2135832757
 GameObject:
   m_ObjectHideFlags: 0

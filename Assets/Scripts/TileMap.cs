@@ -195,7 +195,7 @@ public class TileMap : MonoBehaviour
 }
 
 //[System.Serializable]
-//public enum TileType
+//public enum TileTypeEnum
 //{
 //    GrassTile,
 //    SandTile,

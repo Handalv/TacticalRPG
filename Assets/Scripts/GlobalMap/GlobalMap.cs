@@ -27,8 +27,8 @@ public class GlobalMap : TileMap
             mapGenerator = GetComponent<GlobalMapGenerator>();
         }
 
-        GenerateMapVisual();
-
+        InitializeTiles();
+        mapGenerator.GenerateTIles();
         mapGenerator.GenerateRelationships();
 
         SpawnPlayer();
@@ -77,7 +77,7 @@ public class GlobalMap : TileMap
         }
     }
     
-    void GenerateMapVisual()
+    void InitializeTiles()
     {
         tiles = new Tile[mapSizeX, mapSizeZ];
         for (int x = 0; x < mapSizeX; x++)
@@ -174,6 +174,8 @@ public class GlobalMap : TileMap
                 Debug.Log("На " + mapObject.gameObject.name + "напал");
                 Debug.Log(unitMO.gameObject.name);
             }
+            GameObject data = GameObject.Instantiate(Resources.Load("GlobalToBattleData")) as GameObject;
+            data.GetComponent<GlobalToBattleData>().tileType = tiles[x, z].type;
             UI.OpenBattleMessage();
         }
 

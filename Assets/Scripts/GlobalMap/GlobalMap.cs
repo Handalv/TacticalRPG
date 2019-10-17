@@ -83,7 +83,7 @@ public class GlobalMap : TileMap
         for (int x = 0; x < mapSizeX; x++)
             for (int z = 0; z < mapSizeZ; z++)
             {
-                GameObject tile = GameObject.Instantiate(Resources.Load(TileType.GrassTile.ToString())) as GameObject;
+                GameObject tile = GameObject.Instantiate(Resources.Load("TILE")) as GameObject;
                 tile.transform.position = ConvertTileCoordToWorld(x, z);
                 tile.transform.parent = gameObject.transform;
 

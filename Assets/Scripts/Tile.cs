@@ -9,8 +9,9 @@ public class Tile : MonoBehaviour
     public int tileX;
     public int tileZ;
     public TileMap map;
+
     public bool isWalkable = true;
-    public float movementCost = 5f;
+    public float movementCost = 2f;
 
     public List<MapObject> mapObjects;
 

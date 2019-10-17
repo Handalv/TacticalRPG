@@ -194,14 +194,14 @@ public class TileMap : MonoBehaviour
 
 }
 
-[System.Serializable]
-public enum TileType
-{
-    GrassTile,
-    SandTile,
-    WaterTile,
-    RockTIle,
-    SnowTile,
-    RoadTile,
-    SwampTile
-}
+//[System.Serializable]
+//public enum TileType
+//{
+//    GrassTile,
+//    SandTile,
+//    WaterTile,
+//    RockTIle,
+//    SnowTile,
+//    RoadTile,
+//    SwampTile
+//}

@@ -13,6 +13,8 @@ public class TileMap : MonoBehaviour
     public int mapSizeX=10;
     public int mapSizeZ=10;
 
+    public List<MapObject> visibleObjects = null;
+
     public Tile[,] tiles;
     public Node[,] graph;
 
@@ -72,6 +74,77 @@ public class TileMap : MonoBehaviour
             }
     }
 
+    protected void InitializeTiles()
+    {
+        tiles = new Tile[mapSizeX, mapSizeZ];
+        for (int x = 0; x < mapSizeX; x++)
+            for (int z = 0; z < mapSizeZ; z++)
+            {
+                GameObject tile = GameObject.Instantiate(Resources.Load("TILE")) as GameObject;
+                tile.transform.position = ConvertTileCoordToWorld(x, z);
+                tile.transform.parent = gameObject.transform;
+
+                Tile maptile = tile.GetComponent<Tile>();
+                maptile.tileX = x;
+                maptile.tileZ = z;
+                maptile.map = this;
+                maptile.warFogEnabled = true;
+                tiles[x, z] = maptile;
+            }
+    }
+
+    protected void ReShowWarFog()
+    {
+        if (globalWarfogEnabled)
+        {
+            foreach (Tile tile in tiles)
+                tile.warFogEnabled = true;
+
+            List<Tile> visibleTiles;
+            foreach (MapObject mapObject in visibleObjects)
+            {
+                visibleTiles = new List<Tile>();
+                visibleTiles.Add(tiles[mapObject.tileX, mapObject.tileZ]);
+                for (int i = 1; i <= mapObject.visionRange; i++)
+                {
+                    List<Tile> addedVisibleTiles = new List<Tile>();
+                    foreach (Tile tile in visibleTiles)
+                    {
+                        foreach (Node n in graph[tile.tileX, tile.tileZ].neighbours)
+                        {
+                            addedVisibleTiles.Add(tiles[n.x, n.z]);
+                        }
+                    }
+                    visibleTiles.AddRange(addedVisibleTiles);
+                }
+                foreach (Tile tile in visibleTiles)
+                {
+                    tile.warFogEnabled = false;
+                }
+            }
+        }
+    }
+
+    protected void RemoveGraphWarFog(int x, int z)
+    {
+        tiles[x, z].warFogEnabled = false;
+        foreach (Node n in graph[x, z].neighbours)
+        {
+            tiles[n.x, n.z].warFogEnabled = false;
+        }
+    }
+    protected void SetGraphWarFog(int x, int z)
+    {
+        if (globalWarfogEnabled)
+        {
+            tiles[x, z].warFogEnabled = true;
+            foreach (Node n in graph[x, z].neighbours)
+            {
+                tiles[n.x, n.z].warFogEnabled = true;
+            }
+        }
+    }
+
     // If i decieding to keep instance, this dont need to be static,
     public static Vector3 ConvertTileCoordToWorld(int x, int z, int y = 0)
     {
@@ -102,11 +175,6 @@ public class TileMap : MonoBehaviour
 
         return new Vector3(tileX, worldTile.y, tileZ);
     }
-
-    //TODO i need to deal with pathfinding
-    // but the question, is the pathfinding correct for both map or it's should to be different?
-
-    // this expects for battle map, but now needs to addaptive to global
 
     public void GeneratePathTo(int x, int z, GameObject unit = null)
     {
@@ -185,23 +253,9 @@ public class TileMap : MonoBehaviour
             currentPath.Add(curr);
             curr = prev[curr];
         }
-
         // Linq, hmm but i did not include linq
             //using System.Linq;
         currentPath.Reverse();
         unitComp.SetDestanation(currentPath);
     }
-
 }
-
-//[System.Serializable]
-//public enum TileTypeEnum
-//{
-//    GrassTile,
-//    SandTile,
-//    WaterTile,
-//    RockTIle,
-//    SnowTile,
-//    RoadTile,
-//    SwampTile
-//}

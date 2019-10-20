@@ -7,8 +7,6 @@ public class GlobalMapGenerator : MonoBehaviour
     public GlobalMap map;
     public FactionRelations factionRelations;
 
-    public TileType[] tileTypes;
-
     void Awake()
     {
         if (map == null)
@@ -23,35 +21,28 @@ public class GlobalMapGenerator : MonoBehaviour
         }
     }
 
-    //void sortTiletipes()
-    //{
-
-    //    GrassTile, 0
-    //    SandTile, 1
-    //    WaterTile, 2
-    //    RockTIle, 3
-    //    SnowTile, 4
-    //    RoadTile, 5
-    //    SwampTile 6
-
-    //}
-
-    public void GenerateTIles()
+    public void GenerateTiles()
     {
         //TODO just do it! (somehow)
+        //for (int x = 0; x < map.mapSizeX; x++)
+        //    for (int z = 0; z < map.mapSizeZ; z++)
+        //    {
+        //        if (z % 2 == 0)
+        //            map.tiles[x, z].SetTypeChanges(GameSettings.instance.tileTypes[0]);
+        //        else
+        //            map.tiles[x, z].SetTypeChanges(GameSettings.instance.tileTypes[1]);
+        //    }
         for (int x = 0; x < map.mapSizeX; x++)
             for (int z = 0; z < map.mapSizeZ; z++)
             {
-                if (z % 2 == 0)
-                    map.tiles[x, z].SetTypeChanges(tileTypes[0]);
-                else
-                    map.tiles[x, z].SetTypeChanges(tileTypes[1]);
+                int r = Random.Range(0, GameSettings.instance.tileTypes.Length);
+                map.tiles[x, z].SetTypeChanges(GameSettings.instance.tileTypes[r]);
             }
     }
 
     public void GenerateMapObjects()
     {
-        //TEST generate 3 enemys
+        //UNDONE generate 3 enemys
         int enemyAmount = 3;
         for (int i = 0; i < enemyAmount; i++)
         {
@@ -60,7 +51,7 @@ public class GlobalMapGenerator : MonoBehaviour
             {
                 X = Random.Range(0, map.mapSizeX);
                 Z = Random.Range(0, map.mapSizeZ);
-            } while (map.tiles[X, Z].mapObjects.Count > 0);
+            } while (map.tiles[X, Z].mapObjects.Count > 0 || !map.tiles[X, Z].type.isWalkable);
 
             Tile tile = map.tiles[X, Z];
             GameObject enemy = GameObject.Instantiate(Resources.Load("Enemy")) as GameObject;
@@ -74,7 +65,7 @@ public class GlobalMapGenerator : MonoBehaviour
             if (tile.warFogEnabled)
                 mapObject.graphic.SetActive(false);
         }
-        //END TEST
+        //END
     }
 
     public void GenerateRelationships()

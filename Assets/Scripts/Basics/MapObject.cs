@@ -9,6 +9,7 @@ public class MapObject : MonoBehaviour
     public int tileX;
     public int tileZ;
 
+    public int visionRange = 0;
     public Faction faction;
 
     void Start()

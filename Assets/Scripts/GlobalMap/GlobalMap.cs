@@ -28,7 +28,7 @@ public class GlobalMap : TileMap
         }
 
         InitializeTiles();
-        mapGenerator.GenerateTIles();
+        mapGenerator.GenerateTiles();
         mapGenerator.GenerateRelationships();
 
         SpawnPlayer();
@@ -48,25 +48,25 @@ public class GlobalMap : TileMap
             }
             else
             {
-                int playerX=0, playerZ=0;
+                //int playerX=0, playerZ=0;
                 globalWarfogEnabled = true;
-                foreach (Tile tile in tiles)
-                {
-                    SetGraphWarFog(tile.tileX, tile.tileZ);
-                    if (tile.mapObjects.Count != 0)
-                        foreach (MapObject mo in tile.mapObjects)
-                        {
-                            //UNDONE valid player check
-                            // dont have some "playerunit" script to throw the "Player" tag, which is using only here
-                            // It's can be faction check (but they are unfinished too)
-                            if (mo.CompareTag("Player"))
-                            {
-                                playerX = tile.tileX;
-                                playerZ = tile.tileZ;
-                            }
-                        }
-                }
-                RemoveGraphWarFog(playerX, playerZ);
+                //foreach (Tile tile in tiles)
+                //{
+                //    SetGraphWarFog(tile.tileX, tile.tileZ);
+                //    if (tile.mapObjects.Count != 0)
+                //        foreach (MapObject mo in tile.mapObjects)
+                //        {
+                //            // dont have some "playerunit" script to throw the "Player" tag, which is using only here
+                //            // It's can be faction check (but they are unfinished too)
+                //            if (mo.CompareTag("Player"))
+                //            {
+                //                playerX = tile.tileX;
+                //                playerZ = tile.tileZ;
+                //            }
+                //        }
+                //}
+                //RemoveGraphWarFog(playerX, playerZ);
+                ReShowWarFog();
             }
         }
         //END TEST
@@ -77,25 +77,6 @@ public class GlobalMap : TileMap
         }
     }
     
-    void InitializeTiles()
-    {
-        tiles = new Tile[mapSizeX, mapSizeZ];
-        for (int x = 0; x < mapSizeX; x++)
-            for (int z = 0; z < mapSizeZ; z++)
-            {
-                GameObject tile = GameObject.Instantiate(Resources.Load("TILE")) as GameObject;
-                tile.transform.position = ConvertTileCoordToWorld(x, z);
-                tile.transform.parent = gameObject.transform;
-
-                Tile maptile = tile.GetComponent<Tile>();
-                maptile.tileX = x;
-                maptile.tileZ = z;
-                maptile.map = this;
-                maptile.warFogEnabled = true;
-                tiles[x, z] = maptile;
-            }
-    }
-
     void SpawnPlayer()
     {
         selectedUnit = GameObject.Instantiate(Resources.Load("PlayerUnit")) as GameObject;
@@ -111,27 +92,10 @@ public class GlobalMap : TileMap
         tiles[x, z].mapObjects.Add(mo);
 
         selectedUnit.transform.position = ConvertTileCoordToWorld(x, z);
-        RemoveGraphWarFog(x, z);
-    }
-
-    void RemoveGraphWarFog(int x, int z)
-    {
-        tiles[x, z].warFogEnabled = false;
-        foreach (Node n in graph[x, z].neighbours)
-        {
-            tiles[n.x, n.z].warFogEnabled = false;
-        }
-    }
-    void SetGraphWarFog(int x, int z)
-    {
-        if (globalWarfogEnabled)
-        {
-            tiles[x, z].warFogEnabled = true;
-            foreach (Node n in graph[x, z].neighbours)
-            {
-                tiles[n.x, n.z].warFogEnabled = true;
-            }
-        }
+        //TEST new warfog system
+        //RemoveGraphWarFog(x, z);
+        visibleObjects.Add(mo);
+        ReShowWarFog();
     }
 
     void SetGraphWarFogInRange(int x, int z, int Range = 0)
@@ -153,15 +117,16 @@ public class GlobalMap : TileMap
         MapObject unitMO = unit.GetComponent<MapObject>();
 
         tiles[unitMO.tileX, unitMO.tileZ].mapObjects.Remove(unitMO);
-        if (unit == selectedUnit)
-        {
-            SetGraphWarFog(unitMO.tileX, unitMO.tileZ);
-            RemoveGraphWarFog(x, z);
-        }
-        else
-        {
-            unitMO.graphic.SetActive(!tiles[x, z].warFogEnabled);
-        }
+        //TEST new warfog system
+        //if (unit == selectedUnit)
+        //{
+        //    SetGraphWarFog(unitMO.tileX, unitMO.tileZ);
+        //    RemoveGraphWarFog(x, z);
+        //}
+        //else
+        //{
+        //    unitMO.graphic.SetActive(!tiles[x, z].warFogEnabled);
+        //}
 
         unit.transform.position = ConvertTileCoordToWorld(x, z);
 
@@ -174,13 +139,20 @@ public class GlobalMap : TileMap
                 Debug.Log("На " + mapObject.gameObject.name + "напал");
                 Debug.Log(unitMO.gameObject.name);
             }
-            GameObject data = GameObject.Instantiate(Resources.Load("GlobalToBattleData")) as GameObject;
-            data.GetComponent<GlobalToBattleData>().tileType = tiles[x, z].type;
-            UI.OpenBattleMessage();
+            FindObjectOfType<GlobalToBattleData>().tileType = tiles[x, z].type;
+            UI.ActiveBattleMessage(true);
         }
 
         unitMO.tileX = x;
         unitMO.tileZ = z;
         tiles[x, z].mapObjects.Add(unitMO);
+        if (visibleObjects.Contains(unitMO))
+        {
+            ReShowWarFog();
+        }
+        else
+        {
+            unitMO.graphic.SetActive(!tiles[x, z].warFogEnabled);
+        }
     }
 }

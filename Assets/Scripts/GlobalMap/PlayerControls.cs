@@ -36,6 +36,11 @@ public class PlayerControls : MonoBehaviour
                 }
             }
         }
+        //TEST instant step
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            selectedUnit.movementCD = 0;
+        }
     }
 }
 

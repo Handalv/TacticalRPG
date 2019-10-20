@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8f1ad9abbf5b7643b610dc4cedd718a, type: 3}
-  m_Name: New Tile
+  m_Name: SandTile
   m_EditorClassIdentifier: 
   name: SandTile
   material: {fileID: 2100000, guid: 461b6e711b9a3f545b118201fbf50936, type: 2}

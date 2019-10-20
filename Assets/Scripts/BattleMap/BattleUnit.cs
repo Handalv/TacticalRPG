@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReserveZone : MonoBehaviour
+public class BattleUnit : MapObject
 {
-
+    public CreachureStats unitStats;
 }

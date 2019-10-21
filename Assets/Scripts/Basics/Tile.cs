@@ -8,6 +8,7 @@ public class Tile : MonoBehaviour
     public TileType type;
     public int tileX;
     public int tileZ;
+
     public TileMap map;
 
     public bool isWalkable = true;

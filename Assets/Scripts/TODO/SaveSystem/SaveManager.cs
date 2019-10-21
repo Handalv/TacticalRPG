@@ -1,12 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
-public class UIBattleMap : MonoBehaviour
+public class SaveManager : MonoBehaviour
 {
-    public static UIBattleMap instance;
+    public static SaveManager instance;
     void Awake()
     {
         if (instance == null)
@@ -16,10 +14,5 @@ public class UIBattleMap : MonoBehaviour
             Debug.Log("More than 1 instance " + this.GetType().ToString());
             Destroy(this);
         }
-    }
-
-    public void EndBattle()
-    {
-        SceneManager.LoadScene(1);
     }
 }

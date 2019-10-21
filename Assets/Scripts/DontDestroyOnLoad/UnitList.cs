@@ -14,7 +14,10 @@ public class UnitList : MonoBehaviour
         if (instance == null)
             instance = this;
         else
+        {
+            Debug.Log("More than 1 instance " + this.GetType().ToString());
             Destroy(this);
+        }
         DontDestroyOnLoad(this);
     }
 

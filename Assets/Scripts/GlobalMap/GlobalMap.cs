@@ -12,9 +12,13 @@ public class GlobalMap : TileMap
     public static GlobalMap instance;
     void Awake()
     {
-        if (instance != null)
-            Debug.Log("More than 1 GLobalMap");
-        instance = this;
+        if (instance == null)
+            instance = this;
+        else
+        {
+            Debug.Log("More than 1 instance " + this.GetType().ToString());
+            Destroy(this);
+        }
     }
 
     new void Start()

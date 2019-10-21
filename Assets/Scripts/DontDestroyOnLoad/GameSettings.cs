@@ -17,6 +17,20 @@ using UnityEngine;
 
 public class GameSettings : MonoBehaviour
 {
+
+    public static GameSettings instance;
+    void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+        {
+            Debug.Log("More than 1 instance " + this.GetType().ToString());
+            Destroy(this);
+        }
+        DontDestroyOnLoad(this);
+    }
+
     [SerializeField]
     private int playerGold = 0;
     public int PlayerGold
@@ -36,16 +50,6 @@ public class GameSettings : MonoBehaviour
     public TileType[] tileTypes;
 
     UIGlobalMap globalMapUI;
-
-    public static GameSettings instance;
-    void Awake()
-    {
-        if (instance == null)
-            instance = this;
-        else
-            Destroy(this);
-        DontDestroyOnLoad(this);
-    }
 
     void Start()
     {

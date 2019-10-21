@@ -5,7 +5,6 @@ using UnityEngine;
 public class GlobalMapGenerator : MonoBehaviour
 {
     public GlobalMap map;
-    public FactionRelations factionRelations;
 
     void Awake()
     {
@@ -13,11 +12,6 @@ public class GlobalMapGenerator : MonoBehaviour
         {
             Debug.Log("GlobalMap in MapGenerator is null by default");
             map = GetComponent<GlobalMap>();
-        }
-        if (factionRelations == null)
-        {
-            Debug.Log("FactionRelations in MapGenerator is null by default");
-            factionRelations = GetComponent<FactionRelations>();
         }
     }
 
@@ -55,6 +49,31 @@ public class GlobalMapGenerator : MonoBehaviour
 
             Tile tile = map.tiles[X, Z];
             GameObject enemy = GameObject.Instantiate(Resources.Load("Enemy")) as GameObject;
+            enemy.name = "Enemy";
+            MapObject mapObject = enemy.GetComponent<MapObject>();
+
+            mapObject.tileX = X;
+            mapObject.tileZ = Z;
+
+            enemy.transform.position = GlobalMap.ConvertTileCoordToWorld(X, Z);
+            tile.mapObjects.Add(mapObject);
+            if (tile.warFogEnabled)
+                mapObject.graphic.SetActive(false);
+        }
+        //generate 2 citys
+        int cityAmount = 2;
+        for (int i = 0; i < cityAmount; i++)
+        {
+            int X, Z;
+            do
+            {
+                X = Random.Range(0, map.mapSizeX);
+                Z = Random.Range(0, map.mapSizeZ);
+            } while (map.tiles[X, Z].mapObjects.Count > 0 || !map.tiles[X, Z].type.isWalkable);
+
+            Tile tile = map.tiles[X, Z];
+            GameObject enemy = GameObject.Instantiate(Resources.Load("City")) as GameObject;
+            enemy.name = "City";
             MapObject mapObject = enemy.GetComponent<MapObject>();
 
             mapObject.tileX = X;
@@ -66,15 +85,5 @@ public class GlobalMapGenerator : MonoBehaviour
                 mapObject.graphic.SetActive(false);
         }
         //END
-    }
-
-    public void GenerateRelationships()
-    {
-        //default factions for every game
-        factionRelations.SetNewFaction("Bandits",FactionType.Bandits,-70);
-        factionRelations.SetNewFaction("Deserters", FactionType.Deserters, -40);
-        factionRelations.SetNewFaction("Neutral", FactionType.Neutral, 0);
-
-        factionRelations.SetNewFaction("Player", FactionType.Neutral, 0);
     }
 }

@@ -11,7 +11,7 @@ public class Dragable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     void Awake()
     {
-        parentWhenDrag = FindObjectOfType<UIGlobalMap>().unitsList.transform;
+        parentWhenDrag = UIGlobalMap.instance.unitsListPanel.transform;
     }
 
     public void OnBeginDrag(PointerEventData eventData)

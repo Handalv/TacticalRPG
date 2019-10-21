@@ -5,6 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerUnitStats : CreachureStats
 {
-    public bool isOnBattlefield;
+    public bool isOnBattlefield = false;
     public int battlefieldIndex;
 }

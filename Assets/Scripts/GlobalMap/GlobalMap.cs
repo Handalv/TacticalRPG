@@ -29,7 +29,7 @@ public class GlobalMap : TileMap
 
         InitializeTiles();
         mapGenerator.GenerateTiles();
-        mapGenerator.GenerateRelationships();
+        FactionRelations.instance.GenerateRelationships();
 
         SpawnPlayer();
         mapGenerator.GenerateMapObjects();
@@ -80,7 +80,7 @@ public class GlobalMap : TileMap
     void SpawnPlayer()
     {
         selectedUnit = GameObject.Instantiate(Resources.Load("PlayerUnit")) as GameObject;
-
+        selectedUnit.name = "PlayerUnit";
         int x = Random.Range(0, mapSizeX);
         int z = Random.Range(0, mapSizeZ);
 
@@ -118,7 +118,7 @@ public class GlobalMap : TileMap
 
         tiles[unitMO.tileX, unitMO.tileZ].mapObjects.Remove(unitMO);
         //TEST new warfog system
-        //if (unit == selectedUnit)
+        //if (unit == playerUnit)
         //{
         //    SetGraphWarFog(unitMO.tileX, unitMO.tileZ);
         //    RemoveGraphWarFog(x, z);
@@ -132,20 +132,13 @@ public class GlobalMap : TileMap
 
         if (tiles[x, z].mapObjects.Count > 0)
         {
-            //TODO battle and others checks
-            Debug.Log("Battle at " + x + " " + z);
-            foreach (MapObject mapObject in tiles[x, z].mapObjects)
-            {
-                Debug.Log("На " + mapObject.gameObject.name + "напал");
-                Debug.Log(unitMO.gameObject.name);
-            }
-            FindObjectOfType<GlobalToBattleData>().tileType = tiles[x, z].type;
-            UI.ActiveBattleMessage(true);
+            Engagement(x,z,unit, unitMO);
         }
 
         unitMO.tileX = x;
         unitMO.tileZ = z;
         tiles[x, z].mapObjects.Add(unitMO);
+
         if (visibleObjects.Contains(unitMO))
         {
             ReShowWarFog();
@@ -155,4 +148,27 @@ public class GlobalMap : TileMap
             unitMO.graphic.SetActive(!tiles[x, z].warFogEnabled);
         }
     }
+
+    void Engagement(int x, int z, GameObject unit, MapObject unitMO)
+    {
+        foreach (MapObject mapObject in tiles[x, z].mapObjects)
+        {
+            if (mapObject is City)
+            {
+                UI.OpenCityUI(mapObject as City);
+                GAMEPAUSED = true;
+                return;
+            }
+        }
+
+        //TODO battle and others checks
+        Debug.Log("Battle at " + x + " " + z);
+        foreach (MapObject mapObject in tiles[x, z].mapObjects)
+        {
+            Debug.Log("На " + mapObject.gameObject.name + " напал " + unitMO.gameObject.name);
+        }
+        FindObjectOfType<GlobalToBattleData>().tileType = tiles[x, z].type;
+        UI.ActiveBattleMessage(true);
+    }
+
 }

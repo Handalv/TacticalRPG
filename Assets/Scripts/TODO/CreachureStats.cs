@@ -7,9 +7,9 @@ public class CreachureStats
 {
     public Sprite icon;
     public Status status = 0;
-    public int heath;
-    public int damage;
-    public int speed;
+    public int heath=10;
+    public int damage=1;
+    public int speed=1;
 }
 
 [System.Serializable]

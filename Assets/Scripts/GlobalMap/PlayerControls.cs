@@ -5,14 +5,13 @@ using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
 {
-    public int visionRange = 1;
     public GlobalMap map;
-    public Unit selectedUnit;
+    public Unit playerUnit;
 
     void Start()
     {
         map = GlobalMap.instance;
-        selectedUnit = map.selectedUnit.GetComponent<Unit>();
+        playerUnit = map.selectedUnit.GetComponent<Unit>();
     }
 
     void Update()
@@ -39,7 +38,7 @@ public class PlayerControls : MonoBehaviour
         //TEST instant step
         if (Input.GetKeyDown(KeyCode.E))
         {
-            selectedUnit.movementCD = 0;
+            playerUnit.movementCD = 0;
         }
     }
 }

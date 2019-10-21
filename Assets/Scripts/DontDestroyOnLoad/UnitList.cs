@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class UnitList : MonoBehaviour
 {
+    UIGlobalMap globalMapUI;
+
     public List<PlayerUnitStats> units = null;
 
     public static UnitList instance;
@@ -18,12 +20,15 @@ public class UnitList : MonoBehaviour
 
     void Start()
     {
-        FindObjectOfType<UIGlobalMap>().InitializeUnits(units);
+        UIGlobalMap.instance.InitializeUnits(units);
     }
 
     public void AddUnit(PlayerUnitStats unit)
     {
+        if (globalMapUI == null)
+            globalMapUI = UIGlobalMap.instance;
         units.Add(unit);
+        globalMapUI.AddUnitOnUI(unit);
     }
 
 }

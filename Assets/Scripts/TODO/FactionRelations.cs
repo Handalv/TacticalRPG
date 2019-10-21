@@ -7,6 +7,16 @@ public class FactionRelations : MonoBehaviour
 {
     public List<Faction> factions;
 
+    public static FactionRelations instance;
+    void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this);
+        DontDestroyOnLoad(this);
+    }
+
     public Faction SetNewFaction(string title, FactionType type, int baseRelation)
     {
         Faction newFaction = new Faction();
@@ -23,6 +33,16 @@ public class FactionRelations : MonoBehaviour
             }
         factions.Add(newFaction);
         return newFaction;
+    }
+
+    public void GenerateRelationships()
+    {
+        //default factions for every game
+        SetNewFaction("Bandits", FactionType.Bandits, -70);
+        SetNewFaction("Deserters", FactionType.Deserters, -40);
+        SetNewFaction("Neutral", FactionType.Neutral, 0);
+
+        SetNewFaction("Player", FactionType.Neutral, 0);
     }
 }
 

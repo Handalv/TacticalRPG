@@ -23,7 +23,7 @@ public class GlobalMap : TileMap
     {
         if (SaveManager.instance.isLoadGame)
         {
-            FullSaveData save = SaveManager.instance.save;
+            SaveData save = SaveManager.instance.save;
 
             mapSizeX = save.MapSizeX;
             mapSizeZ = save.MapSizeZ;
@@ -49,7 +49,7 @@ public class GlobalMap : TileMap
         }
     }
 
-    void LoadTiles(FullSaveData save)
+    void LoadTiles(SaveData save)
     {
         for (int x = 0; x < mapSizeX; x++)
             for (int z = 0; z < mapSizeZ; z++)
@@ -59,31 +59,38 @@ public class GlobalMap : TileMap
             }
     }
 
-    void LoadMapObjects(FullSaveData save)
+    void LoadMapObjects(SaveData save)
     {
         SpawnPlayer(save.PlayerX, save.PlayerZ);
-        int index = 0;
+
+        int mapObjectIndex = 0;
+        int cityIndex = 0;
         foreach(string objName in save.PrefabName)
         {
-            if (objName == "PlayerUnit")
-            {
-                index++;
-                continue;
-            }
-            Tile tile = tiles[save.MapObjectX[index], save.MapObjectZ[index]];
+            Tile tile = tiles[save.MapObjectX[mapObjectIndex], save.MapObjectZ[mapObjectIndex]];
+
             GameObject go = GameObject.Instantiate(Resources.Load(objName)) as GameObject;
-
             go.name = objName;
-            MapObject mapObject = go.GetComponent<MapObject>();
 
-            mapObject.tileX = save.MapObjectX[index];
-            mapObject.tileZ = save.MapObjectZ[index];
+            MapObject mapObject = go.GetComponent<MapObject>();
+            mapObject.tileX = save.MapObjectX[mapObjectIndex];
+            mapObject.tileZ = save.MapObjectZ[mapObjectIndex];
+            
+            if(mapObject is City)
+            {
+                City city = (City)mapObject;
+                city.CityName = save.CityName[cityIndex];
+
+                cityIndex++;
+            }
 
             go.transform.position = GlobalMap.ConvertTileCoordToWorld(mapObject.tileX, mapObject.tileZ);
+
             tile.mapObjects.Add(mapObject);
 
-            index++;
+            mapObjectIndex++;
         }
+
         ReShowWarFog();
     }
 

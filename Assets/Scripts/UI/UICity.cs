@@ -35,7 +35,7 @@ public class UICity : MonoBehaviour
 
     public void SetCityInfo(City city)
     {
-        cityName.text = city.Name;
+        cityName.text = city.CityName;
     }
 
     public void ExitCity()

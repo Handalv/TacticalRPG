@@ -5,7 +5,7 @@ using UnityEngine;
 public class City : MapObject
 {
     UIGlobalMap map;
-    public string Name;
+    public string CityName;
     //List<PlayerUnitStats> unitsToBuy;
 
     void Awake()

@@ -53,7 +53,7 @@ MonoBehaviour:
     title: 
     type: 0
     relations: 
-  Name: NEW TEST CITY
+  CityName: TEST CITY
 --- !u!1 &686076686902181334
 GameObject:
   m_ObjectHideFlags: 0

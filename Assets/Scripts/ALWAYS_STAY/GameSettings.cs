@@ -12,27 +12,12 @@ using UnityEngine;
 
 public class GameSettings : MonoBehaviour
 {
-
-    public static GameSettings instance;
-    void Awake()
-    {
-        if (instance == null)
-            instance = this;
-        else
-        {
-            Debug.Log("More than 1 instance " + this.GetType().ToString());
-            Debug.Log("Deleting whole object with second GameSettings attached");
-            Destroy(this.gameObject);
-        }
-        DontDestroyOnLoad(this);
-    }
-
     //List of every possible game tile
     public List<TileType> tileTypes;
 
-    UIGlobalMap globalMapUI;
-
     
+
+    UIGlobalMap globalMapUI;
 
     [SerializeField]
     private int playerGold = 0;
@@ -49,6 +34,20 @@ public class GameSettings : MonoBehaviour
                 globalMapUI = UIGlobalMap.instance;
             globalMapUI.playerGoldText.text = "" + PlayerGold;
         }
+    }
+
+    public static GameSettings instance;
+    void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+        {
+            Debug.Log("More than 1 instance " + this.GetType().ToString());
+            Debug.Log("Deleting whole object with second GameSettings attached");
+            Destroy(this.gameObject);
+        }
+        DontDestroyOnLoad(this);
     }
 
     void OnLevelWasLoaded(int level)

@@ -11,7 +11,7 @@ public class PlayerControls : MonoBehaviour
     void Start()
     {
         map = GlobalMap.instance;
-        playerUnit = map.selectedUnit.GetComponent<Unit>();
+        //playerUnit = map.selectedUnit.GetComponent<Unit>();
     }
 
     void Update()

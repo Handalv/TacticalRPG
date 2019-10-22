@@ -6,13 +6,14 @@ using UnityEngine;
 
 public class SaveSystem
 {
+    public static string SaveDirectory = Application.persistentDataPath + "/saves/";
     public static bool Save(string saveName, object saveData)
     {
         BinaryFormatter formatter = new BinaryFormatter();
 
-        if (!Directory.Exists(Application.persistentDataPath + "/saves"))
-            Directory.CreateDirectory(Application.persistentDataPath + "/saves");
-        string path = Application.persistentDataPath + "/saves" + saveName + ".save";
+        if (!Directory.Exists(SaveDirectory))
+            Directory.CreateDirectory(SaveDirectory);
+        string path = SaveDirectory + saveName + ".save";
 
         FileStream file = new FileStream(path, FileMode.Create);
 
@@ -23,7 +24,7 @@ public class SaveSystem
         return true;
     }
 
-    public object Load(string path)
+    public static object Load(string path)
     {
         if (!File.Exists(path))
         {

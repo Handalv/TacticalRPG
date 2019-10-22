@@ -18,11 +18,6 @@ public class TileMap : MonoBehaviour
     public Tile[,] tiles;
     public Node[,] graph;
 
-    protected void Start()
-    {
-        GeneratePathfindingGraph();
-    }
-
     protected void GeneratePathfindingGraph()
     {
         graph = new Node[mapSizeX, mapSizeZ];

@@ -5,13 +5,15 @@ using UnityEngine.EventSystems;
 
 public class Dragable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-    public Transform parentWhenDrag;
+    //mb just use canvas to do this class free to use for every UI elements
+    public Transform parentWhenDrag = null;
     public Transform parentToReturn = null;
     public PlayerUnitStats unit;
 
     void Awake()
     {
-        parentWhenDrag = UIGlobalMap.instance.unitsListPanel.transform;
+        if (parentWhenDrag = null)
+            parentWhenDrag = UIGlobalMap.instance.unitsListPanel.transform;
     }
 
     public void OnBeginDrag(PointerEventData eventData)

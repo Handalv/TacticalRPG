@@ -25,7 +25,7 @@ public class BattleMap : TileMap
 
     new void Start()
     {
-        base.Start();
+        InitializeTiles();
 
         if (mapGenerator == null)
         {

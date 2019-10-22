@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class GlobalMap : TileMap
 {
-    public GlobalMapGenerator mapGenerator;
-
     public UIGlobalMap UI;
 
     // AWAKE INSTANCE
@@ -21,22 +19,72 @@ public class GlobalMap : TileMap
         }
     }
 
-    new void Start()
+    void Start()
     {
-        //GeneratePathfindingGraph();  -  in base.Start()
-        base.Start();
-        if (mapGenerator == null)
+        if (SaveManager.instance.isLoadGame)
         {
-            Debug.Log("MapGenerator in GlobalMap is null by default");
-            mapGenerator = GetComponent<GlobalMapGenerator>();
+            FullSaveData save = SaveManager.instance.save;
+
+            mapSizeX = save.MapSizeX;
+            mapSizeZ = save.MapSizeZ;
+
+            GeneratePathfindingGraph();
+            InitializeTiles();
+
+            LoadTiles(save);
+            LoadMapObjects(save);
         }
+        else
+        {
+            GeneratePathfindingGraph();
+            InitializeTiles();
 
-        InitializeTiles();
-        mapGenerator.GenerateTiles();
-        FactionRelations.instance.GenerateRelationships();
+            FactionRelations.instance.GenerateRelationships();
 
-        SpawnPlayer();
-        mapGenerator.GenerateMapObjects();
+            GenerateTiles();
+            int x = Random.Range(0, mapSizeX);
+            int z = Random.Range(0, mapSizeZ);
+            SpawnPlayer(x, z);
+            GenerateMapObjects();
+        }
+    }
+
+    void LoadTiles(FullSaveData save)
+    {
+        for (int x = 0; x < mapSizeX; x++)
+            for (int z = 0; z < mapSizeZ; z++)
+            {
+                TileType t = GameSettings.instance.tileTypes.Find(type => type.name == save.TileType[(x*mapSizeX) + z]);
+                tiles[x, z].SetTypeChanges(t);
+            }
+    }
+
+    void LoadMapObjects(FullSaveData save)
+    {
+        SpawnPlayer(save.PlayerX, save.PlayerZ);
+        int index = 0;
+        foreach(string objName in save.PrefabName)
+        {
+            if (objName == "PlayerUnit")
+            {
+                index++;
+                continue;
+            }
+            Tile tile = tiles[save.MapObjectX[index], save.MapObjectZ[index]];
+            GameObject go = GameObject.Instantiate(Resources.Load(objName)) as GameObject;
+
+            go.name = objName;
+            MapObject mapObject = go.GetComponent<MapObject>();
+
+            mapObject.tileX = save.MapObjectX[index];
+            mapObject.tileZ = save.MapObjectZ[index];
+
+            go.transform.position = GlobalMap.ConvertTileCoordToWorld(mapObject.tileX, mapObject.tileZ);
+            tile.mapObjects.Add(mapObject);
+
+            index++;
+        }
+        ReShowWarFog();
     }
 
     void Update()
@@ -52,24 +100,7 @@ public class GlobalMap : TileMap
             }
             else
             {
-                //int playerX=0, playerZ=0;
                 globalWarfogEnabled = true;
-                //foreach (Tile tile in tiles)
-                //{
-                //    SetGraphWarFog(tile.tileX, tile.tileZ);
-                //    if (tile.mapObjects.Count != 0)
-                //        foreach (MapObject mo in tile.mapObjects)
-                //        {
-                //            // dont have some "playerunit" script to throw the "Player" tag, which is using only here
-                //            // It's can be faction check (but they are unfinished too)
-                //            if (mo.CompareTag("Player"))
-                //            {
-                //                playerX = tile.tileX;
-                //                playerZ = tile.tileZ;
-                //            }
-                //        }
-                //}
-                //RemoveGraphWarFog(playerX, playerZ);
                 ReShowWarFog();
             }
         }
@@ -80,13 +111,84 @@ public class GlobalMap : TileMap
             UI.SetPauseVision(GAMEPAUSED);
         }
     }
-    
-    void SpawnPlayer()
+
+    public void GenerateTiles()
+    {
+        //TODO just do it! (somehow)
+        //for (int x = 0; x < map.mapSizeX; x++)
+        //    for (int z = 0; z < map.mapSizeZ; z++)
+        //    {
+        //        if (z % 2 == 0)
+        //            map.tiles[x, z].SetTypeChanges(GameSettings.instance.tileTypes[0]);
+        //        else
+        //            map.tiles[x, z].SetTypeChanges(GameSettings.instance.tileTypes[1]);
+        //    }
+        for (int x = 0; x < mapSizeX; x++)
+            for (int z = 0; z < mapSizeZ; z++)
+            {
+                int r = Random.Range(0, GameSettings.instance.tileTypes.Count);
+                tiles[x, z].SetTypeChanges(GameSettings.instance.tileTypes[r]);
+            }
+    }
+
+    public void GenerateMapObjects()
+    {
+        //UNDONE generate 3 enemys
+        int enemyAmount = 3;
+        for (int i = 0; i < enemyAmount; i++)
+        {
+            int X, Z;
+            do
+            {
+                X = Random.Range(0, mapSizeX);
+                Z = Random.Range(0, mapSizeZ);
+            } while (tiles[X, Z].mapObjects.Count > 0 || !tiles[X, Z].type.isWalkable);
+
+            Tile tile = tiles[X, Z];
+            GameObject go = GameObject.Instantiate(Resources.Load("Enemy")) as GameObject;
+            go.name = "Enemy";
+            MapObject mapObject = go.GetComponent<MapObject>();
+
+            mapObject.tileX = X;
+            mapObject.tileZ = Z;
+
+            go.transform.position = GlobalMap.ConvertTileCoordToWorld(X, Z);
+            tile.mapObjects.Add(mapObject);
+            if (tile.warFogEnabled)
+                mapObject.graphic.SetActive(false);
+        }
+        //generate 2 citys
+        int cityAmount = 2;
+        for (int i = 0; i < cityAmount; i++)
+        {
+            int X, Z;
+            do
+            {
+                X = Random.Range(0, mapSizeX);
+                Z = Random.Range(0, mapSizeZ);
+            } while (tiles[X, Z].mapObjects.Count > 0 || !tiles[X, Z].type.isWalkable);
+
+            Tile tile = tiles[X, Z];
+            GameObject go = GameObject.Instantiate(Resources.Load("City")) as GameObject;
+            go.name = "City";
+            MapObject mapObject = go.GetComponent<MapObject>();
+
+            mapObject.tileX = X;
+            mapObject.tileZ = Z;
+
+            go.transform.position = GlobalMap.ConvertTileCoordToWorld(X, Z);
+            tile.mapObjects.Add(mapObject);
+            if (tile.warFogEnabled)
+                mapObject.graphic.SetActive(false);
+        }
+        //END
+    }
+
+    void SpawnPlayer(int x,int z)
     {
         selectedUnit = GameObject.Instantiate(Resources.Load("PlayerUnit")) as GameObject;
+        FindObjectOfType<PlayerControls>().playerUnit = selectedUnit.GetComponent<Unit>();
         selectedUnit.name = "PlayerUnit";
-        int x = Random.Range(0, mapSizeX);
-        int z = Random.Range(0, mapSizeZ);
 
         MapObject mo = selectedUnit.GetComponent<MapObject>();
 
@@ -100,17 +202,6 @@ public class GlobalMap : TileMap
         //RemoveGraphWarFog(x, z);
         visibleObjects.Add(mo);
         ReShowWarFog();
-    }
-
-    void SetGraphWarFogInRange(int x, int z, int Range = 0)
-    {
-        if (Range == 0)
-        {
-
-        }
-            //Range = playerPrefs.visionRange;
-
-        //UNDONE Warfog Range
     }
 
     public void MoveUnit(int x, int z, GameObject unit = null)

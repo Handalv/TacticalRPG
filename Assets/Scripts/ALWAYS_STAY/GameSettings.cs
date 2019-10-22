@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//void sortTiletipes()
-//{
-
 //    GrassTile, 0
 //    SandTile, 1
 //    WaterTile, 2
@@ -12,8 +9,6 @@ using UnityEngine;
 //    SnowTile, 4
 //    RoadTile, 5
 //    SwampTile 6
-
-//}
 
 public class GameSettings : MonoBehaviour
 {
@@ -26,10 +21,18 @@ public class GameSettings : MonoBehaviour
         else
         {
             Debug.Log("More than 1 instance " + this.GetType().ToString());
-            Destroy(this);
+            Debug.Log("Deleting whole object with second GameSettings attached");
+            Destroy(this.gameObject);
         }
         DontDestroyOnLoad(this);
     }
+
+    //List of every possible game tile
+    public List<TileType> tileTypes;
+
+    UIGlobalMap globalMapUI;
+
+    
 
     [SerializeField]
     private int playerGold = 0;
@@ -47,13 +50,14 @@ public class GameSettings : MonoBehaviour
             globalMapUI.playerGoldText.text = "" + PlayerGold;
         }
     }
-    public TileType[] tileTypes;
 
-    UIGlobalMap globalMapUI;
-
-    void Start()
+    void OnLevelWasLoaded(int level)
     {
-        PlayerGold = PlayerGold;
+        //1 - global map
+        if (level == 1)
+        {
+            PlayerGold = PlayerGold;
+        }
     }
 
 }

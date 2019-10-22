@@ -8,7 +8,7 @@ public class UnitList : MonoBehaviour
 
     public List<PlayerUnitStats> units = null;
 
-    public static UnitList instance;
+    public static UnitList instance; //PlayerUnitList
     void Awake()
     {
         if (instance == null)
@@ -21,9 +21,13 @@ public class UnitList : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    void Start()
+    void OnLevelWasLoaded(int level)
     {
-        UIGlobalMap.instance.InitializeUnits(units);
+        //1 - global map
+        if (level == 1)
+        {
+            UIGlobalMap.instance.InitializeUnits(units);
+        }
     }
 
     public void AddUnit(PlayerUnitStats unit)

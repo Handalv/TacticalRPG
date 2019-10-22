@@ -16,6 +16,8 @@ public class UIGlobalMap : MonoBehaviour
     [SerializeField]
     private GameObject reservePanel;
     [SerializeField]
+    private GameObject esqPlanel;
+    [SerializeField]
     private UICity cityUI;
 
     public TextMeshProUGUI playerGoldText;
@@ -29,13 +31,14 @@ public class UIGlobalMap : MonoBehaviour
             Destroy(this);
     }
 
-    // Setup all tabs visible are false by default
+    // Setup visibility of all ui panels is false by default
     void Start()
     {
         pauseVisionPanel.SetActive(GlobalMap.instance.GAMEPAUSED);
         battleMessagePanel.SetActive(false);
         unitsListPanel.SetActive(false);
         cityUI.cityPanel.SetActive(false);
+        esqPlanel.SetActive(false);
     }
 
     void Update()
@@ -45,11 +48,11 @@ public class UIGlobalMap : MonoBehaviour
             //OpenUnitsList();
             unitsListPanel.SetActive(!unitsListPanel.activeSelf);
         }
-        //if (Input.GetKeyDown(KeyCode.C))
-        //{
-        //    //OpenUnitsList();
-        //    cityUI.SetActive(!cityUI.activeSelf);
-        //}
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            esqPlanel.SetActive(!esqPlanel.activeSelf);
+            GlobalMap.instance.GAMEPAUSED = esqPlanel.activeSelf;
+        }
     }
 
     public void OpenCityUI(City city)
@@ -62,11 +65,6 @@ public class UIGlobalMap : MonoBehaviour
     {
         battleMessagePanel.SetActive(state);
     }
-
-    //public void OpenUnitsList()
-    //{
-    //    unitsListPanel.SetActive(!unitsListPanel.activeSelf);
-    //}
 
     public void SetPauseVision(bool pause)
     {
@@ -89,8 +87,7 @@ public class UIGlobalMap : MonoBehaviour
     public void AddUnitOnUI(PlayerUnitStats unit)
     {
         GameObject go = GameObject.Instantiate(Resources.Load("UnitUI")) as GameObject;
-        //if (unit.icon != null)
-            go.GetComponent<Image>().sprite = unit.icon;
+        go.GetComponent<Image>().sprite = unit.icon;
         go.GetComponent<Dragable>().unit = unit;
         go.GetComponent<Dragable>().parentToReturn = reservePanel.transform;
         go.transform.SetParent(reservePanel.transform);

@@ -28,7 +28,9 @@ public class UICity : MonoBehaviour
         if ((GameSettings.instance.PlayerGold - unitcost) >= 0)
         {
             GameSettings.instance.PlayerGold -= unitcost;
-            PlayerUnitStats unit = new PlayerUnitStats();
+            //Test
+            UnitPreset unitPreset = (UnitPreset)Instantiate(Resources.Load("UnitPresets/Footman"));
+            PlayerUnitStats unit = new PlayerUnitStats(unitPreset);
             unitList.AddUnit(unit);
         }
     }

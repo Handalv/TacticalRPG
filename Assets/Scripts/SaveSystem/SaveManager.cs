@@ -47,18 +47,20 @@ public class SaveManager : MonoBehaviour
 
         // foreach unit health  
         // i prob need to name units
+        UnitList.instance.units.Clear();
         int index=0;
-        foreach (int UnitHealth in save.UnitHealth)
+        foreach (string icon in save.UnitIconName)
         {
             //TODO normal constructor
             PlayerUnitStats unit = new PlayerUnitStats();
 
-            unit.heath = save.UnitHealth[index];
-            unit.icon = Resources.Load("UnitsIcons/" + save.UnitIconName) as Sprite;
+            unit.MaxHealth = save.UnitHealth[index];
+            unit.icon = (Sprite)Resources.Load("UnitsIcons/" + save.UnitIconName[index]);
+            Debug.Log("UnitsIcons/" + save.UnitIconName[index]);
             unit.isOnBattlefield = save.UnitIsOnBattleField[index];
-            unit.speed = save.UnitSpeed[index];
+            unit.Speed = save.UnitSpeed[index];
             unit.status = (Status)save.UnitStatus[index];
-            unit.damage = save.UnitDamage[index];
+            unit.Damage = save.UnitDamage[index];
             unit.battlefieldIndex = save.UnitBattleIndex[index];
 
             UnitList.instance.AddUnit(unit);

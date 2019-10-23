@@ -95,11 +95,15 @@ public class SaveData
         // player's UnitList
         foreach(PlayerUnitStats unit in unitList.units)
         {
-            UnitHealth.Add(unit.heath);
-            UnitDamage.Add(unit.damage);
-            UnitSpeed.Add(unit.speed);
-            if(unit.icon!=null)
-                UnitIconName.Add(unit.icon.ToString());
+            UnitHealth.Add(unit.MaxHealth);
+            UnitDamage.Add(unit.Damage);
+            UnitSpeed.Add(unit.Speed);
+            if (unit.icon != null)
+            {
+                string iconName = unit.icon.ToString();
+
+                UnitIconName.Add(iconName);
+            }
             else
             {
                 UnitIconName.Add("Missing");

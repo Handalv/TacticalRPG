@@ -7,14 +7,14 @@ using TMPro;
 
 public class EnemyUnitList : MonoBehaviour
 {
-    public List<EnemyType> Enemies;
+    public List<UnitPreset> Enemies;
 
     private GameObject UIelement;
 
     void Awake()
     {
         if (Enemies == null)
-            Enemies = new List<EnemyType>();
+            Enemies = new List<UnitPreset>();
         
         UIelement = Instantiate(Resources.Load("UnitAmountText"), UIGlobalMap.instance.MapObjectElementsPanel.transform) as GameObject;
         gameObject.GetComponent<MapObject>().GraphicElements.Add(UIelement);
@@ -22,8 +22,6 @@ public class EnemyUnitList : MonoBehaviour
 
     void Update()
     {
-        if (UIelement.GetComponent<TextMeshProUGUI>() == null)
-            Debug.Log(";CCCCCCCCCCCC");
         if (UIelement.GetComponent<TextMeshProUGUI>().gameObject.activeSelf)
         {
             UIelement.GetComponent<TextMeshProUGUI>().text = "(" + Enemies.Count + ")";
@@ -31,7 +29,7 @@ public class EnemyUnitList : MonoBehaviour
         }
     }
 
-    public void AddUnit(EnemyType unit)
+    public void AddUnit(UnitPreset unit)
     {
         Enemies.Add(unit);
     }
@@ -40,10 +38,4 @@ public class EnemyUnitList : MonoBehaviour
     {
         Enemies.Clear();
     }
-}
-
-[System.Serializable]
-public enum EnemyType
-{
-    OrcWolfRider
 }

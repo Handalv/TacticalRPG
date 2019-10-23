@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIGlobalMap : MonoBehaviour
 {
@@ -11,8 +12,6 @@ public class UIGlobalMap : MonoBehaviour
     private GameObject battleMessagePanel;
     [SerializeField]
     private GameObject pauseVisionPanel;
-    //[SerializeField]
-    public GameObject unitsListPanel;
     [SerializeField]
     private GameObject reservePanel;
     [SerializeField]
@@ -20,7 +19,10 @@ public class UIGlobalMap : MonoBehaviour
     [SerializeField]
     private UICity cityUI;
 
+    //[SerializeField]
+    public GameObject unitsListPanel;
     public TextMeshProUGUI playerGoldText;
+    public GameObject MapObjectElementsPanel;
 
     public static UIGlobalMap instance;
     void Awake()

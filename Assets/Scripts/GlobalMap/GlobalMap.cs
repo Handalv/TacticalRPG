@@ -162,7 +162,7 @@ public class GlobalMap : TileMap
             go.transform.position = GlobalMap.ConvertTileCoordToWorld(X, Z);
             tile.mapObjects.Add(mapObject);
             if (tile.warFogEnabled)
-                mapObject.graphic.SetActive(false);
+                mapObject.SetGraphicActive(false);
         }
         //generate 2 citys
         int cityAmount = 2;
@@ -186,7 +186,7 @@ public class GlobalMap : TileMap
             go.transform.position = GlobalMap.ConvertTileCoordToWorld(X, Z);
             tile.mapObjects.Add(mapObject);
             if (tile.warFogEnabled)
-                mapObject.graphic.SetActive(false);
+                mapObject.SetGraphicActive(false);
         }
         //END
     }
@@ -247,7 +247,7 @@ public class GlobalMap : TileMap
         }
         else
         {
-            unitMO.graphic.SetActive(!tiles[x, z].warFogEnabled);
+            unitMO.SetGraphicActive(!tiles[x, z].warFogEnabled);
         }
     }
 

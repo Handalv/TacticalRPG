@@ -137,7 +137,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67f898e09f3b45545bc93479788f6b88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  graphic: {fileID: 672232551428602248}
+  GraphicElements:
+  - {fileID: 672232551428602248}
   tileX: 0
   tileZ: 0
   visionRange: 2

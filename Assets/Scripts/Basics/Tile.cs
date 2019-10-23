@@ -27,7 +27,7 @@ public class Tile : MonoBehaviour
             warFog.SetActive(value);
             foreach(MapObject obj in mapObjects)
             {
-                obj.graphic.SetActive(!value);
+                obj.SetGraphicActive(!value);
             }
         }
         get

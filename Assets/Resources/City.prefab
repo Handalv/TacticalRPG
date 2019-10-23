@@ -44,7 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa96365f77473e44af7daddcd1dc142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  graphic: {fileID: 686076686902181334}
+  GraphicElements:
+  - {fileID: 686076686902181334}
   tileX: 0
   tileZ: 0
   visionRange: 3

@@ -7,7 +7,7 @@ public class Dragable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 {
     public Transform parentWhenDrag = null;
     public Transform parentToReturn = null;
-    public PlayerUnitStats unit;
+    public int IndexInUnitList;
 
     void Awake()
     {

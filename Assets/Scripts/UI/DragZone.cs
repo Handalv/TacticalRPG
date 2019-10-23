@@ -15,19 +15,21 @@ public class DragZone: MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
+        UnitList unitList = UnitList.instance;
         Dragable dropedUnit = eventData.pointerDrag.GetComponent<Dragable>();
         Dragable currentUnit = GetComponentInChildren<Dragable>();
+
 
         if (currentUnit != null)
         {
             currentUnit.parentToReturn = dropedUnit.parentToReturn;
-            currentUnit.unit.isOnBattlefield = dropedUnit.unit.isOnBattlefield;
-            currentUnit.unit.battlefieldIndex = dropedUnit.unit.battlefieldIndex;
+            unitList.isOnBattleField[currentUnit.IndexInUnitList] = unitList.isOnBattleField[dropedUnit.IndexInUnitList];
+            unitList.BattleFieldIndex[currentUnit.IndexInUnitList] = unitList.BattleFieldIndex[dropedUnit.IndexInUnitList];
             currentUnit.transform.SetParent(currentUnit.parentToReturn);
         }
         
         dropedUnit.parentToReturn = transform;
-        dropedUnit.unit.isOnBattlefield = true;
-        dropedUnit.unit.battlefieldIndex = battlefieldIndex;
+        unitList.isOnBattleField[dropedUnit.IndexInUnitList] = true;
+        unitList.BattleFieldIndex[dropedUnit.IndexInUnitList] = battlefieldIndex;
     }
 }

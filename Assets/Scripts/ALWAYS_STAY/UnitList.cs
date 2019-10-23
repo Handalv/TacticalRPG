@@ -6,7 +6,9 @@ public class UnitList : MonoBehaviour
 {
     UIGlobalMap globalMapUI;
 
-    public List<PlayerUnitStats> units = null;
+    public List<CreachureStats> units;
+    public List<bool> isOnBattleField;
+    public List<int> BattleFieldIndex;
 
     public static UnitList instance; //PlayerUnitList
     void Awake()
@@ -26,16 +28,17 @@ public class UnitList : MonoBehaviour
         //1 - global map
         if (level == 1)
         {
-            UIGlobalMap.instance.InitializeUnits(units);
+            if(SaveManager.instance.isLoadGame == false)
+                UIGlobalMap.instance.InitializeUnits();
         }
     }
 
-    public void AddUnit(PlayerUnitStats unit)
+    public void AddUnit(CreachureStats unit)
     {
         if (globalMapUI == null)
             globalMapUI = UIGlobalMap.instance;
         units.Add(unit);
-        globalMapUI.AddUnitOnUI(unit);
+        globalMapUI.AddUnitOnUI(units.Count-1, units[units.Count - 1].icon, isOnBattleField[units.Count - 1], BattleFieldIndex[units.Count - 1]);
     }
 
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 //    GrassTile, 0
 //    SandTile, 1
@@ -15,9 +16,7 @@ public class GameSettings : MonoBehaviour
     //List of every possible game tile
     public List<TileType> tileTypes;
 
-    
-
-    UIGlobalMap globalMapUI;
+    GameObject playerGoldText;
 
     [SerializeField]
     private int playerGold = 0;
@@ -30,9 +29,7 @@ public class GameSettings : MonoBehaviour
         set
         {
             playerGold = value;
-            if (globalMapUI == null)
-                globalMapUI = UIGlobalMap.instance;
-            globalMapUI.playerGoldText.text = "" + PlayerGold;
+            playerGoldText.GetComponent<TextMeshProUGUI>().text = "" + PlayerGold;
         }
     }
 
@@ -55,7 +52,12 @@ public class GameSettings : MonoBehaviour
         //1 - global map
         if (level == 1)
         {
+            playerGoldText = UIGlobalMap.instance.playerGoldText;
             PlayerGold = PlayerGold;
+        }
+        if(level == 2)
+        {
+
         }
     }
 

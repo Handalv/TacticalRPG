@@ -23,7 +23,7 @@ public class BattleMap : TileMap
         unitList = UnitList.instance;
     }
 
-    new void Start()
+    void Start()
     {
         InitializeTiles();
 
@@ -44,19 +44,19 @@ public class BattleMap : TileMap
         int offsetZ = 7;
         //tileZ = battlefieldIndex % 6 + offsetZ;
         //tileX = battlefieldIndex / 6 + offsetX;
-        foreach (PlayerUnitStats unit in unitList.units)
+        for(int i=0; i< unitList.units.Count; i++ )
         {
-            if (unit.isOnBattlefield)
+            if (unitList.isOnBattleField[i])
             {
                 GameObject spawned = GameObject.Instantiate(Resources.Load("BattlePlayerUnit")) as GameObject;
                 BattleUnit battleUnit = spawned.GetComponent<BattleUnit>();
 
-                int tileX = unit.battlefieldIndex / 6 + offsetX;
-                int tileZ = unit.battlefieldIndex % 6 + offsetZ;
+                int tileX = unitList.BattleFieldIndex[i] / 6 + offsetX;
+                int tileZ = unitList.BattleFieldIndex[i] % 6 + offsetZ;
 
                 battleUnit.tileX = tileX;
                 battleUnit.tileZ = tileZ;
-                battleUnit.unitStats = unit;
+                battleUnit.unitStats = unitList.units[i];
 
                 spawned.transform.position = ConvertTileCoordToWorld(battleUnit.tileX, battleUnit.tileZ);
                 tiles[tileX, tileZ].mapObjects.Add(battleUnit);

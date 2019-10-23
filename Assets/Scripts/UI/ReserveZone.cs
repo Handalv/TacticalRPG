@@ -10,6 +10,6 @@ public class ReserveZone : MonoBehaviour, IDropHandler
     {
         Dragable dropedUnit = eventData.pointerDrag.GetComponent<Dragable>();
         dropedUnit.parentToReturn = transform;
-        dropedUnit.unit.isOnBattlefield = false;
+        UnitList.instance.isOnBattleField[dropedUnit.IndexInUnitList] = false;
     }
 }

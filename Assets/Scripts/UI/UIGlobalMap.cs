@@ -15,13 +15,15 @@ public class UIGlobalMap : MonoBehaviour
     [SerializeField]
     private GameObject reservePanel;
     [SerializeField]
+    private GameObject battleFieldPanel;
+    [SerializeField]
     private GameObject esqPlanel;
     [SerializeField]
     private UICity cityUI;
 
     //[SerializeField]
     public GameObject unitsListPanel;
-    public TextMeshProUGUI playerGoldText;
+    public GameObject playerGoldText;
     public GameObject MapObjectElementsPanel;
 
     public static UIGlobalMap instance;
@@ -73,26 +75,27 @@ public class UIGlobalMap : MonoBehaviour
         pauseVisionPanel.SetActive(pause);
     }
 
-    public void InitializeUnits(List<PlayerUnitStats> units)
+    public void InitializeUnits()
     {
-        foreach(PlayerUnitStats unit in units)
+        UnitList unitList = UnitList.instance;
+        for(int i=0; i<unitList.units.Count; i++)
         {
-            GameObject go = GameObject.Instantiate(Resources.Load("UnitUI")) as GameObject;
-            go.GetComponent<Image>().sprite = unit.icon;
-            go.GetComponent<Dragable>().unit = unit;
-            go.GetComponent<Dragable>().parentToReturn = reservePanel.transform;
-            go.transform.SetParent(reservePanel.transform);
-
+            AddUnitOnUI(i,unitList.units[i].icon,unitList.isOnBattleField[i],unitList.BattleFieldIndex[i]);
         }
     }
 
-    public void AddUnitOnUI(PlayerUnitStats unit)
+    public void AddUnitOnUI(int index, Sprite icon,bool isOnBattle, int battleIndex)
     {
         GameObject go = GameObject.Instantiate(Resources.Load("UnitUI")) as GameObject;
-        go.GetComponent<Image>().sprite = unit.icon;
-        go.GetComponent<Dragable>().unit = unit;
-        go.GetComponent<Dragable>().parentToReturn = reservePanel.transform;
-        go.transform.SetParent(reservePanel.transform);
+        go.GetComponent<Image>().sprite = icon;
+        go.GetComponent<Dragable>().IndexInUnitList = index;
+        if (isOnBattle)
+        {
+            go.GetComponent<Dragable>().parentToReturn = battleFieldPanel.transform.GetChild(battleIndex);
+        }
+        else
+            go.GetComponent<Dragable>().parentToReturn = reservePanel.transform;
+        go.transform.SetParent(go.GetComponent<Dragable>().parentToReturn);
     }
 
     public void StartBattle()

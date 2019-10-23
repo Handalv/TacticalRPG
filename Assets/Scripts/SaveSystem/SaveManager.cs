@@ -38,39 +38,46 @@ public class SaveManager : MonoBehaviour
         SaveSystem.Save(SaveName, save);
     }
 
+    public void BattleResultSave()
+    {
+        save.PlayerGold += 20;
+        SaveSystem.Save(SaveName, save);
+    }
+
+    public void LoadData()
+    {
+        save = (SaveData)SaveSystem.Load(SaveSystem.SaveDirectory + SaveName + ".save");
+    }
+
     public void LoadGame()
     {
-        Debug.Log("Loading game");
-        save = (SaveData)SaveSystem.Load(SaveSystem.SaveDirectory + SaveName + ".save");
+        if (save == null)
+            LoadData();
 
         GameSettings.instance.PlayerGold = save.PlayerGold;
 
-        // foreach unit health  
-        // i prob need to name units
+
         UnitList.instance.units.Clear();
-        int index=0;
-        foreach (string icon in save.UnitIconName)
+        for (int i = 0; i < save.UnitIconName.Count; i++)
         {
             //TODO normal constructor
-            PlayerUnitStats unit = new PlayerUnitStats();
+            CreachureStats unit = new CreachureStats();
 
-            unit.MaxHealth = save.UnitHealth[index];
-            unit.icon = (Sprite)Resources.Load("UnitsIcons/" + save.UnitIconName[index]);
-            Debug.Log("UnitsIcons/" + save.UnitIconName[index]);
-            unit.isOnBattlefield = save.UnitIsOnBattleField[index];
-            unit.Speed = save.UnitSpeed[index];
-            unit.status = (Status)save.UnitStatus[index];
-            unit.Damage = save.UnitDamage[index];
-            unit.battlefieldIndex = save.UnitBattleIndex[index];
+            unit.MaxHealth = save.UnitHealth[i];
+            unit.icon = Resources.Load<Sprite>("UnitsIcons/" + save.UnitIconName[i]);
+            UnitList.instance.isOnBattleField[i] = save.UnitIsOnBattleField[i];
+            unit.Speed = save.UnitSpeed[i];
+            unit.status = (Status)save.UnitStatus[i];
+            unit.Damage = save.UnitDamage[i];
+            UnitList.instance.BattleFieldIndex[i] = save.UnitBattleIndex[i];
 
             UnitList.instance.AddUnit(unit);
-
-            index++;
         }
     }
 
     private void OnLevelWasLoaded(int level)
     {
+        LoadData();
         if (level == 1)
         {
             if(isLoadGame)

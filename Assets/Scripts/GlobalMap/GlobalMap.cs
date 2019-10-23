@@ -219,16 +219,6 @@ public class GlobalMap : TileMap
         MapObject unitMO = unit.GetComponent<MapObject>();
 
         tiles[unitMO.tileX, unitMO.tileZ].mapObjects.Remove(unitMO);
-        //TEST new warfog system
-        //if (unit == playerUnit)
-        //{
-        //    SetGraphWarFog(unitMO.tileX, unitMO.tileZ);
-        //    RemoveGraphWarFog(x, z);
-        //}
-        //else
-        //{
-        //    unitMO.graphic.SetActive(!tiles[x, z].warFogEnabled);
-        //}
 
         unit.transform.position = ConvertTileCoordToWorld(x, z);
 
@@ -269,7 +259,7 @@ public class GlobalMap : TileMap
         {
             Debug.Log("На " + mapObject.gameObject.name + " напал " + unitMO.gameObject.name);
         }
-        FindObjectOfType<GlobalToBattleData>().tileType = tiles[x, z].type;
+        GlobalToBattleData.instance.tileType = tiles[x, z].type;
         UI.ActiveBattleMessage(true);
     }
 

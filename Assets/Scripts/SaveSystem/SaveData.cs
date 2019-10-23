@@ -93,24 +93,24 @@ public class SaveData
         }
 
         // player's UnitList
-        foreach(PlayerUnitStats unit in unitList.units)
+        int index = 0;
+        foreach(CreachureStats unit in unitList.units)
         {
             UnitHealth.Add(unit.MaxHealth);
             UnitDamage.Add(unit.Damage);
             UnitSpeed.Add(unit.Speed);
             if (unit.icon != null)
             {
-                string iconName = unit.icon.ToString();
-
-                UnitIconName.Add(iconName);
+                UnitIconName.Add(unit.icon.name);
             }
             else
             {
                 UnitIconName.Add("Missing");
             }
-            UnitIsOnBattleField.Add(unit.isOnBattlefield);
-            UnitBattleIndex.Add(unit.battlefieldIndex);
+            UnitIsOnBattleField.Add(unitList.isOnBattleField[index]);
+            UnitBattleIndex.Add(unitList.BattleFieldIndex[index]);
             UnitStatus.Add((int)unit.status);
+            index++;
         }
     }
 }

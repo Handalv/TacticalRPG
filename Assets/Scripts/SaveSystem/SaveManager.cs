@@ -77,7 +77,8 @@ public class SaveManager : MonoBehaviour
 
     private void OnLevelWasLoaded(int level)
     {
-        LoadData();
+        if (save == null)
+            LoadData();
         if (level == 1)
         {
             if(isLoadGame)

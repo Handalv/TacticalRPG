@@ -30,11 +30,12 @@ public class PlayerControls : MonoBehaviour
                     Tile hitTile = hit.collider.gameObject.GetComponent<Tile>();
                     if (hitTile != null)
                     {
-                        map.GeneratePathTo(hitTile.tileX, hitTile.tileZ);
+                        playerUnit.SetDestanation(map.GeneratePathTo(hitTile.tileX, hitTile.tileZ, playerUnit.tileX, playerUnit.tileZ));
                     }
                 }
             }
         }
+
         //TEST instant step
         if (Input.GetKeyDown(KeyCode.E))
         {

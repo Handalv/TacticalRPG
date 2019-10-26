@@ -48,7 +48,7 @@ MonoBehaviour:
   - {fileID: 4740337645990737367}
   tileX: 0
   tileZ: 0
-  visionRange: 0
+  visionRange: 5
   faction:
     baseRelation: 0
     title: 
@@ -57,9 +57,10 @@ MonoBehaviour:
   unitStats:
     icon: {fileID: 0}
     status: 0
-    heath: 0
-    damage: 0
-    speed: 0
+    MaxHealth: 0
+    Health: 0
+    Damage: 0
+    Speed: 0
 --- !u!1 &4740337645990737367
 GameObject:
   m_ObjectHideFlags: 0

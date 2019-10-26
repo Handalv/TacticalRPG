@@ -4,38 +4,36 @@ using UnityEngine;
 
 public class BattleMap : TileMap
 {
-    public BattleMapGenerator mapGenerator;
+    private TileType locationType;
     public UnitList unitList;
-    //public UIGlobalMap UI;
 
-    //// AWAKE INSTANCE
-    //public static BattleMap instance;
-    //void Awake()
-    //{
-    //    if (instance != null)
-    //        Debug.Log("More than 1 BattleMap");
-    //    instance = this;
-    //}
-
+    public static BattleMap instance;
     void Awake()
     {
-        //unitList = FindObjectOfType<UnitList>();
+        if (instance == null)
+            instance = this;
+        else
+        {
+            Debug.Log("More than 1 instance " + this.GetType().ToString());
+            Destroy(this);
+        }
+
         unitList = UnitList.instance;
+        locationType = GameSettings.instance.BattleTileType;
     }
 
     void Start()
     {
         InitializeTiles();
-
-        if (mapGenerator == null)
-        {
-            Debug.Log("MapGenerator in BattleMap is null by default");
-            mapGenerator = GetComponent<BattleMapGenerator>();
-        }
-
-        InitializeTiles();
-        mapGenerator.GenerateTiles();
+        GenerateTiles();
         SpawnPlayer();
+    }
+
+    public void GenerateTiles()
+    {
+        for (int x = 0; x < mapSizeX; x++)
+            for (int z = 0; z < mapSizeZ; z++)
+                tiles[x, z].SetTypeChanges(locationType);
     }
 
     void SpawnPlayer()

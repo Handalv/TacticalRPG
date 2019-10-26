@@ -222,11 +222,6 @@ public class GlobalMap : TileMap
 
         unit.transform.position = ConvertTileCoordToWorld(x, z);
 
-        if (tiles[x, z].mapObjects.Count > 0)
-        {
-            Engagement(x,z,unit, unitMO);
-        }
-
         unitMO.tileX = x;
         unitMO.tileZ = z;
         tiles[x, z].mapObjects.Add(unitMO);
@@ -239,13 +234,22 @@ public class GlobalMap : TileMap
         {
             unitMO.SetGraphicActive(!tiles[x, z].warFogEnabled);
         }
+        if (tiles[x, z].mapObjects.Count > 1)
+        {
+            Engagement(x, z, unit, unitMO);
+        }
     }
 
     void Engagement(int x, int z, GameObject unit, MapObject unitMO)
     {
+        bool isPlayerEngagement = false;
+        Debug.Log("Engagement at " + x + " " + z + " is player - "+ isPlayerEngagement.ToString());
+        foreach (MapObject mapObject in tiles[x, z].mapObjects)
+            if (mapObject == selectedUnit.GetComponent<MapObject>()) isPlayerEngagement = true;
+
         foreach (MapObject mapObject in tiles[x, z].mapObjects)
         {
-            if (mapObject is City)
+            if (mapObject is City && isPlayerEngagement)
             {
                 UI.OpenCityUI(mapObject as City);
                 GAMEPAUSED = true;
@@ -254,13 +258,20 @@ public class GlobalMap : TileMap
         }
 
         //TODO battle and others checks
-        Debug.Log("Battle at " + x + " " + z);
         foreach (MapObject mapObject in tiles[x, z].mapObjects)
         {
-            Debug.Log("На " + mapObject.gameObject.name + " напал " + unitMO.gameObject.name);
+            if (isPlayerEngagement)
+            {
+                EnemyUnitList enemyUnitList = mapObject.gameObject.GetComponent<EnemyUnitList>();
+                if (enemyUnitList!=null)
+                {
+                    GameSettings.instance.BattleTileType = tiles[x, z].type;
+                    GameSettings.instance.Enemies = enemyUnitList.Enemies;
+                    GAMEPAUSED = true;
+                    UI.ActiveBattleMessage(true);
+                }
+            }
         }
-        GlobalToBattleData.instance.tileType = tiles[x, z].type;
-        UI.ActiveBattleMessage(true);
     }
 
 }

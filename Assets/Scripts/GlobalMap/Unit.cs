@@ -52,7 +52,10 @@ public class Unit : MapObject
 
     public void SetDestanation(List<Node> destanation)
     {
-        currentPath = destanation;
-        movementCD = GlobalMap.instance.tiles[currentPath[1].x, currentPath[1].z].movementCost;
+        if (destanation != null)
+        {
+            currentPath = destanation;
+            movementCD = GlobalMap.instance.tiles[currentPath[1].x, currentPath[1].z].movementCost;
+        }
     }
 }

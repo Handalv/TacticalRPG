@@ -171,13 +171,13 @@ public class TileMap : MonoBehaviour
         return new Vector3(tileX, worldTile.y, tileZ);
     }
 
-    public void GeneratePathTo(int x, int z, GameObject unit = null)
+    public List<Node> GeneratePathTo(int x, int z, int startX, int startZ)//GameObject unit = null
     {
-        if (unit == null)
-            unit = selectedUnit;
-        Unit unitComp = unit.GetComponent<Unit>();
+        //if (unit == null)
+        //    unit = selectedUnit;
+        //Unit unitComp = unit.GetComponent<Unit>();
 
-        unitComp.currentPath = null;
+        //unitComp.currentPath = null;
 
         //if (UnitCanEnterTile(x, z) == false)
         //{
@@ -189,7 +189,7 @@ public class TileMap : MonoBehaviour
 
         Dictionary<Node, float> dist = new Dictionary<Node, float>();
         Dictionary<Node, Node> prev = new Dictionary<Node, Node>();
-        Node source = graph[unitComp.tileX, unitComp.tileZ];
+        Node source = graph[startX, startZ];
         Node target = graph[x, z];
         dist[source] = 0;
         prev[source] = null;
@@ -237,7 +237,7 @@ public class TileMap : MonoBehaviour
         if (prev[target] == null)
         {
             //no way to the target
-            return;
+            return null;
         }
 
         List<Node> currentPath = new List<Node>();
@@ -251,6 +251,7 @@ public class TileMap : MonoBehaviour
         // Linq, hmm but i did not include linq
             //using System.Linq;
         currentPath.Reverse();
-        unitComp.SetDestanation(currentPath);
+        return currentPath;
+        //unitComp.SetDestanation(currentPath);
     }
 }

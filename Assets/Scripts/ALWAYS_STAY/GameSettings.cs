@@ -16,6 +16,9 @@ public class GameSettings : MonoBehaviour
     //List of every possible game tile
     public List<TileType> tileTypes;
 
+    public TileType BattleTileType;
+    public List<UnitPreset> Enemies;
+
     GameObject playerGoldText;
 
     [SerializeField]

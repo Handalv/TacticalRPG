@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class UIBattleMap : MonoBehaviour
 {
+    public GameObject EndTurnButton;
+    public GameObject BattleOrderPanel;
+
     public static UIBattleMap instance;
     void Awake()
     {
@@ -16,6 +19,12 @@ public class UIBattleMap : MonoBehaviour
             Debug.Log("More than 1 instance " + this.GetType().ToString());
             Destroy(this);
         }
+    }
+
+    public void EndTurn()
+    {
+        BattleController.instance.RemoveFromOrder();
+        //EndTurnButton.SetActive(false);
     }
 
     public void EndBattle()

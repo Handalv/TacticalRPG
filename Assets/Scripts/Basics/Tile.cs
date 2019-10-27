@@ -13,6 +13,7 @@ public class Tile : MonoBehaviour
 
     public bool isWalkable = true;
     public float movementCost = 2f;
+    public int BattleMovementCost = 1;
 
     public List<MapObject> mapObjects;
 

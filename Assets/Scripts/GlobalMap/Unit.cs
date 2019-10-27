@@ -8,7 +8,7 @@ public class Unit : MapObject
 
     public List<Node> currentPath = null;
 
-    protected void Update()
+    void Update()
     {
         if (currentPath != null)
         {

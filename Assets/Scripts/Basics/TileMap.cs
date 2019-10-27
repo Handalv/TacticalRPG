@@ -120,25 +120,25 @@ public class TileMap : MonoBehaviour
         }
     }
 
-    protected void RemoveGraphWarFog(int x, int z)
-    {
-        tiles[x, z].warFogEnabled = false;
-        foreach (Node n in graph[x, z].neighbours)
-        {
-            tiles[n.x, n.z].warFogEnabled = false;
-        }
-    }
-    protected void SetGraphWarFog(int x, int z)
-    {
-        if (globalWarfogEnabled)
-        {
-            tiles[x, z].warFogEnabled = true;
-            foreach (Node n in graph[x, z].neighbours)
-            {
-                tiles[n.x, n.z].warFogEnabled = true;
-            }
-        }
-    }
+    //protected void RemoveGraphWarFog(int x, int z)
+    //{
+    //    tiles[x, z].warFogEnabled = false;
+    //    foreach (Node n in graph[x, z].neighbours)
+    //    {
+    //        tiles[n.x, n.z].warFogEnabled = false;
+    //    }
+    //}
+    //protected void SetGraphWarFog(int x, int z)
+    //{
+    //    if (globalWarfogEnabled)
+    //    {
+    //        tiles[x, z].warFogEnabled = true;
+    //        foreach (Node n in graph[x, z].neighbours)
+    //        {
+    //            tiles[n.x, n.z].warFogEnabled = true;
+    //        }
+    //    }
+    //}
 
     // If i decieding to keep instance, this dont need to be static,
     public static Vector3 ConvertTileCoordToWorld(int x, int z, int y = 0)
@@ -171,20 +171,8 @@ public class TileMap : MonoBehaviour
         return new Vector3(tileX, worldTile.y, tileZ);
     }
 
-    public List<Node> GeneratePathTo(int x, int z, int startX, int startZ)//GameObject unit = null
+    public List<Node> GeneratePathTo(int x, int z, int startX, int startZ)
     {
-        //if (unit == null)
-        //    unit = selectedUnit;
-        //Unit unitComp = unit.GetComponent<Unit>();
-
-        //unitComp.currentPath = null;
-
-        //if (UnitCanEnterTile(x, z) == false)
-        //{
-        //    return;
-        //}
-
-
         List<Node> unvisited = new List<Node>();
 
         Dictionary<Node, float> dist = new Dictionary<Node, float>();
@@ -252,6 +240,5 @@ public class TileMap : MonoBehaviour
             //using System.Linq;
         currentPath.Reverse();
         return currentPath;
-        //unitComp.SetDestanation(currentPath);
     }
 }

@@ -11,6 +11,8 @@ public class CreachureStats
     public int Health = 10;
     public int Damage = 1;
     public int Speed = 1;
+    public int VisionRange = 2;
+    public int ActionPoints = 3;
 
     //public CreachureStats()
     //{

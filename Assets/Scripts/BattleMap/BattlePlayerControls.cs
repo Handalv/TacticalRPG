@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class BattlePlayerControls : MonoBehaviour
 {
-    public GameObject playerUnit;
-
     BattleMap map;
     BattleController battleController;
 
@@ -33,7 +31,8 @@ public class BattlePlayerControls : MonoBehaviour
                         Tile hitTile = hit.collider.gameObject.GetComponent<Tile>();
                         if (hitTile != null)
                         {
-                            //map.GeneratePathTo(hitTile.tileX, hitTile.tileZ);
+                            BattleUnit selectedUnit = battleController.CurrentBattleOrder[0];
+                            selectedUnit.CurrentPath = map.GeneratePathTo(hitTile.tileX, hitTile.tileZ, selectedUnit.tileX, selectedUnit.tileZ);
                         }
                     }
                 }

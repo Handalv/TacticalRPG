@@ -102,7 +102,7 @@ public class GlobalMap : TileMap
             if (globalWarfogEnabled)
             {
                 foreach (Tile tile in tiles)
-                    RemoveGraphWarFog(tile.tileX, tile.tileZ);
+                    tile.warFogEnabled = false;
                 globalWarfogEnabled = false;
             }
             else
@@ -218,12 +218,11 @@ public class GlobalMap : TileMap
 
         MapObject unitMO = unit.GetComponent<MapObject>();
 
-        tiles[unitMO.tileX, unitMO.tileZ].mapObjects.Remove(unitMO);
-
         unit.transform.position = ConvertTileCoordToWorld(x, z);
-
         unitMO.tileX = x;
         unitMO.tileZ = z;
+
+        tiles[unitMO.tileX, unitMO.tileZ].mapObjects.Remove(unitMO);
         tiles[x, z].mapObjects.Add(unitMO);
 
         if (visibleObjects.Contains(unitMO))

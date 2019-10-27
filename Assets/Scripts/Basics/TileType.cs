@@ -9,4 +9,5 @@ public class TileType : ScriptableObject
     public Material material = null;
     public bool isWalkable = true;
     public float movementCost = 2f;
+    public int BattleMovementCost = 1;
 }

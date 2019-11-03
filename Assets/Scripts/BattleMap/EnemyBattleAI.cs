@@ -55,7 +55,7 @@ public class EnemyBattleAI : MonoBehaviour
                     return;
                 }
             }
-            UIBattleMap.instance.EndTurn();
+            BattleController.instance.EndTurn();
         }
     }
 
@@ -66,6 +66,6 @@ public class EnemyBattleAI : MonoBehaviour
             unit.Actions[0].Use(unit, CurrentTarget);
         }
         CurrentTarget = null;
-        UIBattleMap.instance.EndTurn();
+        BattleController.instance.EndTurn();
     }
 }

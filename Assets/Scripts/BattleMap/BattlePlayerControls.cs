@@ -6,6 +6,10 @@ public class BattlePlayerControls : MonoBehaviour
 {
     BattleMap map;
     BattleController battleController;
+    public BattleUnit selectedUnit;
+
+    public List<Node> CurrentPath = null;
+    //public BattleUnit target = null;
 
     void Start()
     {
@@ -16,27 +20,55 @@ public class BattlePlayerControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (BattleController.instance.isPlayerTurn)
+        if (battleController.isPlayerTurn)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Debug.DrawRay(transform.position, ray.direction);
-            RaycastHit[] hits;
-            if (true)//UNDONE CHECK BATTLE STATE TO MOVE
+            
+            if (Input.GetMouseButtonDown(0))
             {
-                if (Input.GetMouseButtonDown(0))
+                //TODO this should be in battleController
+                selectedUnit = battleController.CurrentBattleOrder[0];
+                RaycastHit[] hits = Physics.RaycastAll(ray); ;
+                Tile hitTile = null;
+                foreach (RaycastHit hit in hits)
                 {
-                    hits = Physics.RaycastAll(ray);
-                    foreach (RaycastHit hit in hits)
+                    hitTile = hit.collider.gameObject.GetComponent<Tile>();
+                    if (hitTile != null)
+                        break;
+                }
+                if (hitTile != null)
+                {
+                    if (CurrentPath != null && CurrentPath[CurrentPath.Count - 1] == map.graph[hitTile.tileX, hitTile.tileZ])
                     {
-                        Tile hitTile = hit.collider.gameObject.GetComponent<Tile>();
-                        if (hitTile != null)
-                        {
-                            BattleUnit selectedUnit = battleController.CurrentBattleOrder[0];
-                            selectedUnit.CurrentPath = map.GeneratePathTo(hitTile.tileX, hitTile.tileZ, selectedUnit.tileX, selectedUnit.tileZ);
-                        }
+                        MoveUnit();
+                    }
+                    else
+                    {
+                        CurrentPath = map.GeneratePathTo(hitTile.tileX, hitTile.tileZ, selectedUnit.tileX, selectedUnit.tileZ);
                     }
                 }
             }
         }
+    }
+
+    public void MoveUnit()
+    {
+        if (CurrentPath != null)
+        {
+            while (selectedUnit.CurrenActionpoints >= map.tiles[CurrentPath[0].x, CurrentPath[0].z].BattleMovementCost)
+            {
+                selectedUnit.CurrenActionpoints -= map.tiles[CurrentPath[0].x, CurrentPath[0].z].BattleMovementCost;
+                map.MoveUnit(CurrentPath[0].x, CurrentPath[0].z, selectedUnit.gameObject);
+
+                CurrentPath.RemoveAt(0);
+                if (CurrentPath.Count == 0)
+                {
+                    CurrentPath = null;
+                    return;
+                }
+            }
+        }
+        CurrentPath = null;
     }
 }

@@ -18,6 +18,9 @@ public class TileMap : MonoBehaviour
     public Tile[,] tiles;
     public Node[,] graph;
 
+    [SerializeField]
+    protected GameObject tileParent;
+
     protected void GeneratePathfindingGraph()
     {
         graph = new Node[mapSizeX, mapSizeZ];
@@ -71,13 +74,19 @@ public class TileMap : MonoBehaviour
 
     protected void InitializeTiles()
     {
+        if (tileParent == null)
+        {
+            tileParent = new GameObject("Tiles");
+            tileParent.transform.SetParent(transform);
+        }
+
         tiles = new Tile[mapSizeX, mapSizeZ];
         for (int x = 0; x < mapSizeX; x++)
             for (int z = 0; z < mapSizeZ; z++)
             {
                 GameObject tile = GameObject.Instantiate(Resources.Load("TILE")) as GameObject;
                 tile.transform.position = ConvertTileCoordToWorld(x, z);
-                tile.transform.parent = gameObject.transform;
+                tile.transform.SetParent(tileParent.transform);
 
                 Tile maptile = tile.GetComponent<Tile>();
                 maptile.tileX = x;
@@ -120,26 +129,6 @@ public class TileMap : MonoBehaviour
         }
     }
 
-    //protected void RemoveGraphWarFog(int x, int z)
-    //{
-    //    tiles[x, z].warFogEnabled = false;
-    //    foreach (Node n in graph[x, z].neighbours)
-    //    {
-    //        tiles[n.x, n.z].warFogEnabled = false;
-    //    }
-    //}
-    //protected void SetGraphWarFog(int x, int z)
-    //{
-    //    if (globalWarfogEnabled)
-    //    {
-    //        tiles[x, z].warFogEnabled = true;
-    //        foreach (Node n in graph[x, z].neighbours)
-    //        {
-    //            tiles[n.x, n.z].warFogEnabled = true;
-    //        }
-    //    }
-    //}
-
     // If i decieding to keep instance, this dont need to be static,
     public static Vector3 ConvertTileCoordToWorld(int x, int z, int y = 0)
     {
@@ -158,7 +147,7 @@ public class TileMap : MonoBehaviour
     public static Vector3 ConvertWorldCoordToTile(Vector3 worldTile)
     {
         float tileZ = (worldTile.z + 0.01f) / 1.55f;
-        float tileX = 0;
+        float tileX;
         if (worldTile.x % 1.8f == 0)
         {
             tileX = (worldTile.x + 0.01f) / 1.8f;
@@ -169,6 +158,11 @@ public class TileMap : MonoBehaviour
         }
 
         return new Vector3(tileX, worldTile.y, tileZ);
+    }
+
+    public virtual bool UnitCanEnterTile(int x,int z)
+    {
+        return tiles[x, z].isWalkable;
     }
 
     public List<Node> GeneratePathTo(int x, int z, int startX, int startZ)
@@ -184,6 +178,7 @@ public class TileMap : MonoBehaviour
 
         foreach (Node v in graph)
         {
+            
             if (v != source)
             {
                 dist[v] = Mathf.Infinity;
@@ -212,6 +207,9 @@ public class TileMap : MonoBehaviour
 
             foreach (Node v in u.neighbours)
             {
+                if (v != target && !UnitCanEnterTile(v.x, v.z))
+                        continue;
+
                 //float alt = dist[u] + u.DistanceTo(v);
                 float alt = dist[u] + tiles[v.x, v.z].movementCost;
                 if (alt < dist[v])

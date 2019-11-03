@@ -88,4 +88,13 @@ public class BattleMap : TileMap
             unitMO.SetGraphicActive(!tiles[x, z].warFogEnabled);
         }
     }
+    public override bool UnitCanEnterTile(int x, int z)
+    {
+        bool result = base.UnitCanEnterTile(x,z);
+
+        if (tiles[x, z].mapObjects.Count > 0) 
+            result = false;
+
+        return result;
+    }
 }

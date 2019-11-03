@@ -242,9 +242,12 @@ public class GlobalMap : TileMap
     void Engagement(int x, int z, GameObject unit, MapObject unitMO)
     {
         bool isPlayerEngagement = false;
-        Debug.Log("Engagement at " + x + " " + z + " is player - "+ isPlayerEngagement.ToString());
+        
         foreach (MapObject mapObject in tiles[x, z].mapObjects)
-            if (mapObject == selectedUnit.GetComponent<MapObject>()) isPlayerEngagement = true;
+            if (mapObject == selectedUnit.GetComponent<MapObject>()) 
+                isPlayerEngagement = true;
+
+        Debug.Log("Engagement at " + x + " " + z + " is player - " + isPlayerEngagement.ToString());
 
         foreach (MapObject mapObject in tiles[x, z].mapObjects)
         {
@@ -273,4 +276,11 @@ public class GlobalMap : TileMap
         }
     }
 
+    public new List<Node> GeneratePathTo(int x, int z, int startX, int startZ)
+    {
+        if (UnitCanEnterTile(x, z))
+            return base.GeneratePathTo(x, z, startX, startZ);
+        else
+            return null;
+    }
 }

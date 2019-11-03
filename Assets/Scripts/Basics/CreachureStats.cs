@@ -14,11 +14,6 @@ public class CreachureStats
     public int VisionRange = 2;
     public int ActionPoints = 3;
 
-    //public CreachureStats()
-    //{
-    //    //UNDONE костыль
-    //}
-
     public CreachureStats(int MaxHealth = 10, int Damage = 1, int Speed = 1)
     {
         this.MaxHealth = MaxHealth;

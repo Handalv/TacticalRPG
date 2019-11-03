@@ -120,20 +120,24 @@ public class BattleController : MonoBehaviour
         isPlayerTurn = PlayerBattleList.Contains(CurrentBattleOrder[0]);
     }
 
-    public void RemoveFromOrder()
+    public void RemoveFromOrder(int index = 0)
     {
-        CurrentBattleOrder[0].CurrentPath = null;
-        //Destroy(UIBattleMap.instance.BattleOrderPanel.transform.GetChild(0).gameObject);
-        CurrentBattleOrder.RemoveAt(0);
+        CurrentBattleOrder.RemoveAt(index);
         if (CurrentBattleOrder.Count == 0)
         {
             InitializeOrder();
             return;
         }
-        isPlayerTurn = PlayerBattleList.Contains(CurrentBattleOrder[0]);
-        if (isPlayerTurn)
-            UIBattleMap.instance.EndTurnButton.SetActive(true);
-        else
+        isPlayerTurn = PlayerBattleList.Contains(CurrentBattleOrder[index]);
+    }
+
+    public void EndTurn()
+    {
+        GameObject CurrentUnitIcon = UIBattleMap.instance.BattleOrderPanel.transform.GetChild(0).gameObject;
+        Destroy(CurrentUnitIcon);
+        RemoveFromOrder();
+        UIBattleMap.instance.EndTurnButton.SetActive(isPlayerTurn);
+        if(!isPlayerTurn)
             CurrentBattleOrder[0].gameObject.GetComponent<EnemyBattleAI>().StartTurn();
     }
 }

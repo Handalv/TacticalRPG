@@ -103,6 +103,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5781196465148413389}
   - component: {fileID: -4908693711069190861}
+  - component: {fileID: 6237073007829781022}
   m_Layer: 0
   m_Name: EnemyBattle
   m_TagString: Untagged
@@ -147,10 +148,29 @@ MonoBehaviour:
     title: 
     type: 0
     relations: 
-  unitStats:
+  UnitStats:
     icon: {fileID: 0}
     status: 0
     MaxHealth: 0
     Health: 0
     Damage: 0
     Speed: 0
+    VisionRange: 0
+    ActionPoints: 0
+  CurrenActionpoints: 0
+  Actions:
+  - {fileID: 11400000, guid: 89b7eac96aa7fcb4298d27baf455a89d, type: 2}
+--- !u!114 &6237073007829781022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2934691334514249080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88c9562a98bff03489d0fe2a39bdf0af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: {fileID: 0}
+  CurrentTarget: {fileID: 0}

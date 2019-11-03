@@ -23,8 +23,9 @@ public class UIBattleMap : MonoBehaviour
 
     public void EndTurn()
     {
+        EndTurnButton.SetActive(false);
+        Destroy(BattleOrderPanel.transform.GetChild(0).gameObject);
         BattleController.instance.RemoveFromOrder();
-        //EndTurnButton.SetActive(false);
     }
 
     public void EndBattle()

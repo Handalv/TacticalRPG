@@ -6,7 +6,6 @@ public class EnemyBattleAI : MonoBehaviour
 {
     BattleController controller;
     BattleMap map;
-// Public?
     public BattleUnit unit;
     public BattleUnit CurrentTarget;
     public List<Node> CurrentPath = null;
@@ -18,31 +17,55 @@ public class EnemyBattleAI : MonoBehaviour
         unit = gameObject.GetComponent<BattleUnit>();
     }
 
-    void Update()
+    public void StartTurn()
     {
-        if(controller.CurrentOrder[0]==unit)
+        //TODO do whole logic here, instred of Update
+        float minDistance = Mathf.Infinity;
+        foreach (BattleUnit target in controller.PlayerBattleList)
         {
-          float minDistance = Math.Infinity;
-            foreach(BattleUnit target in controller.PlayerUnits)
+            float distance = Vector3.Distance(transform.position, target.transform.position);
+            if (distance < minDistance)
             {
-                 float distance = transform.DostanceTo(target.transfom);
-                 if(distance<minDistance)
-                 {
-                  minDistance = distance;
-                  CurrentTarget = target;
-                 }
-            }
-             CurrentPath = map.GeneratePathfindTo(CurrentTarget.tileX, CurrentTarget.tileZ, unit.tileX, unit.tileZ);
-             CurrentPath.RemoveAt(CurrentPath.Count-1);
-        }
-        if(CurrentPath!=null)
-        {
-            while(unit.ActionPoints >= map.tiles[CurrentPath[0].x,CurrentPath[0].z].BattleMovementCost)
-            {
-             map.MoveUnit(CurrentPath[0].x,CurrentPath[0].z, unit);
-             CurrentPath.RemoveAt(0);
-             unit.ActionPoints - map.tiles[CurrentPath[0].x,CurrentPath[0].z].BattleMovementCost;
+                minDistance = distance;
+                CurrentTarget = target;
             }
         }
+        CurrentPath = map.GeneratePathTo(CurrentTarget.tileX, CurrentTarget.tileZ, unit.tileX, unit.tileZ);
+
+        // Remove target unit to stop movement right in front of him
+        CurrentPath.RemoveAt(CurrentPath.Count - 1);
+        //TODO remove tiles counting on attack range
+        if (CurrentPath.Count == 0)
+        {
+            Attack();
+            CurrentPath = null;
+        }
+        if (CurrentPath != null)
+        {
+            while (unit.CurrenActionpoints >= map.tiles[CurrentPath[0].x, CurrentPath[0].z].BattleMovementCost)
+            {
+                unit.CurrenActionpoints -= map.tiles[CurrentPath[0].x, CurrentPath[0].z].BattleMovementCost;
+                map.MoveUnit(CurrentPath[0].x, CurrentPath[0].z, unit.gameObject);
+
+                CurrentPath.RemoveAt(0);
+                if (CurrentPath.Count == 0)
+                {
+                    CurrentPath = null;
+                    Attack();
+                    return;
+                }
+            }
+            UIBattleMap.instance.EndTurn();
+        }
+    }
+
+    public void Attack()
+    {
+        while (unit.Actions[0].Cost <= unit.CurrenActionpoints)
+        {
+            unit.Actions[0].Use(unit, CurrentTarget);
+        }
+        CurrentTarget = null;
+        UIBattleMap.instance.EndTurn();
     }
 }

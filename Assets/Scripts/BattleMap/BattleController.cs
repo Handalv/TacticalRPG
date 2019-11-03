@@ -123,13 +123,17 @@ public class BattleController : MonoBehaviour
     public void RemoveFromOrder()
     {
         CurrentBattleOrder[0].CurrentPath = null;
+        //Destroy(UIBattleMap.instance.BattleOrderPanel.transform.GetChild(0).gameObject);
         CurrentBattleOrder.RemoveAt(0);
-        Destroy(UIBattleMap.instance.BattleOrderPanel.transform.GetChild(0).gameObject);
         if (CurrentBattleOrder.Count == 0)
         {
             InitializeOrder();
             return;
         }
         isPlayerTurn = PlayerBattleList.Contains(CurrentBattleOrder[0]);
+        if (isPlayerTurn)
+            UIBattleMap.instance.EndTurnButton.SetActive(true);
+        else
+            CurrentBattleOrder[0].gameObject.GetComponent<EnemyBattleAI>().StartTurn();
     }
 }

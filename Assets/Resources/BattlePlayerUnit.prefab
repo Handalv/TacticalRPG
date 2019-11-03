@@ -54,13 +54,18 @@ MonoBehaviour:
     title: 
     type: 0
     relations: 
-  unitStats:
+  UnitStats:
     icon: {fileID: 0}
     status: 0
     MaxHealth: 0
     Health: 0
     Damage: 0
     Speed: 0
+    VisionRange: 0
+    ActionPoints: 0
+  CurrenActionpoints: 0
+  Actions:
+  - {fileID: 11400000, guid: 89b7eac96aa7fcb4298d27baf455a89d, type: 2}
 --- !u!1 &4740337645990737367
 GameObject:
   m_ObjectHideFlags: 0

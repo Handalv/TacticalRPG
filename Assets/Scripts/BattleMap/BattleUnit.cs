@@ -7,6 +7,9 @@ public class BattleUnit : MapObject
     public CreachureStats UnitStats;
 
     public int CurrenActionpoints;
+
+    public List<BattleAction> Actions;
+
     public List<Node> CurrentPath = null;
 
     void Update()

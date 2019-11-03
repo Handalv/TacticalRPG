@@ -18,24 +18,20 @@ public class BattleAction : ScriptableObject
     public int Cost;
     public List<BattleAction> AdditionalActions;
 
-    public void Use(CreachureStats user, CreachureStats target)
+    public void Use(BattleUnit user, BattleUnit target)
     {
-        // if (user.ActionPoints-Cost >= 0)
-
         float value = 0;
 
         for(int i = 0; i < Modifires.Count; i++)
         {
-            value += (GetStatValue(user, Modifires[i]) * ModifyScale[i]);
+            value += (GetStatValue(user.UnitStats, Modifires[i]) * ModifyScale[i]);
         }
 
         if (isTargetEnemy)
             value *= -1;
 
-        SetStatValue(target, TargetStat, (int)value);
-
-        // user.ActionPoints -= Cost;
-
+        SetStatValue(target.UnitStats, TargetStat, (int)value);
+        user.CurrenActionpoints -= Cost;
     }
 
     int GetStatValue(CreachureStats unit, UnitStat stat)
@@ -51,15 +47,15 @@ public class BattleAction : ScriptableObject
         }
     }
 
-    void SetStatValue(CreachureStats unit, UnitStat stat, int value)
+    void SetStatValue(CreachureStats targetUnit, UnitStat targetStat, int value)
     {
-        switch (stat)
+        switch (targetStat)
         {
             case UnitStat.Health:
-                unit.Health += value;
+                targetUnit.Health += value;
                 break;
             case UnitStat.Damage:
-                unit.Damage += value;
+                targetUnit.Damage += value;
                 break;
         }
     }

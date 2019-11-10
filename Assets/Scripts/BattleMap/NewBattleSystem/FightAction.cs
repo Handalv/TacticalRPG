@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 [Serializable]
-public abstract class FightAction : ScriptableObject
+public /*abstract*/ class FightAction : ScriptableObject
 {
     public Sprite icon;
     public List<BattleUnit> Validtargets = null;
@@ -13,16 +13,16 @@ public abstract class FightAction : ScriptableObject
 
     public bool isTargetsFriendly = false;
 
-    public abstract void Use(BattleUnit user, BattleUnit target);
+    public virtual void Use(BattleUnit user, BattleUnit target) { }
 
     // return List of avaliable targets
-    public abstract void CheckValidTargets(BattleUnit user, List<BattleUnit> skillTargets);
+    public virtual void CheckValidTargets(BattleUnit user, List<BattleUnit> skillTargets) { }
 }
 
 [CreateAssetMenu(fileName = "New Attack", menuName = "BattleActions/Attack")]
 public class Attack : FightAction
 {
-    public int Damage;
+    //public int Damage;
     public Attack()
     {
         isTargetsFriendly = false;

@@ -20,6 +20,17 @@ public class BattlePlayerControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (CurrentPath != null)
+        {
+            int currNode = 0;
+            while (currNode < CurrentPath.Count - 1)
+            {
+                Vector3 start = TileMap.ConvertTileCoordToWorld(CurrentPath[currNode].x, CurrentPath[currNode].z) + new Vector3(0, 0.5f, 0);
+                Vector3 end = TileMap.ConvertTileCoordToWorld(CurrentPath[currNode + 1].x, CurrentPath[currNode + 1].z) + new Vector3(0, 0.5f, 0);
+                Debug.DrawLine(start, end, Color.cyan);
+                currNode++;
+            }
+        }
         if (battleController.isPlayerTurn)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

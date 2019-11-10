@@ -144,6 +144,6 @@ public class BattleController : MonoBehaviour
     IEnumerator EnemyturnCD()
     {
         yield return new WaitForSeconds(0.1f);
-        CurrentBattleOrder[0].gameObject.GetComponent<EnemyBattleAI>().StartTurn();
+        CurrentBattleOrder[0].gameObject.GetComponent<EnemyMeleeAI>().StartTurn();
     }
 }

@@ -103,7 +103,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5781196465148413389}
   - component: {fileID: -4908693711069190861}
-  - component: {fileID: 6237073007829781022}
+  - component: {fileID: -3742913409817015090}
   m_Layer: 0
   m_Name: EnemyBattle
   m_TagString: Untagged
@@ -156,11 +156,11 @@ MonoBehaviour:
     Damage: 0
     Speed: 0
     VisionRange: 0
-    ActionPoints: 0
+    ActionPoints: 10
   CurrenActionpoints: 0
   Actions:
   - {fileID: 11400000, guid: 78110c13e5f85544ca469bfdd73b72b2, type: 2}
---- !u!114 &6237073007829781022
+--- !u!114 &-3742913409817015090
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2934691334514249080}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88c9562a98bff03489d0fe2a39bdf0af, type: 3}
+  m_Script: {fileID: 11500000, guid: d598164e076900e4384cae7bfc849921, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 0}

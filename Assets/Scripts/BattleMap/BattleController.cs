@@ -137,7 +137,13 @@ public class BattleController : MonoBehaviour
         Destroy(CurrentUnitIcon);
         RemoveFromOrder();
         UIBattleMap.instance.EndTurnButton.SetActive(isPlayerTurn);
-        if(!isPlayerTurn)
-            CurrentBattleOrder[0].gameObject.GetComponent<EnemyBattleAI>().StartTurn();
+        if (!isPlayerTurn)
+            StartCoroutine(EnemyturnCD());
+    }
+
+    IEnumerator EnemyturnCD()
+    {
+        yield return new WaitForSeconds(0.1f);
+        CurrentBattleOrder[0].gameObject.GetComponent<EnemyBattleAI>().StartTurn();
     }
 }

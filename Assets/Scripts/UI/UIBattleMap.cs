@@ -23,7 +23,7 @@ public class UIBattleMap : MonoBehaviour
 
     public void EndTurn()
     {
-        EndTurnButton.SetActive(false);
+        //EndTurnButton.SetActive(false);
         BattleController.instance.EndTurn();
     }
 

@@ -65,7 +65,7 @@ MonoBehaviour:
     ActionPoints: 0
   CurrenActionpoints: 0
   Actions:
-  - {fileID: 11400000, guid: 89b7eac96aa7fcb4298d27baf455a89d, type: 2}
+  - {fileID: 11400000, guid: 78110c13e5f85544ca469bfdd73b72b2, type: 2}
 --- !u!1 &4740337645990737367
 GameObject:
   m_ObjectHideFlags: 0

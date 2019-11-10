@@ -1,15 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public abstract class FightAction
+[Serializable]
+public abstract class FightAction : ScriptableObject
 {
     public Sprite icon;
     public List<BattleUnit> Validtargets = null;
     public int Range;
     public int Cost;
 
-    //public bool isPlayerSide;
+    public bool isTargetsFriendly = false;
 
     public abstract void Use(BattleUnit user, BattleUnit target);
 
@@ -17,9 +19,15 @@ public abstract class FightAction
     public abstract void CheckValidTargets(BattleUnit user, List<BattleUnit> skillTargets);
 }
 
+[CreateAssetMenu(fileName = "New Attack", menuName = "BattleActions/Attack")]
 public class Attack : FightAction
 {
     public int Damage;
+    public Attack()
+    {
+        isTargetsFriendly = false;
+    }
+  
     public override void Use(BattleUnit user, BattleUnit target)
     {
         if (!Validtargets.Contains(target))

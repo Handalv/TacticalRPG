@@ -8,6 +8,8 @@ public class UIBattleMap : MonoBehaviour
 {
     public GameObject EndTurnButton;
     public GameObject BattleOrderPanel;
+    public GameObject UnitSkillPanel;
+    public List<GameObject> SkillList = null;
 
     public static UIBattleMap instance;
     void Awake()
@@ -23,7 +25,9 @@ public class UIBattleMap : MonoBehaviour
 
     public void EndTurn()
     {
-        //EndTurnButton.SetActive(false);
+        SkillList.Clear();
+        BattlePlayerControls.instance.CurrentPath = null;
+        BattlePlayerControls.instance.selectedUnit = null;
         BattleController.instance.EndTurn();
     }
 

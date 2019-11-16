@@ -16,37 +16,35 @@ public /*abstract*/ class FightAction : ScriptableObject
     public virtual void Use(BattleUnit user, BattleUnit target) { }
 
     // return List of avaliable targets
-    public virtual void CheckValidTargets(BattleUnit user, List<BattleUnit> skillTargets) { }
-}
-
-[CreateAssetMenu(fileName = "New Attack", menuName = "BattleActions/Attack")]
-public class Attack : FightAction
-{
-    //public int Damage;
-    public Attack()
+    public virtual void CheckValidTargets(BattleUnit user, List<BattleUnit> skillTargets = null)
     {
-        isTargetsFriendly = false;
-    }
-  
-    public override void Use(BattleUnit user, BattleUnit target)
-    {
-        if (!Validtargets.Contains(target))
-        {
-            Debug.Log("Invalid target");
-            return;
-        }
-
-        target.UnitStats.Health -= user.UnitStats.Damage;
-    }
-
-    public override void CheckValidTargets(BattleUnit user, List<BattleUnit> skillTargets)
-    {
+        Debug.Log("Base valid target");
         Validtargets = null;
-
-        foreach(BattleUnit target in skillTargets)
+        if (skillTargets == null)
         {
-            if (BattleMap.instance.GeneratePathTo(target.tileX, target.tileZ, user.tileX, user.tileZ).Count <= Range)
-                Validtargets.Add(target);
+            bool isPlayerUser = BattleController.instance.PlayerBattleList.Contains(user);
+            if (isPlayerUser)
+            {
+                if (isTargetsFriendly)
+                {
+                    Validtargets = BattleController.instance.PlayerBattleList;
+                }
+                else
+                {
+                    Validtargets = BattleController.instance.EnemyBattleList;
+                }
+            }
+            else
+            {
+                if (isTargetsFriendly)
+                {
+                    Validtargets = BattleController.instance.EnemyBattleList;
+                }
+                else
+                {
+                    Validtargets = BattleController.instance.PlayerBattleList;
+                }
+            }
         }
     }
 }

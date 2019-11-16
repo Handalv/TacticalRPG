@@ -6,8 +6,58 @@ public class BattleUnit : MapObject
 {
     public CreachureStats UnitStats;
 
-    public int CurrenActionpoints;
+    public int UnitHP
+    {
+        get
+        {
+            return UnitStats.Health;
+        }
+        set
+        {
+            UnitStats.Health = value;
+            if (UnitStats.Health <= 0)
+            {
+                UnitStats.Health = 0;
+                Die();
+            }
+        }
+    }
 
-    //public List<BattleAction> Actions;
+    //[HideInInspector]
+    public int CurrenActionpoints;
     public List<FightAction> Actions;
+
+    void Die()
+    {
+        BattleController battleController = BattleController.instance;
+
+
+        battleController.BattleOrder.Remove(this);
+        if (battleController.CurrentBattleOrder.IndexOf(this) >= 0)
+        {
+            battleController.RemoveFromOrder(battleController.CurrentBattleOrder.IndexOf(this));
+        }
+
+        if (battleController.PlayerBattleList.IndexOf(this) >= 0)
+        {
+            battleController.PlayerBattleList.Remove(this);
+            if (battleController.PlayerBattleList.Count == 0)
+            {
+                Debug.Log("Defeat");
+            }
+        }
+        if (battleController.EnemyBattleList.IndexOf(this) >= 0)
+        {
+            battleController.EnemyBattleList.Remove(this);
+            if (battleController.EnemyBattleList.Count == 0)
+            {
+                Debug.Log("Victory");
+            }
+        }
+
+        BattleMap.instance.tiles[tileX, tileZ].mapObjects.Remove(this);
+        BattleMap.instance.visibleObjects.Remove(this);
+
+        Destroy(this.gameObject);
+    }
 }

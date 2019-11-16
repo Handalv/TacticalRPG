@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f762d958aaa66647a86cef6d306e0b4, type: 3}
-  m_Name: MeleeAttack
+  m_Name: New BattleAction
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: a32a3efdc13227f4487654b012e278fd, type: 3}
-  isTargetEnemy: 1
+  icon: {fileID: 0}
+  isTargetEnemy: 0
   TargetStat: 0
-  Modifires: 01000000
-  ModifyScale:
-  - 1
-  Range: 1
+  Modifires: 
+  ModifyScale: []
+  Range: 0
   Visual: {fileID: 0}
-  Cost: 4
+  Cost: 0
   AdditionalActions: []

@@ -11,6 +11,18 @@ public class BattlePlayerControls : MonoBehaviour
     public List<Node> CurrentPath = null;
     //public BattleUnit target = null;
 
+    public static BattlePlayerControls instance;
+    void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+        {
+            Debug.Log("More than 1 instance " + this.GetType().ToString());
+            Destroy(this);
+        }
+    }
+
     void Start()
     {
         map = BattleMap.instance;

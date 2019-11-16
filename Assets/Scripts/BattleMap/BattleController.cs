@@ -14,6 +14,7 @@ public class BattleController : MonoBehaviour
     public List<BattleUnit> PlayerBattleList = null;
 
     UnitList playerUnits;
+    [HideInInspector]
     public BattleMap map;
 
     public static BattleController instance;
@@ -62,6 +63,9 @@ public class BattleController : MonoBehaviour
 
     public void SpawnEnemyUnits()
     {
+        //TEST
+        int index = 0;
+
         int offsetX = (map.mapSizeX / 2) + (map.mapSizeX / 4);
         int x = 0;
         int z = 0;
@@ -69,6 +73,9 @@ public class BattleController : MonoBehaviour
         {
             CreachureStats creachure = new CreachureStats(preset); 
             GameObject spawned = GameObject.Instantiate(Resources.Load("EnemyBattle")) as GameObject;
+
+            spawned.name = "Enemy " + index;
+            index++;
 
             BattleUnit battleUnit = spawned.GetComponent<BattleUnit>();
             EnemyBattleList.Add(battleUnit);
@@ -123,22 +130,42 @@ public class BattleController : MonoBehaviour
     public void RemoveFromOrder(int index = 0)
     {
         CurrentBattleOrder.RemoveAt(index);
+        GameObject CurrentUnitIcon = UIBattleMap.instance.BattleOrderPanel.transform.GetChild(index).gameObject;
+        Destroy(CurrentUnitIcon);
         if (CurrentBattleOrder.Count == 0)
         {
             InitializeOrder();
             return;
         }
-        isPlayerTurn = PlayerBattleList.Contains(CurrentBattleOrder[index]);
     }
 
     public void EndTurn()
     {
-        GameObject CurrentUnitIcon = UIBattleMap.instance.BattleOrderPanel.transform.GetChild(0).gameObject;
-        Destroy(CurrentUnitIcon);
         RemoveFromOrder();
+
+        isPlayerTurn = PlayerBattleList.Contains(CurrentBattleOrder[0]);
+
         UIBattleMap.instance.EndTurnButton.SetActive(isPlayerTurn);
         if (!isPlayerTurn)
+        {
             StartCoroutine(EnemyturnCD());
+        }
+        else
+        {
+            //TODO Move it into UI script
+            foreach (FightAction action in CurrentBattleOrder[0].Actions)
+            {
+                GameObject go = Instantiate(Resources.Load("SkillButton"),UIBattleMap.instance.UnitSkillPanel.transform) as GameObject;
+                UIBattleMap.instance.SkillList.Add(go);
+
+                BattleSkillButton bsb = go.GetComponent<BattleSkillButton>();
+                bsb.CostText.text = ""+action.Cost;
+                bsb.Icon.sprite = action.icon;
+                bsb.action = action;
+                bsb.unit = CurrentBattleOrder[0];
+                UIBattleMap.instance.SkillList.Add(go);
+            }
+        }
     }
 
     IEnumerator EnemyturnCD()

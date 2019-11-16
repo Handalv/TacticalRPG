@@ -23,10 +23,20 @@ public class EnemyMeleeAI : MonoBehaviour
         CurrentPath = null;
 
         FindClosestTarget();
+
+        //TODO What the hell
+        if(CurrentPath == null)
+        {
+            BattleController.instance.EndTurn();
+            return;
+        }
+
         CurrentPath.RemoveAt(CurrentPath.Count - 1);
 
         MoveToTarget();
         Attack();
+        CurrentPath = null;
+        CurrentTarget = null;
         BattleController.instance.EndTurn();
     }
 
@@ -74,6 +84,7 @@ public class EnemyMeleeAI : MonoBehaviour
         {
             if (unit.CurrenActionpoints >= unit.Actions[0].Cost)
             {
+                unit.CurrenActionpoints -= unit.Actions[0].Cost;
                 unit.Actions[0].Use(unit, CurrentTarget);
                 Attack();
             }

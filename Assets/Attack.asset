@@ -9,12 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 3a1fd85d8f6ca6443ac06870c991ceb5, type: 3}
   m_Name: Attack
-  m_EditorClassIdentifier: Assembly-CSharp::Attack
-  icon: {fileID: 0}
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: a32a3efdc13227f4487654b012e278fd, type: 3}
   Validtargets: []
   Range: 1
-  Cost: 2
+  Cost: 1
   isTargetsFriendly: 0
-  Damage: 3

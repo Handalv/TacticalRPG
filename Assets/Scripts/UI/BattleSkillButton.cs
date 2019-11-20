@@ -20,6 +20,22 @@ public class BattleSkillButton : MonoBehaviour
             //UNDONE
             //action.Use(unit,unit);
             action.CheckValidTargets(unit);
+            HighlightValidTargets();
+        }
+    }
+
+    public void HighlightValidTargets()
+    {
+        Debug.Log(""+action.Validtargets.Count);
+        Color color = Color.red;
+        if (action.isTargetsFriendly)
+        {
+            color = Color.green;
+        }
+        foreach (BattleUnit target in action.Validtargets) 
+        {
+            BattleMap.instance.tiles[target.tileX, target.tileZ].GFX.GetComponent<MeshRenderer>().material.color = color;
+            BattleMap.instance.tiles[target.tileX, target.tileZ].warFogEnabled = true;
         }
     }
 }

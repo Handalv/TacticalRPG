@@ -30,13 +30,16 @@ public class Attack : FightAction
         Debug.Log("Attack valid target");
         if(skillTargets==null)
         {
-            skillTargets = Validtargets;
-            Validtargets = null;
+            skillTargets = new List<BattleUnit>(Validtargets);
+            //Validtargets = null;
         }
+        Validtargets = new List<BattleUnit>();
         foreach (BattleUnit target in skillTargets)
         {
-            if (BattleMap.instance.GeneratePathTo(target.tileX, target.tileZ, user.tileX, user.tileZ).Count <= Range)
+            if (BattleMap.instance.GeneratePathTo(target.tileX, target.tileZ, user.tileX, user.tileZ).Count - 1 <= Range)
+            {
                 Validtargets.Add(target);
+            }
         }
     }
 }

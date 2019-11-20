@@ -26,6 +26,10 @@ public class UIBattleMap : MonoBehaviour
     public void EndTurn()
     {
         SkillList.Clear();
+        for (int i = UnitSkillPanel.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(UnitSkillPanel.transform.GetChild(i).gameObject);
+        }
         BattlePlayerControls.instance.CurrentPath = null;
         BattlePlayerControls.instance.selectedUnit = null;
         BattleController.instance.EndTurn();

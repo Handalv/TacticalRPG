@@ -27,22 +27,22 @@ public /*abstract*/ class FightAction : ScriptableObject
             {
                 if (isTargetsFriendly)
                 {
-                    Validtargets = BattleController.instance.PlayerBattleList;
+                    Validtargets = new List<BattleUnit>(BattleController.instance.PlayerBattleList);
                 }
                 else
                 {
-                    Validtargets = BattleController.instance.EnemyBattleList;
+                    Validtargets = new List<BattleUnit>(BattleController.instance.EnemyBattleList);
                 }
             }
             else
             {
                 if (isTargetsFriendly)
                 {
-                    Validtargets = BattleController.instance.EnemyBattleList;
+                    Validtargets = new List<BattleUnit>(BattleController.instance.EnemyBattleList);
                 }
                 else
                 {
-                    Validtargets = BattleController.instance.PlayerBattleList;
+                    Validtargets = new List<BattleUnit>(BattleController.instance.PlayerBattleList);
                 }
             }
         }

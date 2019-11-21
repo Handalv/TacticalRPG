@@ -102,7 +102,7 @@ public class GlobalMap : TileMap
             if (globalWarfogEnabled)
             {
                 foreach (Tile tile in tiles)
-                    tile.warFogEnabled = false;
+                    tile.WarFogEnabled = false;
                 globalWarfogEnabled = false;
             }
             else
@@ -161,7 +161,7 @@ public class GlobalMap : TileMap
 
             go.transform.position = GlobalMap.ConvertTileCoordToWorld(X, Z);
             tile.mapObjects.Add(mapObject);
-            if (tile.warFogEnabled)
+            if (tile.WarFogEnabled)
                 mapObject.SetGraphicActive(false);
         }
         //generate 2 citys
@@ -185,7 +185,7 @@ public class GlobalMap : TileMap
 
             go.transform.position = GlobalMap.ConvertTileCoordToWorld(X, Z);
             tile.mapObjects.Add(mapObject);
-            if (tile.warFogEnabled)
+            if (tile.WarFogEnabled)
                 mapObject.SetGraphicActive(false);
         }
         //END
@@ -231,7 +231,7 @@ public class GlobalMap : TileMap
         }
         else
         {
-            unitMO.SetGraphicActive(!tiles[x, z].warFogEnabled);
+            unitMO.SetGraphicActive(!tiles[x, z].WarFogEnabled);
         }
         if (tiles[x, z].mapObjects.Count > 1)
         {

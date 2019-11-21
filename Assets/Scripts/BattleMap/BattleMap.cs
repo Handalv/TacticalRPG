@@ -47,7 +47,7 @@ public class BattleMap : TileMap
             if (globalWarfogEnabled)
             {
                 foreach (Tile tile in tiles)
-                    tile.warFogEnabled = false;
+                    tile.WarFogEnabled = false;
                 globalWarfogEnabled = false;
             }
             else
@@ -85,7 +85,7 @@ public class BattleMap : TileMap
         }
         else
         {
-            unitMO.SetGraphicActive(!tiles[x, z].warFogEnabled);
+            unitMO.SetGraphicActive(!tiles[x, z].WarFogEnabled);
         }
     }
     public override bool UnitCanEnterTile(int x, int z)

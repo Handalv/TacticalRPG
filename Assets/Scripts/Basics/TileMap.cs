@@ -92,7 +92,7 @@ public class TileMap : MonoBehaviour
                 maptile.tileX = x;
                 maptile.tileZ = z;
                 maptile.map = this;
-                maptile.warFogEnabled = true;
+                maptile.WarFogEnabled = true;
                 tiles[x, z] = maptile;
             }
     }
@@ -102,7 +102,7 @@ public class TileMap : MonoBehaviour
         if (globalWarfogEnabled)
         {
             foreach (Tile tile in tiles)
-                tile.warFogEnabled = true;
+                tile.WarFogEnabled = true;
 
             List<Tile> visibleTiles;
             foreach (MapObject mapObject in visibleObjects)
@@ -123,7 +123,7 @@ public class TileMap : MonoBehaviour
                 }
                 foreach (Tile tile in visibleTiles)
                 {
-                    tile.warFogEnabled = false;
+                    tile.WarFogEnabled = false;
                 }
             }
         }

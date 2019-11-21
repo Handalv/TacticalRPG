@@ -17,8 +17,8 @@ public class BattleSkillButton : MonoBehaviour
     {
         if (isEnabled)
         {
-            //UNDONE
-            //action.Use(unit,unit);
+            BattlePlayerControls.instance.isUsingSkill = true;
+            BattlePlayerControls.instance.UsingSkill = action;
             action.CheckValidTargets(unit);
             HighlightValidTargets();
         }
@@ -32,10 +32,11 @@ public class BattleSkillButton : MonoBehaviour
         {
             color = Color.green;
         }
+
+        color.a = 0.3f;
         foreach (BattleUnit target in action.Validtargets) 
         {
-            BattleMap.instance.tiles[target.tileX, target.tileZ].GFX.GetComponent<MeshRenderer>().material.color = color;
-            BattleMap.instance.tiles[target.tileX, target.tileZ].warFogEnabled = true;
+            BattleMap.instance.tiles[target.tileX, target.tileZ].HighlightEnable(color);
         }
     }
 }

@@ -11,6 +11,9 @@ public class BattlePlayerControls : MonoBehaviour
     public List<Node> CurrentPath = null;
     //public BattleUnit target = null;
 
+    public bool isUsingSkill = false;
+    public FightAction UsingSkill;
+
     public static BattlePlayerControls instance;
     void Awake()
     {
@@ -47,32 +50,76 @@ public class BattlePlayerControls : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Debug.DrawRay(transform.position, ray.direction);
-            
-            if (Input.GetMouseButtonDown(0))
+
+            if (isUsingSkill == false)
             {
-                //TODO this should be in battleController
-                selectedUnit = battleController.CurrentBattleOrder[0];
-                RaycastHit[] hits = Physics.RaycastAll(ray); ;
-                Tile hitTile = null;
-                foreach (RaycastHit hit in hits)
+                if (Input.GetMouseButtonDown(0))
                 {
-                    hitTile = hit.collider.gameObject.GetComponent<Tile>();
-                    if (hitTile != null)
-                        break;
-                }
-                if (hitTile != null)
-                {
-                    if (CurrentPath != null && CurrentPath[CurrentPath.Count - 1] == map.graph[hitTile.tileX, hitTile.tileZ])
+                    RaycastHit[] hits = Physics.RaycastAll(ray); ;
+                    Tile hitTile = null;
+                    foreach (RaycastHit hit in hits)
                     {
-                        MoveUnit();
+                        hitTile = hit.collider.gameObject.GetComponent<Tile>();
+                        if (hitTile != null)
+                            break;
                     }
-                    else
+                    if (hitTile != null)
                     {
-                        CurrentPath = map.GeneratePathTo(hitTile.tileX, hitTile.tileZ, selectedUnit.tileX, selectedUnit.tileZ);
+                        if (CurrentPath != null && CurrentPath[CurrentPath.Count - 1] == map.graph[hitTile.tileX, hitTile.tileZ])
+                        {
+                            MoveUnit();
+                        }
+                        else
+                        {
+                            CurrentPath = map.GeneratePathTo(hitTile.tileX, hitTile.tileZ, selectedUnit.tileX, selectedUnit.tileZ);
+                        }
                     }
                 }
             }
+            else
+            {
+                if (Input.GetMouseButtonDown(1))
+                {
+                    StopUsingSkill();
+                }
+                if (Input.GetMouseButtonDown(0))
+                {
+                    RaycastHit[] hits = Physics.RaycastAll(ray); ;
+                    Tile hitTile = null;
+                    foreach (RaycastHit hit in hits)
+                    {
+                        hitTile = hit.collider.gameObject.GetComponent<Tile>();
+                        if (hitTile != null)
+                            break;
+                    }
+                    if (hitTile != null)
+                    {
+                        foreach(BattleUnit unit in hitTile.mapObjects)
+                        {
+                            if (UsingSkill.Validtargets.Contains(unit))
+                            {
+                                selectedUnit.CurrenActionpoints -= UsingSkill.Cost;
+                                UsingSkill.Use(selectedUnit, unit);
+                                StopUsingSkill();
+                                break;
+                            }
+                        }
+                    }
+                    
+                }
+            }
         }
+    }
+
+    void StopUsingSkill()
+    {
+        foreach (BattleUnit unit in UsingSkill.Validtargets)
+        {
+            BattleMap.instance.tiles[unit.tileX, unit.tileZ].HighlightDisable();
+        }
+        UsingSkill.Validtargets.Clear();
+        UsingSkill = null;
+        isUsingSkill = false;
     }
 
     public void MoveUnit()

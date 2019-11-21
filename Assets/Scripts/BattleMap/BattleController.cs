@@ -152,6 +152,7 @@ public class BattleController : MonoBehaviour
         }
         else
         {
+            BattlePlayerControls.instance.selectedUnit = CurrentBattleOrder[0];
             //TODO Move it into UI script
             foreach (FightAction action in CurrentBattleOrder[0].Actions)
             {

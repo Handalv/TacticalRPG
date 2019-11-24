@@ -40,6 +40,7 @@ public class SaveManager : MonoBehaviour
 
     public void BattleResultSave()
     {
+        save.SavePlayerUnits();
         save.PlayerGold += 20;
         SaveSystem.Save(SaveName, save);
     }

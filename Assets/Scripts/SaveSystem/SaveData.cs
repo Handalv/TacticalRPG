@@ -31,7 +31,7 @@ public class SaveData
     public int PlayerX;
     public int PlayerZ;
 
-    //Data for every MapObject.
+    //Data for MapObjects.
     public List<int> MapObjectX;
     public List<int> MapObjectZ;
     public List<string> PrefabName;
@@ -93,20 +93,23 @@ public class SaveData
         }
 
         // player's UnitList
+        SavePlayerUnits(unitList);
+    }
+
+    public void SavePlayerUnits(UnitList unitList = null)
+    {
+        if(unitList == null)
+        {
+            unitList = UnitList.instance;
+        }
+
         int index = 0;
-        foreach(CreachureStats unit in unitList.units)
+        foreach (CreachureStats unit in unitList.units)
         {
             UnitHealth.Add(unit.MaxHealth);
             UnitDamage.Add(unit.Damage);
             UnitSpeed.Add(unit.Speed);
-            if (unit.icon != null)
-            {
-                UnitIconName.Add(unit.icon.name);
-            }
-            else
-            {
-                UnitIconName.Add("Missing");
-            }
+            UnitIconName.Add(unit.icon.name);
             UnitIsOnBattleField.Add(unitList.isOnBattleField[index]);
             UnitBattleIndex.Add(unitList.BattleFieldIndex[index]);
             UnitStatus.Add((int)unit.status);

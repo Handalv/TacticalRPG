@@ -17,7 +17,6 @@ public class BattleUnit : MapObject
             UnitStats.Health = value;
             if (UnitStats.Health <= 0)
             {
-                UnitStats.Health = 0;
                 Die();
             }
         }
@@ -43,7 +42,7 @@ public class BattleUnit : MapObject
             battleController.PlayerBattleList.Remove(this);
             if (battleController.PlayerBattleList.Count == 0)
             {
-                Debug.Log("Defeat");
+                battleController.Defeat();
             }
         }
         if (battleController.EnemyBattleList.IndexOf(this) >= 0)
@@ -51,12 +50,16 @@ public class BattleUnit : MapObject
             battleController.EnemyBattleList.Remove(this);
             if (battleController.EnemyBattleList.Count == 0)
             {
-                Debug.Log("Victory");
+                battleController.Victory();
             }
         }
 
         BattleMap.instance.tiles[tileX, tileZ].mapObjects.Remove(this);
-        BattleMap.instance.visibleObjects.Remove(this);
+
+        if (BattleMap.instance.visibleObjects.Contains(this))
+        {
+            BattleMap.instance.visibleObjects.Remove(this);
+        }
 
         Destroy(this.gameObject);
     }

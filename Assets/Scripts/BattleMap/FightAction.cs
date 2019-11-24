@@ -18,7 +18,6 @@ public /*abstract*/ class FightAction : ScriptableObject
     // return List of avaliable targets
     public virtual void CheckValidTargets(BattleUnit user, List<BattleUnit> skillTargets = null)
     {
-        Debug.Log("Base valid target");
         Validtargets = null;
         if (skillTargets == null)
         {

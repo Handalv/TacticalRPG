@@ -219,10 +219,10 @@ public class GlobalMap : TileMap
         MapObject unitMO = unit.GetComponent<MapObject>();
 
         unit.transform.position = ConvertTileCoordToWorld(x, z);
+        tiles[unitMO.tileX, unitMO.tileZ].mapObjects.Remove(unitMO);
         unitMO.tileX = x;
         unitMO.tileZ = z;
 
-        tiles[unitMO.tileX, unitMO.tileZ].mapObjects.Remove(unitMO);
         tiles[x, z].mapObjects.Add(unitMO);
 
         if (visibleObjects.Contains(unitMO))

@@ -27,7 +27,6 @@ public class Attack : FightAction
     public override void CheckValidTargets(BattleUnit user, List<BattleUnit> skillTargets=null)
     {
         base.CheckValidTargets(user, skillTargets);
-        Debug.Log("Attack valid target");
         if(skillTargets==null)
         {
             skillTargets = new List<BattleUnit>(Validtargets);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class BattleController : MonoBehaviour
 {
@@ -173,5 +174,18 @@ public class BattleController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
         CurrentBattleOrder[0].gameObject.GetComponent<EnemyMeleeAI>().StartTurn();
+    }
+
+    public void Defeat()
+    {
+        SceneManager.LoadScene(0);
+        Debug.Log("Defeat");
+    }
+
+    public void Victory()
+    {
+        SaveManager.instance.BattleResultSave();
+        SceneManager.LoadScene(1);
+        Debug.Log("Victory");
     }
 }

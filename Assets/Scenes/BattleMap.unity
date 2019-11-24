@@ -1346,6 +1346,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedUnit: {fileID: 0}
+  isUsingSkill: 0
+  UsingSkill: {fileID: 0}
 --- !u!1001 &2085029396
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1442,17 +1444,17 @@ PrefabInstance:
     - target: {fileID: 8209547142694126627, guid: a3f02f3d46e2c574aa32203382bb8800,
         type: 3}
       propertyPath: units.Array.data[1].MaxHealth
-      value: 11
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8209547142694126627, guid: a3f02f3d46e2c574aa32203382bb8800,
         type: 3}
       propertyPath: units.Array.data[1].Health
-      value: 11
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8209547142694126627, guid: a3f02f3d46e2c574aa32203382bb8800,
         type: 3}
       propertyPath: units.Array.data[1].Damage
-      value: 3
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8209547142694126627, guid: a3f02f3d46e2c574aa32203382bb8800,
         type: 3}
@@ -1468,17 +1470,17 @@ PrefabInstance:
     - target: {fileID: 8209547142694126627, guid: a3f02f3d46e2c574aa32203382bb8800,
         type: 3}
       propertyPath: units.Array.data[2].MaxHealth
-      value: 11
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8209547142694126627, guid: a3f02f3d46e2c574aa32203382bb8800,
         type: 3}
       propertyPath: units.Array.data[2].Health
-      value: 11
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8209547142694126627, guid: a3f02f3d46e2c574aa32203382bb8800,
         type: 3}
       propertyPath: units.Array.data[2].Damage
-      value: 3
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8209547142694126627, guid: a3f02f3d46e2c574aa32203382bb8800,
         type: 3}
@@ -1539,6 +1541,21 @@ PrefabInstance:
         type: 3}
       propertyPath: units.Array.data[2].ActionPoints
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8209547142694126627, guid: a3f02f3d46e2c574aa32203382bb8800,
+        type: 3}
+      propertyPath: units.Array.data[0].Damage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8209547142694126627, guid: a3f02f3d46e2c574aa32203382bb8800,
+        type: 3}
+      propertyPath: units.Array.data[0].MaxHealth
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8209547142694126627, guid: a3f02f3d46e2c574aa32203382bb8800,
+        type: 3}
+      propertyPath: units.Array.data[0].Health
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8209547142694126624, guid: a3f02f3d46e2c574aa32203382bb8800,
         type: 3}

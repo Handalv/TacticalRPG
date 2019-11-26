@@ -30,13 +30,14 @@ public class SaveData
     // Data for coordinates on global map of player's Unit
     public int PlayerX;
     public int PlayerZ;
+    public int BattleOpponentIndex;
 
     //Data for MapObjects.
     public List<int> MapObjectX;
     public List<int> MapObjectZ;
-    public List<string> PrefabName;
+    public List<string> MapObjectName;
 
-    public SaveData(int mapSizeX, int mapSizeZ, MapObject playerUnit, Tile[,] tiles, UnitList unitList, int playerGold)
+    public SaveData(int mapSizeX, int mapSizeZ, MapObject playerUnit, Tile[,] tiles, UnitList unitList, int playerGold, MapObject BattleOpponent)
     {
         #region List Initializating
         TileX = new List<int>();
@@ -44,7 +45,7 @@ public class SaveData
         MapObjectX = new List<int>();
         MapObjectZ = new List<int>();
         TileType = new List<string>();
-        PrefabName = new List<string>();
+        MapObjectName = new List<string>();
         UnitHealth = new List<int>();
         UnitDamage = new List<int>();
         UnitSpeed = new List<int>();
@@ -82,9 +83,14 @@ public class SaveData
                 //MapObject Basics
                 MapObjectX.Add(mapObject.tileX);
                 MapObjectZ.Add(mapObject.tileZ);
-                PrefabName.Add(mapObject.name);
+                MapObjectName.Add(mapObject.name);
 
-                if(mapObject is City)
+                if (BattleOpponent != null)
+                {
+                    BattleOpponentIndex = MapObjectName.Count - 1;
+                }
+
+                if (mapObject is City)
                 {
                     City city = (City)mapObject;
                     CityName.Add(city.CityName);

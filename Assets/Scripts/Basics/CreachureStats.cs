@@ -6,13 +6,48 @@ using UnityEngine;
 public class CreachureStats
 {
     public Sprite icon;
-    public Status status = 0;
     public int MaxHealth = 10;
     public int Health = 10;
     public int Damage = 1;
     public int Speed = 1;
     public int VisionRange = 2;
     public int ActionPoints = 3;
+
+    //UNDONE
+    public int Level = 1;
+    public int ExpForNextLevel = 20;
+    public int Strange = 5;
+    public int Intelegense = 5;
+    public int ExpForKill = 5;
+
+    int expCurrent = 0;
+    public int ExpCurrent
+    {
+        get
+        {
+            return expCurrent;
+        }
+        set
+        {
+            expCurrent = value;
+            if (expCurrent >= ExpForNextLevel)
+            {
+                Level++;
+                Strange++;
+                MaxHealth += 5;
+                Health += 5;
+                Intelegense++;
+                int temp = ExpForNextLevel;
+                ExpForNextLevel *= Level;
+                ExpCurrent -= temp;
+            }
+        }
+    }
+    //public int MaxMana = 10;
+    //public int Mana = 10;
+    public Status status = 0;
+    //
+
 
     public CreachureStats(int MaxHealth = 10, int Damage = 1, int Speed = 1)
     {

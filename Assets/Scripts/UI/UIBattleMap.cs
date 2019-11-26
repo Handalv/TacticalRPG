@@ -37,7 +37,6 @@ public class UIBattleMap : MonoBehaviour
 
     public void EndBattle()
     {
-        SaveManager.instance.BattleResultSave();
-        SceneManager.LoadScene(1);
+        BattleController.instance.Victory();
     }
 }

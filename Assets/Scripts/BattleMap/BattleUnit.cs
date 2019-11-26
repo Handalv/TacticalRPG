@@ -30,6 +30,7 @@ public class BattleUnit : MapObject
     {
         BattleController battleController = BattleController.instance;
 
+        battleController.CurrentBattleOrder[0].UnitStats.ExpCurrent += UnitStats.ExpForKill;
 
         battleController.BattleOrder.Remove(this);
         if (battleController.CurrentBattleOrder.IndexOf(this) >= 0)
@@ -37,15 +38,16 @@ public class BattleUnit : MapObject
             battleController.RemoveFromOrder(battleController.CurrentBattleOrder.IndexOf(this));
         }
 
-        if (battleController.PlayerBattleList.IndexOf(this) >= 0)
+        if (battleController.PlayerBattleList.Contains(this))
         {
             battleController.PlayerBattleList.Remove(this);
+            UnitList.instance.units.Remove(UnitStats);
             if (battleController.PlayerBattleList.Count == 0)
-            {
+            {        
                 battleController.Defeat();
             }
         }
-        if (battleController.EnemyBattleList.IndexOf(this) >= 0)
+        if (battleController.EnemyBattleList.Contains(this))
         {
             battleController.EnemyBattleList.Remove(this);
             if (battleController.EnemyBattleList.Count == 0)

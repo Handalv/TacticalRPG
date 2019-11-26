@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8209547142694126626}
   - component: {fileID: 8209547142694126627}
-  - component: {fileID: 8209547142694126625}
   - component: {fileID: 8209547142694126624}
   - component: {fileID: 8209547142694127071}
   - component: {fileID: 8209547142694127070}
@@ -49,26 +48,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   units:
   - icon: {fileID: 21300000, guid: a32a3efdc13227f4487654b012e278fd, type: 3}
+    MaxHealth: 30
+    Health: 30
+    Damage: 20
+    Speed: 5
+    VisionRange: 2
+    ActionPoints: 5
+    Level: 1
+    ExpForNextLevel: 20
+    Strange: 5
+    Intelegense: 5
+    ExpForKill: 5
     status: 0
-    MaxHealth: 11
-    Health: 11
-    Damage: 3
+  - icon: {fileID: 21300000, guid: 2210c89f89ea12d4a998d577f6211cf6, type: 3}
+    MaxHealth: 50
+    Health: 50
+    Damage: 7
     Speed: 3
-  isOnBattleField: 00
-  BattleFieldIndex: 00000000
---- !u!114 &8209547142694126625
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8209547142694126628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bae01de9cc9a4d24d9f6fee88ef78521, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tileType: {fileID: 11400000, guid: 7ed5f2b82bdf05341a6c9b2f08616dbe, type: 2}
+    VisionRange: 2
+    ActionPoints: 3
+    Level: 1
+    ExpForNextLevel: 20
+    Strange: 5
+    Intelegense: 5
+    ExpForKill: 5
+    status: 0
+  - icon: {fileID: 21300000, guid: cb5c1a340e3a36a4d896c76a4cd1538b, type: 3}
+    MaxHealth: 40
+    Health: 40
+    Damage: 12
+    Speed: 4
+    VisionRange: 2
+    ActionPoints: 4
+    Level: 1
+    ExpForNextLevel: 20
+    Strange: 5
+    Intelegense: 5
+    ExpForKill: 5
+    status: 0
+  isOnBattleField: 010101
+  BattleFieldIndex: 000000000200000004000000
 --- !u!114 &8209547142694126624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,6 +108,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 34de6782b7182544ca481ed22630d8db, type: 2}
   - {fileID: 11400000, guid: 29524d540860404418080dcb59d47084, type: 2}
   - {fileID: 11400000, guid: dd60610276046eb49960d41e6a3746ea, type: 2}
+  BattleTileType: {fileID: 0}
+  EnemyIndex: 0
+  Enemies:
+  - {fileID: 11400000, guid: bc45b26be00ac0c49a5017cf194947b6, type: 2}
+  - {fileID: 11400000, guid: bc45b26be00ac0c49a5017cf194947b6, type: 2}
   playerGold: 30
 --- !u!114 &8209547142694127071
 MonoBehaviour:
@@ -140,4 +164,4 @@ MonoBehaviour:
     PlayerZ: 0
     MapObjectX: 
     MapObjectZ: 
-    PrefabName: []
+    MapObjectName: []

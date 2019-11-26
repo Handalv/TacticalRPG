@@ -100,6 +100,7 @@ public class UIGlobalMap : MonoBehaviour
 
     public void StartBattle()
     {
+        SaveManager.instance.SaveGame();
         SceneManager.LoadScene(2);
     }
 }

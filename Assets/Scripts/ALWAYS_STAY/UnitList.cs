@@ -38,7 +38,9 @@ public class UnitList : MonoBehaviour
         if (globalMapUI == null)
             globalMapUI = UIGlobalMap.instance;
         units.Add(unit);
-        globalMapUI.AddUnitOnUI(units.Count-1, units[units.Count - 1].icon, isOnBattleField[units.Count - 1], BattleFieldIndex[units.Count - 1]);
+        isOnBattleField.Add(false);
+        BattleFieldIndex.Add(0);
+        globalMapUI.AddUnitOnUI(units.Count-1, unit.icon, isOnBattleField[units.Count - 1], BattleFieldIndex[units.Count - 1]);
     }
 
 }

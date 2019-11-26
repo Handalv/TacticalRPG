@@ -32,11 +32,17 @@ public class SaveManager : MonoBehaviour
             map.selectedUnit.GetComponent<Unit>(),
             map.tiles,
             UnitList.instance,
-            GameSettings.instance.PlayerGold
+            GameSettings.instance.PlayerGold,
+            map.BattleOpponent
             );
 
         SaveSystem.Save(SaveName, save);
     }
+
+    //public void UpdateSave()
+    //{
+    //    SaveSystem.Save(SaveName, save);
+    //}
 
     public void BattleResultSave()
     {

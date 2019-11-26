@@ -185,6 +185,10 @@ public class BattleController : MonoBehaviour
     public void Victory()
     {
         SaveManager.instance.BattleResultSave();
+        SaveManager.instance.save.MapObjectName.RemoveAt(SaveManager.instance.save.BattleOpponentIndex);
+        SaveManager.instance.save.MapObjectX.RemoveAt(SaveManager.instance.save.BattleOpponentIndex);
+        SaveManager.instance.save.MapObjectZ.RemoveAt(SaveManager.instance.save.BattleOpponentIndex);
+        SaveManager.instance.isLoadGame = true;
         SceneManager.LoadScene(1);
         Debug.Log("Victory");
     }

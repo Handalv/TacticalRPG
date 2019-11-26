@@ -5,6 +5,7 @@ using UnityEngine;
 public class GlobalMap : TileMap
 {
     public UIGlobalMap UI;
+    public MapObject BattleOpponent = null;
 
     // AWAKE INSTANCE
     public static GlobalMap instance;
@@ -65,7 +66,7 @@ public class GlobalMap : TileMap
 
         int mapObjectIndex = 0;
         int cityIndex = 0;
-        foreach(string objName in save.PrefabName)
+        foreach(string objName in save.MapObjectName)
         {
             Tile tile = tiles[save.MapObjectX[mapObjectIndex], save.MapObjectZ[mapObjectIndex]];
 
@@ -242,10 +243,14 @@ public class GlobalMap : TileMap
     void Engagement(int x, int z, GameObject unit, MapObject unitMO)
     {
         bool isPlayerEngagement = false;
-        
+
         foreach (MapObject mapObject in tiles[x, z].mapObjects)
-            if (mapObject == selectedUnit.GetComponent<MapObject>()) 
+        {
+            if (mapObject == selectedUnit.GetComponent<MapObject>())
+            {
                 isPlayerEngagement = true;
+            }
+        }
 
         Debug.Log("Engagement at " + x + " " + z + " is player - " + isPlayerEngagement.ToString());
 
@@ -269,8 +274,10 @@ public class GlobalMap : TileMap
                 {
                     GameSettings.instance.BattleTileType = tiles[x, z].type;
                     GameSettings.instance.Enemies = enemyUnitList.Enemies;
+                    BattleOpponent = mapObject;
                     GAMEPAUSED = true;
                     UI.ActiveBattleMessage(true);
+                    return;
                 }
             }
         }

@@ -115,7 +115,7 @@ public class BattlePlayerControls : MonoBehaviour
     {
         foreach (BattleUnit unit in UsingSkill.Validtargets)
         {
-            BattleMap.instance.tiles[unit.tileX, unit.tileZ].HighlightDisable();
+            unit.HighlightDisable();
         }
         UsingSkill.Validtargets.Clear();
         UsingSkill = null;

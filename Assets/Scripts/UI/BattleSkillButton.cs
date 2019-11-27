@@ -36,7 +36,7 @@ public class BattleSkillButton : MonoBehaviour
         color.a = 0.3f;
         foreach (BattleUnit target in action.Validtargets) 
         {
-            BattleMap.instance.tiles[target.tileX, target.tileZ].HighlightEnable(color);
+            target.HighlightEnable(color);
         }
     }
 }

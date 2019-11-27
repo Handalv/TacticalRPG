@@ -7,6 +7,9 @@ public class GlobalMap : TileMap
     public UIGlobalMap UI;
     public MapObject BattleOpponent = null;
 
+    // New feature
+    public List<MapObject> mapObjects = null;
+
     // AWAKE INSTANCE
     public static GlobalMap instance;
     void Awake()
@@ -88,6 +91,7 @@ public class GlobalMap : TileMap
             go.transform.position = GlobalMap.ConvertTileCoordToWorld(mapObject.tileX, mapObject.tileZ);
 
             tile.mapObjects.Add(mapObject);
+            mapObjects.Add(mapObject);
 
             mapObjectIndex++;
         }
@@ -162,6 +166,7 @@ public class GlobalMap : TileMap
 
             go.transform.position = GlobalMap.ConvertTileCoordToWorld(X, Z);
             tile.mapObjects.Add(mapObject);
+            mapObjects.Add(mapObject);
             if (tile.WarFogEnabled)
                 mapObject.SetGraphicActive(false);
         }
@@ -186,6 +191,7 @@ public class GlobalMap : TileMap
 
             go.transform.position = GlobalMap.ConvertTileCoordToWorld(X, Z);
             tile.mapObjects.Add(mapObject);
+            mapObjects.Add(mapObject);
             if (tile.WarFogEnabled)
                 mapObject.SetGraphicActive(false);
         }
@@ -204,6 +210,7 @@ public class GlobalMap : TileMap
         mo.tileZ = z;
 
         tiles[x, z].mapObjects.Add(mo);
+        mapObjects.Add(mo);
 
         selectedUnit.transform.position = ConvertTileCoordToWorld(x, z);
         //TEST new warfog system
@@ -272,6 +279,11 @@ public class GlobalMap : TileMap
                 EnemyUnitList enemyUnitList = mapObject.gameObject.GetComponent<EnemyUnitList>();
                 if (enemyUnitList!=null)
                 {
+                    //-1 becoz element 0 is player unit wich will be thrown while save from list
+                    GameSettings.instance.EnemyMapIndex = mapObjects.IndexOf(mapObject)-1;
+                    Debug.Log("enenmy index " + GameSettings.instance.EnemyMapIndex);
+
+
                     GameSettings.instance.BattleTileType = tiles[x, z].type;
                     GameSettings.instance.Enemies = enemyUnitList.Enemies;
                     BattleOpponent = mapObject;

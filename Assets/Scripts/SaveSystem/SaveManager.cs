@@ -33,7 +33,7 @@ public class SaveManager : MonoBehaviour
             map.tiles,
             UnitList.instance,
             GameSettings.instance.PlayerGold,
-            map.BattleOpponent
+            map.mapObjects
             );
 
         SaveSystem.Save(SaveName, save);
@@ -46,8 +46,15 @@ public class SaveManager : MonoBehaviour
 
     public void BattleResultSave()
     {
-        save.SavePlayerUnits();
+        save.MapObjectName.RemoveAt(GameSettings.instance.EnemyMapIndex);
+        save.MapObjectX.RemoveAt(GameSettings.instance.EnemyMapIndex);
+        save.MapObjectZ.RemoveAt(GameSettings.instance.EnemyMapIndex);
+
+        //UNDONE
         save.PlayerGold += 20;
+
+        save.SavePlayerUnits();
+        
         SaveSystem.Save(SaveName, save);
     }
 

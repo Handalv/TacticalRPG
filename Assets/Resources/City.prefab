@@ -54,6 +54,7 @@ MonoBehaviour:
     title: 
     type: 0
     relations: 
+  highlight: {fileID: 0}
   CityName: TEST CITY
 --- !u!136 &2119709962226314504
 CapsuleCollider:

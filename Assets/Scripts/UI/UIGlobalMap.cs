@@ -50,12 +50,20 @@ public class UIGlobalMap : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.U))
         {
             //OpenUnitsList();
-            unitsListPanel.SetActive(!unitsListPanel.activeSelf);
+            if (battleMessagePanel.activeSelf == false && esqPlanel.activeSelf == false)
+            {
+                unitsListPanel.SetActive(!unitsListPanel.activeSelf);
+            }
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            esqPlanel.SetActive(!esqPlanel.activeSelf);
-            GlobalMap.instance.GAMEPAUSED = esqPlanel.activeSelf;
+            unitsListPanel.SetActive(false);
+            cityUI.cityPanel.SetActive(false);
+            if (battleMessagePanel.activeSelf == false)
+            {
+                esqPlanel.SetActive(!esqPlanel.activeSelf);
+                GlobalMap.instance.GAMEPAUSED = esqPlanel.activeSelf;
+            }
         }
     }
 
@@ -80,7 +88,7 @@ public class UIGlobalMap : MonoBehaviour
         UnitList unitList = UnitList.instance;
         for(int i=0; i<unitList.units.Count; i++)
         {
-            AddUnitOnUI(i,unitList.units[i].icon,unitList.isOnBattleField[i],unitList.BattleFieldIndex[i]);
+            AddUnitOnUI(i, unitList.units[i].icon, unitList.isOnBattleField[i], unitList.BattleFieldIndex[i]);
         }
     }
 

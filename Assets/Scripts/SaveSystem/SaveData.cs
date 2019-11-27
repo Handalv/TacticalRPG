@@ -30,14 +30,13 @@ public class SaveData
     // Data for coordinates on global map of player's Unit
     public int PlayerX;
     public int PlayerZ;
-    public int BattleOpponentIndex;
 
     //Data for MapObjects.
     public List<int> MapObjectX;
     public List<int> MapObjectZ;
     public List<string> MapObjectName;
 
-    public SaveData(int mapSizeX, int mapSizeZ, MapObject playerUnit, Tile[,] tiles, UnitList unitList, int playerGold, MapObject BattleOpponent)
+    public SaveData(int mapSizeX, int mapSizeZ, MapObject playerUnit, Tile[,] tiles, UnitList unitList, int playerGold, List<MapObject> mapObjects)
     {
         #region List Initializating
         TileX = new List<int>();
@@ -46,55 +45,43 @@ public class SaveData
         MapObjectZ = new List<int>();
         TileType = new List<string>();
         MapObjectName = new List<string>();
-        UnitHealth = new List<int>();
-        UnitDamage = new List<int>();
-        UnitSpeed = new List<int>();
-        UnitIconName = new List<string>();
-        UnitIsOnBattleField = new List<bool>();
-        UnitBattleIndex = new List<int>();
-        UnitStatus = new List<int>();
+       
         CityName = new List<string>();
         #endregion
 
-        //Main
+        // Main
         PlayerGold = playerGold;
         MapSizeX = mapSizeX;
         MapSizeZ = mapSizeZ;
 
-        //Player Unit on global map
+        // Player Unit on global map
         PlayerX = playerUnit.tileX;
         PlayerZ = playerUnit.tileZ;
 
-        // Tiles and MapObjects
+        // Tiles
         foreach (Tile tile in tiles)
         {
             //Tiles
             TileX.Add(tile.tileX);
             TileZ.Add(tile.tileZ);
             this.TileType.Add(tile.type.name);
+        }
 
-
-            //MapObjects
-            foreach (MapObject mapObject in tile.mapObjects)
+        // MapObjects
+        foreach (MapObject mapObject in mapObjects)
+        {
+            //Dont add player's Unit to others MapObjects
+            if (mapObject == playerUnit)
+                continue;
+            //MapObject Basics
+            MapObjectX.Add(mapObject.tileX);
+            MapObjectZ.Add(mapObject.tileZ);
+            MapObjectName.Add(mapObject.name);
+           
+            if (mapObject is City)
             {
-                //Dont add player's Unit to others MapObjects
-                if(mapObject == playerUnit)
-                    continue;
-                //MapObject Basics
-                MapObjectX.Add(mapObject.tileX);
-                MapObjectZ.Add(mapObject.tileZ);
-                MapObjectName.Add(mapObject.name);
-
-                if (BattleOpponent != null)
-                {
-                    BattleOpponentIndex = MapObjectName.Count - 1;
-                }
-
-                if (mapObject is City)
-                {
-                    City city = (City)mapObject;
-                    CityName.Add(city.CityName);
-                }
+                City city = (City)mapObject;
+                CityName.Add(city.CityName);
             }
         }
 
@@ -104,7 +91,17 @@ public class SaveData
 
     public void SavePlayerUnits(UnitList unitList = null)
     {
-        if(unitList == null)
+        #region List Initializating
+        UnitHealth = new List<int>();
+        UnitDamage = new List<int>();
+        UnitSpeed = new List<int>();
+        UnitIconName = new List<string>();
+        UnitIsOnBattleField = new List<bool>();
+        UnitBattleIndex = new List<int>();
+        UnitStatus = new List<int>();
+        #endregion
+
+        if (unitList == null)
         {
             unitList = UnitList.instance;
         }

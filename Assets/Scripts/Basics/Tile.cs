@@ -37,22 +37,22 @@ public class Tile : MonoBehaviour
         }
     }
 
-    [SerializeField]
-    private GameObject highlight;
-    public void HighlightEnable(Color color)
-    {
-        highlight.GetComponent<MeshRenderer>().material.color = color;
-        highlight.SetActive(true);
-        if (WarFogEnabled)
-        {
-            highlight.SetActive(false);
-        }
-    }
+    //[SerializeField]
+    //private GameObject highlight;
+    //public void HighlightEnable(Color color)
+    //{
+    //    highlight.GetComponent<MeshRenderer>().material.color = color;
+    //    highlight.SetActive(true);
+    //    if (WarFogEnabled)
+    //    {
+    //        highlight.SetActive(false);
+    //    }
+    //}
 
-    public void HighlightDisable()
-    {
-        highlight.SetActive(false);
-    }
+    //public void HighlightDisable()
+    //{
+    //    highlight.SetActive(false);
+    //}
 
     public void SetTypeChanges(TileType t)
     {

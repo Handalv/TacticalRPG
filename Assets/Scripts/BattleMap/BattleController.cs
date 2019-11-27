@@ -178,18 +178,17 @@ public class BattleController : MonoBehaviour
 
     public void Defeat()
     {
-        SceneManager.LoadScene(0);
         Debug.Log("Defeat");
+        SceneManager.LoadScene(0);
     }
 
     public void Victory()
     {
+        Debug.Log("Victory");
+        Debug.Log("enenmy index " + GameSettings.instance.EnemyMapIndex);
+
         SaveManager.instance.BattleResultSave();
-        SaveManager.instance.save.MapObjectName.RemoveAt(SaveManager.instance.save.BattleOpponentIndex);
-        SaveManager.instance.save.MapObjectX.RemoveAt(SaveManager.instance.save.BattleOpponentIndex);
-        SaveManager.instance.save.MapObjectZ.RemoveAt(SaveManager.instance.save.BattleOpponentIndex);
         SaveManager.instance.isLoadGame = true;
         SceneManager.LoadScene(1);
-        Debug.Log("Victory");
     }
 }

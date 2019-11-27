@@ -13,12 +13,16 @@ using TMPro;
 
 public class GameSettings : MonoBehaviour
 {
+    // New feature
+    public TileMap CurrentMap;
+
     //List of every possible game tile
     public List<TileType> tileTypes;
 
     // To Battle info
     public TileType BattleTileType;
     public List<UnitPreset> Enemies;
+    public int EnemyMapIndex;
 
     GameObject playerGoldText;
 
@@ -54,14 +58,16 @@ public class GameSettings : MonoBehaviour
     void OnLevelWasLoaded(int level)
     {
         //1 - global map
+        //2 - battle Map
         if (level == 1)
         {
+            CurrentMap = GlobalMap.instance;
             playerGoldText = UIGlobalMap.instance.playerGoldText;
             PlayerGold = PlayerGold;
         }
         if(level == 2)
         {
-
+            CurrentMap = BattleMap.instance;
         }
     }
 

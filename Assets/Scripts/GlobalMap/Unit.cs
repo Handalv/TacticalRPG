@@ -38,6 +38,7 @@ public class Unit : MapObject
                 if(currentPath != null)
                 {
                     currentPath.RemoveAt(0);
+                    
                     GlobalMap.instance.MoveUnit(currentPath[0].x, currentPath[0].z, gameObject);
                     if (currentPath.Count == 1)
                     {
@@ -45,6 +46,7 @@ public class Unit : MapObject
                         return;
                     }
                     movementCD = GlobalMap.instance.tiles[currentPath[1].x, currentPath[1].z].movementCost;
+                    transform.LookAt(new Vector3(GlobalMap.instance.tiles[currentPath[1].x, currentPath[1].z].transform.position.x, transform.position.y, GlobalMap.instance.tiles[currentPath[1].x, currentPath[1].z].transform.position.z));
                 }
             }
         }
@@ -56,6 +58,7 @@ public class Unit : MapObject
         {
             currentPath = destanation;
             movementCD = GlobalMap.instance.tiles[currentPath[1].x, currentPath[1].z].movementCost;
+            transform.LookAt(new Vector3(GlobalMap.instance.tiles[currentPath[1].x, currentPath[1].z].transform.position.x, transform.position.y, GlobalMap.instance.tiles[currentPath[1].x, currentPath[1].z].transform.position.z));
         }
     }
 }

@@ -18,15 +18,16 @@ public class MapObject : MonoBehaviour
 
     void Start()
     {
-        if(highlight == null)
-        {
-            GameObject go = Instantiate(Resources.Load("HighLight"),this.transform) as GameObject;
-            go.SetActive(false);
-            highlight = go;
-        }
         if (GraphicElements.Count == 0)
         {
             Debug.Log(gameObject.name + " Graphic elements are missing");
+        }
+        if (highlight == null)
+        {
+            GameObject go = Instantiate(Resources.Load("HighLight"), this.transform) as GameObject;
+            go.SetActive(false);
+            highlight = go;
+            GraphicElements.Add(highlight);
         }
     }
 

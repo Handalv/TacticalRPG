@@ -35,6 +35,7 @@ public class BattlePlayerControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Draw Path
         if (CurrentPath != null)
         {
             int currNode = 0;
@@ -46,11 +47,13 @@ public class BattlePlayerControls : MonoBehaviour
                 currNode++;
             }
         }
+        //Movement and Using skills
         if (battleController.isPlayerTurn)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Debug.DrawRay(transform.position, ray.direction);
 
+            //Movement
             if (isUsingSkill == false)
             {
                 if (Input.GetMouseButtonDown(0))
@@ -76,6 +79,7 @@ public class BattlePlayerControls : MonoBehaviour
                     }
                 }
             }
+            //Using skill
             else
             {
                 if (Input.GetMouseButtonDown(1))
@@ -98,7 +102,7 @@ public class BattlePlayerControls : MonoBehaviour
                         {
                             if (UsingSkill.Validtargets.Contains(unit))
                             {
-                                selectedUnit.CurrenActionpoints -= UsingSkill.Cost;
+                                selectedUnit.CurrentActionpoints -= UsingSkill.Cost;
                                 UsingSkill.Use(selectedUnit, unit);
                                 StopUsingSkill();
                                 break;
@@ -126,9 +130,9 @@ public class BattlePlayerControls : MonoBehaviour
     {
         if (CurrentPath != null)
         {
-            while (selectedUnit.CurrenActionpoints >= map.tiles[CurrentPath[0].x, CurrentPath[0].z].BattleMovementCost)
+            while (selectedUnit.CurrentActionpoints >= map.tiles[CurrentPath[0].x, CurrentPath[0].z].BattleMovementCost)
             {
-                selectedUnit.CurrenActionpoints -= map.tiles[CurrentPath[0].x, CurrentPath[0].z].BattleMovementCost;
+                selectedUnit.CurrentActionpoints -= map.tiles[CurrentPath[0].x, CurrentPath[0].z].BattleMovementCost;
                 map.MoveUnit(CurrentPath[0].x, CurrentPath[0].z, selectedUnit.gameObject);
 
                 CurrentPath.RemoveAt(0);

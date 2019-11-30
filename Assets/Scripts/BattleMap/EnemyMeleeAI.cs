@@ -35,9 +35,16 @@ public class EnemyMeleeAI : MonoBehaviour
 
         MoveToTarget();
         Attack();
-        CurrentPath = null;
-        CurrentTarget = null;
-        BattleController.instance.EndTurn();
+        if (CurrentTarget == null && BattleController.instance.PlayerBattleList.Count != 0)
+        {
+            StartTurn();
+        }
+        else
+        {
+            CurrentPath = null;
+            CurrentTarget = null;
+            BattleController.instance.EndTurn();
+        }
     }
 
     public void FindClosestTarget()
@@ -64,9 +71,9 @@ public class EnemyMeleeAI : MonoBehaviour
         }
         else
         {
-            if(unit.CurrenActionpoints >= map.tiles[CurrentPath[0].x, CurrentPath[0].z].BattleMovementCost)
+            if(unit.CurrentActionpoints >= map.tiles[CurrentPath[0].x, CurrentPath[0].z].BattleMovementCost)
             {
-                unit.CurrenActionpoints -= map.tiles[CurrentPath[0].x, CurrentPath[0].z].BattleMovementCost;
+                unit.CurrentActionpoints -= map.tiles[CurrentPath[0].x, CurrentPath[0].z].BattleMovementCost;
                 map.MoveUnit(CurrentPath[0].x, CurrentPath[0].z, unit.gameObject);
 
                 CurrentPath.RemoveAt(0);
@@ -82,10 +89,16 @@ public class EnemyMeleeAI : MonoBehaviour
     {
         if (CurrentPath == null)
         {
-            if (unit.CurrenActionpoints >= unit.Actions[0].Cost)
+            if (unit.CurrentActionpoints >= unit.Actions[0].Cost)
             {
-                unit.CurrenActionpoints -= unit.Actions[0].Cost;
+                Debug.Log("I am attacking with AP = " + unit.CurrentActionpoints);
+                unit.CurrentActionpoints -= unit.Actions[0].Cost;
                 unit.Actions[0].Use(unit, CurrentTarget);
+                if (CurrentTarget.UnitHP <= 0)
+                {
+                    CurrentTarget = null;
+                    return;
+                }
                 Attack();
             }
             else

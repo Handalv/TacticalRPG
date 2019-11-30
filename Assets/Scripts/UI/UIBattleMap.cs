@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class UIBattleMap : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class UIBattleMap : MonoBehaviour
     public GameObject BattleOrderPanel;
     public GameObject UnitSkillPanel;
     public List<GameObject> SkillList = null;
+
+    public TextMeshProUGUI ActionPointsText;
+    public GameObject MapObjectElementsPanel;
 
     public static UIBattleMap instance;
     void Awake()
@@ -20,6 +24,12 @@ public class UIBattleMap : MonoBehaviour
         {
             Debug.Log("More than 1 instance " + this.GetType().ToString());
             Destroy(this);
+        }
+
+        if(MapObjectElementsPanel == null)
+        {
+            MapObjectElementsPanel = new GameObject();
+            MapObjectElementsPanel.transform.SetParent(this.transform);
         }
     }
 
@@ -35,8 +45,12 @@ public class UIBattleMap : MonoBehaviour
         BattleController.instance.EndTurn();
     }
 
-    public void EndBattle()
+    //TEST
+    void Update()
     {
-        BattleController.instance.Victory();
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            BattleController.instance.Victory();
+        }
     }
 }

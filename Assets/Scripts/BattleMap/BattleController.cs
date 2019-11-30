@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class BattleController : MonoBehaviour
 {
     public bool isPlayerTurn;
+    private bool firstTurn = true;
 
     public List<BattleUnit> BattleOrder = null;
     public List<BattleUnit> CurrentBattleOrder = null;
@@ -53,7 +54,6 @@ public class BattleController : MonoBehaviour
                 battleUnit.tileZ = tileZ;
                 battleUnit.UnitStats = creachure;
                 battleUnit.visionRange = creachure.VisionRange;
-                battleUnit.CurrenActionpoints = creachure.ActionPoints;
 
                 spawned.transform.position = BattleMap.ConvertTileCoordToWorld(battleUnit.tileX, battleUnit.tileZ);
                 map.tiles[tileX, tileZ].mapObjects.Add(battleUnit);
@@ -102,7 +102,6 @@ public class BattleController : MonoBehaviour
             battleUnit.tileZ = tileZ;
             battleUnit.UnitStats = creachure;
             battleUnit.visionRange = creachure.VisionRange;
-            battleUnit.CurrenActionpoints = creachure.ActionPoints;
 
             spawned.transform.position = BattleMap.ConvertTileCoordToWorld(battleUnit.tileX, battleUnit.tileZ);
             map.tiles[tileX, tileZ].mapObjects.Add(battleUnit);
@@ -115,17 +114,22 @@ public class BattleController : MonoBehaviour
         BattleOrder.Sort(delegate (BattleUnit x, BattleUnit y) {
             return y.UnitStats.Speed.CompareTo(x.UnitStats.Speed);
         });
+
         CurrentBattleOrder = new List<BattleUnit>(BattleOrder);
+
         foreach (BattleUnit unit in CurrentBattleOrder)
         {
             GameObject go = new GameObject();
             Image image = go.AddComponent<Image>();
             image.sprite = unit.UnitStats.icon;
             go.transform.SetParent(UIBattleMap.instance.BattleOrderPanel.transform);
-
-            unit.CurrenActionpoints = unit.UnitStats.ActionPoints;
         }
-        isPlayerTurn = PlayerBattleList.Contains(CurrentBattleOrder[0]);
+
+        if (firstTurn)
+        {
+            firstTurn = false;
+            StartTurn();
+        }
     }
 
     public void RemoveFromOrder(int index = 0)
@@ -143,9 +147,14 @@ public class BattleController : MonoBehaviour
     public void EndTurn()
     {
         RemoveFromOrder();
+        StartTurn();
+    }
 
+    public void StartTurn()
+    {
         isPlayerTurn = PlayerBattleList.Contains(CurrentBattleOrder[0]);
 
+        CurrentBattleOrder[0].CurrentActionpoints = CurrentBattleOrder[0].UnitStats.ActionPoints;
         UIBattleMap.instance.EndTurnButton.SetActive(isPlayerTurn);
         if (!isPlayerTurn)
         {
@@ -157,11 +166,11 @@ public class BattleController : MonoBehaviour
             //TODO Move it into UI script
             foreach (FightAction action in CurrentBattleOrder[0].Actions)
             {
-                GameObject go = Instantiate(Resources.Load("SkillButton"),UIBattleMap.instance.UnitSkillPanel.transform) as GameObject;
+                GameObject go = Instantiate(Resources.Load("SkillButton"), UIBattleMap.instance.UnitSkillPanel.transform) as GameObject;
                 UIBattleMap.instance.SkillList.Add(go);
 
                 BattleSkillButton bsb = go.GetComponent<BattleSkillButton>();
-                bsb.CostText.text = ""+action.Cost;
+                bsb.CostText.text = "" + action.Cost;
                 bsb.Icon.sprite = action.icon;
                 bsb.action = action;
                 bsb.unit = CurrentBattleOrder[0];

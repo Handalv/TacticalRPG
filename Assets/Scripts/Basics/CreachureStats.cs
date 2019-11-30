@@ -11,7 +11,8 @@ public class CreachureStats
     public int Damage = 1;
     public int Speed = 5;
     public int VisionRange = 2;
-    public int ActionPoints = 50;
+    //TEST 5 instread 50
+    public int ActionPoints = 5;
 
     //UNDONE
     public int Level = 1;

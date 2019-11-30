@@ -80,11 +80,11 @@ MonoBehaviour:
     ActionPoints: 10
     Level: 0
     ExpForNextLevel: 0
-    Strange: 0
+    Strength: 5
+    Agility: 5
     Intelegense: 0
     ExpForKill: 0
     status: 0
-  CurrenActionpoints: 0
   Actions:
   - {fileID: 11400000, guid: 8d5210264473c0b4c88e629ef36186b9, type: 2}
 --- !u!114 &-3742913409817015090

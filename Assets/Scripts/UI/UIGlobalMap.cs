@@ -32,7 +32,16 @@ public class UIGlobalMap : MonoBehaviour
         if (instance == null)
             instance = this;
         else
+        {
+            Debug.Log("More than 1 instance " + this.GetType().ToString());
             Destroy(this);
+        }
+
+        if (MapObjectElementsPanel == null)
+        {
+            MapObjectElementsPanel = new GameObject();
+            MapObjectElementsPanel.transform.SetParent(this.transform);
+        }
     }
 
     // Setup visibility of all ui panels is false by default

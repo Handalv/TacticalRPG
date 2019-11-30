@@ -2,47 +2,71 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-//using UnityEngine.UI;
+using UnityEngine.UI;
 
 public class UICity : MonoBehaviour
 {
-    public GameObject cityPanel;
+    public GameObject CityPanel;
+
     [SerializeField]
-    private TextMeshProUGUI cityName;
+    private GameObject unitsPanel;
+    [SerializeField]
+    private TextMeshProUGUI cityNameText;
+    private City selectedCity;
 
-    UnitList unitList;
-
-    void Start()
+    public static UICity instance;
+    void Awake()
     {
-        if (cityPanel==null)
+        if (instance == null)
+            instance = this;
+        else
         {
-            Debug.Log("CityPanel is null by default");
-            cityPanel = this.gameObject;
+            Debug.Log("More than 1 instance " + this.GetType().ToString());
+            Destroy(this);
         }
-        unitList = UnitList.instance;
+
+        Debug.Log("hello");
     }
 
-    public void BuyNewUnit()
+    private void Start()
     {
-        int unitcost = 10;
-        if ((GameSettings.instance.PlayerGold - unitcost) >= 0)
-        {
-            GameSettings.instance.PlayerGold -= unitcost;
-            //Test
-            UnitPreset unitPreset = (UnitPreset)Instantiate(Resources.Load("UnitPresets/Footman"));
-            CreachureStats unit = new CreachureStats(unitPreset);
-            unitList.AddUnit(unit);
-        }
+        Debug.Log("hello 1");
+    }
+
+    public void BuyUnit(int index)
+    {
+        CreachureStats unit = selectedCity.unitsToBuy[index];
+        GameSettings.instance.PlayerGold -= unit.Cost;
+
+        UnitList.instance.AddUnit(unit);
+
+        selectedCity.unitsToBuy.RemoveAt(index);
     }
 
     public void SetCityInfo(City city)
     {
-        cityName.text = city.CityName;
+        for (int i = 0; i < unitsPanel.transform.childCount; i++)
+        {
+            Destroy(unitsPanel.transform.GetChild(i).gameObject);
+        }
+
+        selectedCity = city;
+        cityNameText.text = city.CityName;
+
+        foreach(CreachureStats unit in city.unitsToBuy)
+        {
+            GameObject button = Instantiate(Resources.Load("BuyUnitButton"), unitsPanel.transform) as GameObject;
+            button.GetComponent<UIBuyUnitBButton>().SetInfo(unit);
+            if(GameSettings.instance.PlayerGold < unit.Cost)
+            {
+                button.GetComponent<Button>().interactable = false;
+            }
+        }
     }
 
     public void ExitCity()
     {
-        cityPanel.SetActive(false);
+        gameObject.SetActive(false);
         GlobalMap.instance.GAMEPAUSED = false;
     }
 }

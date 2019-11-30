@@ -41,7 +41,7 @@ public class UIGlobalMap : MonoBehaviour
         pauseVisionPanel.SetActive(GlobalMap.instance.GAMEPAUSED);
         battleMessagePanel.SetActive(false);
         unitsListPanel.SetActive(false);
-        cityUI.cityPanel.SetActive(false);
+        cityUI.CityPanel.SetActive(false);
         esqPlanel.SetActive(false);
     }
 
@@ -58,7 +58,7 @@ public class UIGlobalMap : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             unitsListPanel.SetActive(false);
-            cityUI.cityPanel.SetActive(false);
+            cityUI.CityPanel.SetActive(false);
             if (battleMessagePanel.activeSelf == false)
             {
                 esqPlanel.SetActive(!esqPlanel.activeSelf);
@@ -70,7 +70,7 @@ public class UIGlobalMap : MonoBehaviour
     public void OpenCityUI(City city)
     {
         cityUI.SetCityInfo(city);
-        cityUI.cityPanel.SetActive(true);
+        cityUI.CityPanel.SetActive(true);
     }
 
     public void ActiveBattleMessage(bool state)

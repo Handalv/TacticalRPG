@@ -7,7 +7,7 @@ public class City : MapObject
 {
     public string CityName;
     UIGlobalMap map;
-    List<CreachureStats> unitsToBuy;
+    public List<CreachureStats> unitsToBuy;
 
     private GameObject UIelement;
 
@@ -23,5 +23,17 @@ public class City : MapObject
     private void Start()
     {
         UIelement.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0,2,0));
+
+        //UNDONE it's shouldn't be here
+        unitsToBuy = new List<CreachureStats>();
+
+        
+
+        for (int i = 0; i <= Random.Range(1, 5); i++)
+        {
+            CreachureStats unit = new CreachureStats();
+            unit.icon = Resources.Load<Sprite>("UnitsIcons/Helmet");
+            unitsToBuy.Add(unit);
+        }
     }
 }

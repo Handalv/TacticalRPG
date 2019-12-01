@@ -45,6 +45,8 @@ public class BattleUnit : MapObject
     void Awake()
     {
         UIelement = Instantiate(Resources.Load("UnitAmountText"), UIBattleMap.instance.MapObjectElementsPanel.transform) as GameObject;
+        UIelement.GetComponent<TextMeshProUGUI>().fontSize = 16;
+        UIelement.GetComponent<TextMeshProUGUI>().color = Color.red;
         gameObject.GetComponent<MapObject>().GraphicElements.Add(UIelement);
     }
 
@@ -57,7 +59,7 @@ public class BattleUnit : MapObject
     {
         if (UIelement.GetComponent<TextMeshProUGUI>().gameObject.activeSelf)
         {
-            UIelement.transform.position = Camera.main.WorldToScreenPoint(transform.position);
+            UIelement.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -1, 0));
         }
     }
 

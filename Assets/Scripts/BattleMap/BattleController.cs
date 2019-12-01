@@ -146,6 +146,7 @@ public class BattleController : MonoBehaviour
 
     public void EndTurn()
     {
+        CurrentBattleOrder[0].HighlightDisable();
         RemoveFromOrder();
         StartTurn();
     }
@@ -163,6 +164,9 @@ public class BattleController : MonoBehaviour
         else
         {
             BattlePlayerControls.instance.selectedUnit = CurrentBattleOrder[0];
+
+            CurrentBattleOrder[0].HighlightEnable(Color.cyan);
+
             //TODO Move it into UI script
             foreach (FightAction action in CurrentBattleOrder[0].Actions)
             {

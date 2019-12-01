@@ -25,6 +25,8 @@ public class UICity : MonoBehaviour
             Destroy(this);
         }
 
+        unitsPanel.SetActive(false);
+
         Debug.Log("hello");
     }
 

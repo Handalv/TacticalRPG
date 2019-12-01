@@ -35,9 +35,10 @@ public class BattleMap : TileMap
 
         battleController.SpawnPlayerUnits();
         battleController.SpawnEnemyUnits();
-        battleController.InitializeOrder();
 
         ReShowWarFog();
+
+        battleController.InitializeOrder();
     }
 
     private void Update()

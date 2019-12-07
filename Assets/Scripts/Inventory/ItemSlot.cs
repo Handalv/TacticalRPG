@@ -1,20 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-    Item item = null;
-    Inventory inventory;
+    public Item item = null;
+    public UIforInventory UI;
+
+    [SerializeField]
+    private Image icon;
 
     public Transform parentWhenDrag = null;
     public Transform parentToReturn = null;
 
-    void Awake()
+    public void AddItem(Item newItem)
     {
-        if (parentWhenDrag == null)
-            parentWhenDrag = UIGlobalMap.instance.transform;
+        item = newItem;
+        icon.sprite = item.icon;
+        icon.enabled = true;
+    }
+
+    public void ClearSlot()
+    {
+        item = null;
+        icon.sprite = null;
+        icon.enabled = false;
     }
 
     public void OnBeginDrag(PointerEventData eventData)

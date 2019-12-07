@@ -38,7 +38,7 @@ public class UICity : MonoBehaviour
     public void BuyUnit(int index)
     {
         CreachureStats unit = selectedCity.unitsToBuy[index];
-        GameSettings.instance.PlayerGold -= unit.Cost;
+        Inventory.PlayerInventory.Gold -= unit.Cost;
 
         UnitList.instance.AddUnit(unit);
 
@@ -59,7 +59,7 @@ public class UICity : MonoBehaviour
         {
             GameObject button = Instantiate(Resources.Load("BuyUnitButton"), unitsPanel.transform) as GameObject;
             button.GetComponent<UIBuyUnitBButton>().SetInfo(unit);
-            if(GameSettings.instance.PlayerGold < unit.Cost)
+            if(Inventory.PlayerInventory.Gold < unit.Cost)
             {
                 button.GetComponent<Button>().interactable = false;
             }

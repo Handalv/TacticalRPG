@@ -32,7 +32,7 @@ public class SaveManager : MonoBehaviour
             map.selectedUnit.GetComponent<Unit>(),
             map.tiles,
             UnitList.instance,
-            GameSettings.instance.PlayerGold,
+            Inventory.PlayerInventory.Gold,
             map.mapObjects
             );
 
@@ -68,7 +68,7 @@ public class SaveManager : MonoBehaviour
         if (save == null)
             LoadData();
 
-        GameSettings.instance.PlayerGold = save.PlayerGold;
+        Inventory.PlayerInventory.Gold = save.PlayerGold;
 
 
         UnitList.instance.units.Clear();

@@ -26,6 +26,8 @@ public class UIGlobalMap : MonoBehaviour
     public GameObject playerGoldText;
     public GameObject MapObjectElementsPanel;
 
+    public UIforInventory PlayerInventory;
+
     public static UIGlobalMap instance;
     void Awake()
     {

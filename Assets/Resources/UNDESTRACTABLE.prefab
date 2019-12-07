@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8209547142694126624}
   - component: {fileID: 8209547142694127071}
   - component: {fileID: 8209547142694127070}
+  - component: {fileID: 6180953734577482444}
   m_Layer: 0
   m_Name: UNDESTRACTABLE
   m_TagString: Untagged
@@ -56,7 +57,8 @@ MonoBehaviour:
     ActionPoints: 5
     Level: 1
     ExpForNextLevel: 20
-    Strange: 5
+    Strength: 5
+    Agility: 5
     Intelegense: 5
     ExpForKill: 5
     status: 0
@@ -69,7 +71,8 @@ MonoBehaviour:
     ActionPoints: 3
     Level: 1
     ExpForNextLevel: 20
-    Strange: 5
+    Strength: 5
+    Agility: 5
     Intelegense: 5
     ExpForKill: 5
     status: 0
@@ -82,7 +85,8 @@ MonoBehaviour:
     ActionPoints: 4
     Level: 1
     ExpForNextLevel: 20
-    Strange: 5
+    Strength: 5
+    Agility: 5
     Intelegense: 5
     ExpForKill: 5
     status: 0
@@ -100,6 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40375a90b9b4237468e0c329888aeff0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentMap: {fileID: 0}
   tileTypes:
   - {fileID: 11400000, guid: 7ed5f2b82bdf05341a6c9b2f08616dbe, type: 2}
   - {fileID: 11400000, guid: a1bf49611a861ee4d8e6a6611c3fa765, type: 2}
@@ -109,11 +114,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 29524d540860404418080dcb59d47084, type: 2}
   - {fileID: 11400000, guid: dd60610276046eb49960d41e6a3746ea, type: 2}
   BattleTileType: {fileID: 0}
-  EnemyIndex: 0
   Enemies:
   - {fileID: 11400000, guid: bc45b26be00ac0c49a5017cf194947b6, type: 2}
   - {fileID: 11400000, guid: bc45b26be00ac0c49a5017cf194947b6, type: 2}
-  playerGold: 30
+  EnemyMapIndex: 0
 --- !u!114 &8209547142694127071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,3 +169,21 @@ MonoBehaviour:
     MapObjectX: 
     MapObjectZ: 
     MapObjectName: []
+--- !u!114 &6180953734577482444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8209547142694126628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7110ccc1482b4754d85325ff24244d23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UI: {fileID: 0}
+  Items:
+  - {fileID: 11400000, guid: dbb77d8a9e7c20e49ba4f1b2aa9e86ea, type: 2}
+  gold: 30
+  Space: 10
+  type: 1

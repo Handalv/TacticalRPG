@@ -24,22 +24,22 @@ public class GameSettings : MonoBehaviour
     public List<UnitPreset> Enemies;
     public int EnemyMapIndex;
 
-    GameObject playerGoldText;
+    //GameObject playerGoldText;
 
-    [SerializeField]
-    private int playerGold = 0;
-    public int PlayerGold
-    {
-        get
-        {
-            return playerGold;
-        }
-        set
-        {
-            playerGold = value;
-            playerGoldText.GetComponent<TextMeshProUGUI>().text = "" + PlayerGold;
-        }
-    }
+    //[SerializeField]
+    //private int playerGold = 0;
+    //public int PlayerGold
+    //{
+    //    get
+    //    {
+    //        return playerGold;
+    //    }
+    //    set
+    //    {
+    //        playerGold = value;
+    //        playerGoldText.GetComponent<TextMeshProUGUI>().text = "" + PlayerGold;
+    //    }
+    //}
 
     public static GameSettings instance;
     void Awake()
@@ -62,8 +62,8 @@ public class GameSettings : MonoBehaviour
         if (level == 1)
         {
             CurrentMap = GlobalMap.instance;
-            playerGoldText = UIGlobalMap.instance.playerGoldText;
-            PlayerGold = PlayerGold;
+            //playerGoldText = UIGlobalMap.instance.playerGoldText;
+            //PlayerGold = PlayerGold;
         }
         if(level == 2)
         {

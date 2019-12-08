@@ -24,11 +24,11 @@ public class UIforInventory : MonoBehaviour, IDropHandler
         set
         {
             currentInventory = value;
-            InitializeUI(currentInventory);
+            InitializeNewInventory(currentInventory);
         }
     }
 
-    public void InitializeUI(Inventory inv)
+    public void InitializeNewInventory(Inventory inv)
     {
         currentInventory = inv;
         if (currentInventory != null)
@@ -39,14 +39,13 @@ public class UIforInventory : MonoBehaviour, IDropHandler
             }
             for (int i = 0; i < currentInventory.Items.Count; i++)
             {
-                ItemSlot slot = AddSlot();
-                slot.AddItem(currentInventory.Items[i]);
+                CreateItemSlot(currentInventory.Items[i]);
             }
             GoldText.text = "" + currentInventory.Gold;
         }
     }
 
-    public ItemSlot AddSlot()
+    public void CreateItemSlot(Item item = null)
     {
         GameObject slotGO = Instantiate(Resources.Load("ItemSlot"), ItemSlotsParent.transform) as GameObject;
 
@@ -64,17 +63,27 @@ public class UIforInventory : MonoBehaviour, IDropHandler
             slot.parentWhenDrag = UIBattleMap.instance.transform;
         }
 
-        return slot;
+        if (item != null)
+        {
+            slot.AddItem(item);
+        }
+        //return slot;
     }
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (CurrentInventory.SpaceEnough())
+        ItemSlot itemSlot = eventData.pointerDrag.GetComponent<ItemSlot>();
+        Inventory inventoryFrom = itemSlot.UI.CurrentInventory;
+        bool isSelling = false;
+        if (CurrentInventory.Type == InventoryType.Trader || inventoryFrom.Type == InventoryType.Trader)
         {
-            ItemSlot itemSlot = eventData.pointerDrag.GetComponent<ItemSlot>();
-            itemSlot.parentToReturn = ItemSlotsParent.transform;
+            isSelling = true;
+        }
+        if (CurrentInventory.Trade(itemSlot.item,inventoryFrom,isSelling))
+        {
             itemSlot.UI.ItemSlots.Remove(itemSlot.gameObject);
-            itemSlot.UI.CurrentInventory.RemoveItem(itemSlot.item);
+            ItemSlots.Add(itemSlot.gameObject);
+            itemSlot.parentToReturn = ItemSlotsParent.transform;
             itemSlot.UI = this;
         }
     }

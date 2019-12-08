@@ -51,6 +51,12 @@ public class Inventory : MonoBehaviour
 
     void Start()
     {
+        //TEST
+        if (UI != null)
+        {
+            UI.CurrentInventory = this;
+        }
+        //
         Gold = Gold;
         Type = Type;
     }
@@ -62,48 +68,71 @@ public class Inventory : MonoBehaviour
 
     public bool SpaceEnough()
     {
-        if (Items.Count< Items.Count)
-        {
-            return true;
-        }
-        return false;
-    }
-
-        public bool Add(Item item)
-    {
         if (Space > Items.Count)
         {
-            Items.Add(item);
-            //UNDONE Update UI
             return true;
         }
         return false;
     }
 
-    public void RemoveItem(Item item)
+    public bool Trade(Item item, Inventory from, bool isSelling)
     {
-        Items.Remove(item);
-        //UNDONE Update UI
+        if (SpaceEnough())
+        {
+            if (isSelling)
+            {
+                if(Gold >= item.Cost)
+                {
+                    Gold -= item.Cost;
+                    from.Gold += item.Cost;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            Items.Add(item);
+            from.Items.Remove(item);
+            return true;
+        }
+        return false;
     }
+
+    //public void AddItem(Item item)
+    //{
+    //    if (SpaceEnough())
+    //    {
+    //        Items.Add(item);
+    //        //UNDONE Update UI
+    //    }
+    //}
+
+    //public void RemoveItem(Item item)
+    //{
+    //    Items.Remove(item);
+    //    //UNDONE Update UI
+    //}
 
     void OnLevelWasLoaded(int level)
     {
         //1 - global map
         //2 - battle Map
-        if (level == 1)
+        if (type == InventoryType.Player)
         {
-            UI = UIGlobalMap.instance.PlayerInventory;
-            UI.CurrentInventory = this;
-        }
-        if (level == 2)
-        {
-            UI = UIBattleMap.instance.PlayerInventory;
-            UI.CurrentInventory = this;
+            if (level == 1)
+            {
+                UI = UIGlobalMap.instance.PlayerInventory;
+                UI.CurrentInventory = this;
+            }
+            if (level == 2)
+            {
+                UI = UIBattleMap.instance.PlayerInventory;
+                UI.CurrentInventory = this;
+            }
         }
     }
 }
 
-//[System.Serializable]
 public enum InventoryType
 {
     Loot, Player, Trader

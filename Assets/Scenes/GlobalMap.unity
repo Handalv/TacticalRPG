@@ -613,6 +613,7 @@ GameObject:
   - component: {fileID: 112403112}
   - component: {fileID: 112403111}
   - component: {fileID: 112403113}
+  - component: {fileID: 112403114}
   m_Layer: 5
   m_Name: LootInventory
   m_TagString: Untagged
@@ -694,6 +695,24 @@ MonoBehaviour:
   GoldText: {fileID: 1476708089}
   type: 0
   ItemSlots: []
+--- !u!114 &112403114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112403109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7110ccc1482b4754d85325ff24244d23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UI: {fileID: 112403113}
+  Items:
+  - {fileID: 11400000, guid: dbb77d8a9e7c20e49ba4f1b2aa9e86ea, type: 2}
+  gold: 100
+  Space: 100
+  type: 0
 --- !u!224 &123301670 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1312186282847334464, guid: 28a32cd6a881eb04e95d7fe019119271,

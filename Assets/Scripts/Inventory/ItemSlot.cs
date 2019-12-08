@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using UnityEngine.EventSystems;
 
 public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
@@ -11,6 +12,8 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     [SerializeField]
     private Image icon;
+    [SerializeField]
+    private TextMeshProUGUI costText;
 
     public Transform parentWhenDrag = null;
     public Transform parentToReturn = null;
@@ -20,6 +23,7 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         item = newItem;
         icon.sprite = item.icon;
         icon.enabled = true;
+        costText.text = item.Cost.ToString();
     }
 
     public void ClearSlot()
@@ -27,6 +31,7 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         item = null;
         icon.sprite = null;
         icon.enabled = false;
+        costText.text = "";
     }
 
     public void OnBeginDrag(PointerEventData eventData)

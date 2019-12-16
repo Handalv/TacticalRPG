@@ -121,12 +121,12 @@ public class Inventory : MonoBehaviour
         {
             if (level == 1)
             {
-                UI = UIGlobalMap.instance.PlayerInventory;
+                UI = UIGlobalMap.instance.PlayerInventory.GetComponent<UIforInventory>();
                 UI.CurrentInventory = this;
             }
             if (level == 2)
             {
-                UI = UIBattleMap.instance.PlayerInventory;
+                UI = UIBattleMap.instance.PlayerInventory.GetComponent<UIforInventory>();
                 UI.CurrentInventory = this;
             }
         }

@@ -15,7 +15,7 @@ public class UIBattleMap : MonoBehaviour
     public TextMeshProUGUI ActionPointsText;
     public GameObject MapObjectElementsPanel;
 
-    public UIforInventory PlayerInventory;
+    public GameObject PlayerInventory;
 
     public static UIBattleMap instance;
     void Awake()

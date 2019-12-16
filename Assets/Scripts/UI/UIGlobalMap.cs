@@ -26,7 +26,9 @@ public class UIGlobalMap : MonoBehaviour
     public GameObject playerGoldText;
     public GameObject MapObjectElementsPanel;
 
-    public UIforInventory PlayerInventory;
+    public GameObject PlayerInventory;
+    public GameObject LootInventory;
+    public GameObject TraderInventory;
 
     public static UIGlobalMap instance;
     void Awake()
@@ -58,6 +60,26 @@ public class UIGlobalMap : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            PlayerInventory.SetActive(!PlayerInventory.activeSelf);
+            if (PlayerInventory.activeSelf == false)
+            {
+                LootInventory.SetActive(false);
+                TraderInventory.SetActive(false);
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            TraderInventory.SetActive(!TraderInventory.activeSelf);
+            LootInventory.SetActive(false);
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            LootInventory.SetActive(!LootInventory.activeSelf);
+            TraderInventory.SetActive(false);
+        }
+
         if (Input.GetKeyDown(KeyCode.U))
         {
             //OpenUnitsList();

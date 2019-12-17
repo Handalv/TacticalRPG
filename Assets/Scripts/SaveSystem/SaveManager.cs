@@ -9,7 +9,7 @@ public class SaveManager : MonoBehaviour
     public bool isLoadGame = false;
 
     public string SaveName = "save";
-    public SaveData save;
+    public SaveData save = null;
 
     public static SaveManager instance;
     void Awake()
@@ -33,7 +33,8 @@ public class SaveManager : MonoBehaviour
             map.tiles,
             UnitList.instance,
             Inventory.PlayerInventory.Gold,
-            map.mapObjects
+            map.mapObjects,
+            Inventory.PlayerInventory
             );
 
         SaveSystem.Save(SaveName, save);
@@ -60,16 +61,21 @@ public class SaveManager : MonoBehaviour
 
     public void LoadData()
     {
+        Debug.Log("Load Game");
         save = (SaveData)SaveSystem.Load(SaveSystem.SaveDirectory + SaveName + ".save");
+        Debug.Log(save.MapSizeX + " - " + save.MapSizeZ);
     }
 
     public void LoadGame()
     {
-        if (save == null)
-            LoadData();
+        LoadData();
 
         Inventory.PlayerInventory.Gold = save.PlayerGold;
-
+        foreach(string itemName in save.Items)
+        {
+            Item item = Resources.Load("Items/"+itemName) as Item;
+            Inventory.PlayerInventory.Items.Add(item);
+        }
 
         UnitList.instance.units.Clear();
         for (int i = 0; i < save.UnitIconName.Count; i++)
@@ -91,8 +97,6 @@ public class SaveManager : MonoBehaviour
 
     private void OnLevelWasLoaded(int level)
     {
-        if (save == null)
-            LoadData();
         if (level == 1)
         {
             if(isLoadGame)

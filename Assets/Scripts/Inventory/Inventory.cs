@@ -64,6 +64,7 @@ public class Inventory : MonoBehaviour
     public void SetInventoryToUI(UIforInventory ui)
     {
         UI = ui;
+        UI.CurrentInventory = this;
     }
 
     public bool SpaceEnough()

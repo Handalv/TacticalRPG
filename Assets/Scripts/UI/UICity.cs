@@ -7,12 +7,14 @@ using UnityEngine.UI;
 public class UICity : MonoBehaviour
 {
     public GameObject CityPanel;
+    public UIforInventory TraderInventory;
 
     [SerializeField]
     private GameObject unitsPanel;
     [SerializeField]
     private TextMeshProUGUI cityNameText;
     private City selectedCity;
+    private Inventory cityInventory;
 
     public static UICity instance;
     void Awake()
@@ -26,13 +28,6 @@ public class UICity : MonoBehaviour
         }
 
         unitsPanel.SetActive(false);
-
-        Debug.Log("hello");
-    }
-
-    private void Start()
-    {
-        Debug.Log("hello 1");
     }
 
     public void BuyUnit(int index)
@@ -53,9 +48,11 @@ public class UICity : MonoBehaviour
         }
 
         selectedCity = city;
-        cityNameText.text = city.CityName;
+        cityInventory = city.gameObject.GetComponent<Inventory>();
 
-        foreach(CreachureStats unit in city.unitsToBuy)
+        cityInventory.SetInventoryToUI(TraderInventory);
+
+        foreach (CreachureStats unit in city.unitsToBuy)
         {
             GameObject button = Instantiate(Resources.Load("BuyUnitButton"), unitsPanel.transform) as GameObject;
             button.GetComponent<UIBuyUnitBButton>().SetInfo(unit);

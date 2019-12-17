@@ -91,7 +91,6 @@ public class EnemyMeleeAI : MonoBehaviour
         {
             if (unit.CurrentActionpoints >= unit.Actions[0].Cost)
             {
-                Debug.Log("I am attacking with AP = " + unit.CurrentActionpoints);
                 unit.CurrentActionpoints -= unit.Actions[0].Cost;
                 unit.Actions[0].Use(unit, CurrentTarget);
                 if (CurrentTarget.UnitHP <= 0)

@@ -28,7 +28,7 @@ public class SaveSystem
     {
         if (!File.Exists(path))
         {
-            Debug.Log("Load file is ont exist! path: " + path);
+            Debug.Log("Load file is not exist! path: " + path);
             return null;
         }
 
@@ -40,6 +40,7 @@ public class SaveSystem
         {
             object save = formatter.Deserialize(file);
             file.Close();
+            Debug.Log("End Loading");
             return save;
         }
         catch

@@ -198,7 +198,6 @@ public class BattleController : MonoBehaviour
     public void Victory()
     {
         Debug.Log("Victory");
-        Debug.Log("enenmy index " + GameSettings.instance.EnemyMapIndex);
 
         SaveManager.instance.BattleResultSave();
         SaveManager.instance.isLoadGame = true;

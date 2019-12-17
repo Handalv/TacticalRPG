@@ -26,7 +26,6 @@ public class BattleSkillButton : MonoBehaviour
 
     public void HighlightValidTargets()
     {
-        Debug.Log(""+action.Validtargets.Count);
         Color color = Color.red;
         if (action.isTargetsFriendly)
         {

@@ -27,10 +27,13 @@ public class GlobalMap : TileMap
     {
         if (SaveManager.instance.isLoadGame)
         {
+            //SaveManager.instance.LoadGame();
             SaveData save = SaveManager.instance.save;
 
             mapSizeX = save.MapSizeX;
             mapSizeZ = save.MapSizeZ;
+
+            Debug.Log(mapSizeX + " " + mapSizeZ);
 
             GeneratePathfindingGraph();
             InitializeTiles();

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8945424022536819226}
   - component: {fileID: 4089815326393546796}
+  - component: {fileID: 4521806864224161845}
   m_Layer: 0
   m_Name: City
   m_TagString: Untagged
@@ -56,6 +57,28 @@ MonoBehaviour:
     relations: 
   highlight: {fileID: 0}
   CityName: TEST CITY
+  unitsToBuy: []
+--- !u!114 &4521806864224161845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334522524367084207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7110ccc1482b4754d85325ff24244d23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UI: {fileID: 0}
+  Items:
+  - {fileID: 11400000, guid: dbb77d8a9e7c20e49ba4f1b2aa9e86ea, type: 2}
+  - {fileID: 11400000, guid: dbb77d8a9e7c20e49ba4f1b2aa9e86ea, type: 2}
+  - {fileID: 11400000, guid: dbb77d8a9e7c20e49ba4f1b2aa9e86ea, type: 2}
+  - {fileID: 11400000, guid: dbb77d8a9e7c20e49ba4f1b2aa9e86ea, type: 2}
+  gold: 1000
+  Space: 150
+  type: 2
 --- !u!136 &2119709962226314504
 CapsuleCollider:
   m_ObjectHideFlags: 0

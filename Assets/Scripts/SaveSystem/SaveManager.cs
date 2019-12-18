@@ -32,7 +32,6 @@ public class SaveManager : MonoBehaviour
             map.selectedUnit.GetComponent<Unit>(),
             map.tiles,
             UnitList.instance,
-            Inventory.PlayerInventory.Gold,
             map.mapObjects,
             Inventory.PlayerInventory
             );

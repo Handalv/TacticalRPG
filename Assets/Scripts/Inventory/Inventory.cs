@@ -99,13 +99,15 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
-    //public void AddItem(Item item)
+    //public bool AddItem(Item item)
     //{
     //    if (SpaceEnough())
     //    {
     //        Items.Add(item);
-    //        //UNDONE Update UI
+    //        UNDONE Update UI
+    //        return true;
     //    }
+    //    return false;
     //}
 
     //public void RemoveItem(Item item)

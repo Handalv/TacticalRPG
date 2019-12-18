@@ -8,7 +8,7 @@ public class TileMap : MonoBehaviour
 
     public bool globalWarfogEnabled = true;
 
-    public bool GAMEPAUSED = false;
+    //public bool GAMEPAUSED = false;
 
     public int mapSizeX=10;
     public int mapSizeZ=10;

@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Item", menuName = "Inventory/ITEM")]
 public class Item : ScriptableObject
 {
+    public int ID;
 
     public Sprite icon = null;
     public int Cost = 1;

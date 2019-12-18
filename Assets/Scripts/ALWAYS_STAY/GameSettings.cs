@@ -18,6 +18,7 @@ public class GameSettings : MonoBehaviour
 
     //List of every possible game tile
     public List<TileType> tileTypes;
+    public List<Item> ItemList;
 
     // To Battle info
     public TileType BattleTileType;

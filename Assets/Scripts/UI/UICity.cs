@@ -14,7 +14,6 @@ public class UICity : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI cityNameText;
     private City selectedCity;
-    private Inventory cityInventory;
 
     public static UICity instance;
     void Awake()
@@ -48,9 +47,8 @@ public class UICity : MonoBehaviour
         }
 
         selectedCity = city;
-        cityInventory = city.gameObject.GetComponent<Inventory>();
 
-        cityInventory.SetInventoryToUI(TraderInventory);
+        city.cityInventory.SetInventoryToUI(TraderInventory);
 
         foreach (CreachureStats unit in city.unitsToBuy)
         {
@@ -65,7 +63,7 @@ public class UICity : MonoBehaviour
 
     public void ExitCity()
     {
-        gameObject.SetActive(false);
         GlobalMap.instance.GAMEPAUSED = false;
+        gameObject.SetActive(false);
     }
 }

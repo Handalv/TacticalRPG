@@ -39,7 +39,7 @@ public class SaveData
     public List<int> MapObjectZ;
     public List<string> MapObjectName;
 
-    public SaveData(int mapSizeX, int mapSizeZ, MapObject playerUnit, Tile[,] tiles, UnitList unitList, int playerGold, List<MapObject> mapObjects, Inventory inventory)
+    public SaveData(int mapSizeX, int mapSizeZ, MapObject playerUnit, Tile[,] tiles, UnitList unitList, List<MapObject> mapObjects, Inventory playerInventory)
     {
         #region List Initializating
         TileX = new List<int>();
@@ -48,12 +48,12 @@ public class SaveData
         MapObjectZ = new List<int>();
         TileType = new List<string>();
         MapObjectName = new List<string>();
-       
+
+        Items = new List<string>();
         CityName = new List<string>();
         #endregion
 
         // Main
-        PlayerGold = playerGold;
         MapSizeX = mapSizeX;
         MapSizeZ = mapSizeZ;
 
@@ -91,8 +91,10 @@ public class SaveData
         // player's UnitList
         SavePlayerUnits(unitList);
 
-        // items Inventory
-        foreach(Item item in inventory.Items)
+        // player's Inventory
+        PlayerGold = playerInventory.Gold;
+
+        foreach(Item item in playerInventory.Items)
         {
             Items.Add(item.name);
         }

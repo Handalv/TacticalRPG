@@ -7,8 +7,26 @@ public class GlobalMap : TileMap
     public UIGlobalMap UI;
     public MapObject BattleOpponent = null;
 
+    private bool pause = false;
+    public bool GAMEPAUSED
+    {
+        get
+        {
+            return pause;
+        }
+        set
+        {
+            pause = value;
+            UI.SetPauseVision(GAMEPAUSED);
+        }
+    }
+
     // New feature
     public List<MapObject> mapObjects = null;
+
+    [SerializeField]
+    private int maxEnemyLairs = 1;
+    private int currentEnemyLairs = 0;
 
     // AWAKE INSTANCE
     public static GlobalMap instance;
@@ -56,6 +74,46 @@ public class GlobalMap : TileMap
         }
     }
 
+    void Update()
+    {
+        //TEST Remove warfog
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            if (globalWarfogEnabled)
+            {
+                foreach (Tile tile in tiles)
+                    tile.WarFogEnabled = false;
+                globalWarfogEnabled = false;
+            }
+            else
+            {
+                globalWarfogEnabled = true;
+                ReShowWarFog();
+            }
+        }
+        //END TEST
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            GAMEPAUSED = !GAMEPAUSED;
+        }
+    }
+
+    public GameObject AddMapObject(string prefabName, int x, int z)
+    {
+        GameObject NewObject = GameObject.Instantiate(Resources.Load(prefabName)) as GameObject;
+        MapObject mo = NewObject.GetComponent<MapObject>();
+
+        mo.tileX = x;
+        mo.tileZ = z;
+
+        tiles[x, z].mapObjects.Add(mo);
+        mapObjects.Add(mo);
+
+        NewObject.transform.position = ConvertTileCoordToWorld(x, z);
+
+        return NewObject;
+    }
+
     void LoadTiles(SaveData save)
     {
         for (int x = 0; x < mapSizeX; x++)
@@ -100,31 +158,6 @@ public class GlobalMap : TileMap
         }
 
         ReShowWarFog();
-    }
-
-    void Update()
-    {
-        //TEST Remove warfog
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            if (globalWarfogEnabled)
-            {
-                foreach (Tile tile in tiles)
-                    tile.WarFogEnabled = false;
-                globalWarfogEnabled = false;
-            }
-            else
-            {
-                globalWarfogEnabled = true;
-                ReShowWarFog();
-            }
-        }
-        //END TEST
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            GAMEPAUSED = !GAMEPAUSED;
-            UI.SetPauseVision(GAMEPAUSED);
-        }
     }
 
     public void GenerateTiles()
@@ -203,21 +236,12 @@ public class GlobalMap : TileMap
 
     void SpawnPlayer(int x,int z)
     {
-        selectedUnit = GameObject.Instantiate(Resources.Load("PlayerUnit")) as GameObject;
+        selectedUnit = AddMapObject("PlayerUnit", x, z);
         FindObjectOfType<PlayerControls>().playerUnit = selectedUnit.GetComponent<Unit>();
         selectedUnit.name = "PlayerUnit";
 
         MapObject mo = selectedUnit.GetComponent<MapObject>();
 
-        mo.tileX = x;
-        mo.tileZ = z;
-
-        tiles[x, z].mapObjects.Add(mo);
-        mapObjects.Add(mo);
-
-        selectedUnit.transform.position = ConvertTileCoordToWorld(x, z);
-        //TEST new warfog system
-        //RemoveGraphWarFog(x, z);
         visibleObjects.Add(mo);
         ReShowWarFog();
     }
@@ -301,6 +325,7 @@ public class GlobalMap : TileMap
     public new List<Node> GeneratePathTo(int x, int z, int startX, int startZ)
     {
         if (UnitCanEnterTile(x, z))
+            //TODO Movement richabletiles logic
             return base.GeneratePathTo(x, z, startX, startZ);
         else
             return null;

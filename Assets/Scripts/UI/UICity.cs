@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class UICity : MonoBehaviour
 {
     public GameObject CityPanel;
-    public UIforInventory TraderInventory;
+    public UIforInventory TraderInventoryUI;
 
     [SerializeField]
     private GameObject unitsPanel;
@@ -29,14 +29,18 @@ public class UICity : MonoBehaviour
         unitsPanel.SetActive(false);
     }
 
-    public void BuyUnit(int index)
+    public bool BuyUnit(int index)
     {
         CreachureStats unit = selectedCity.unitsToBuy[index];
-        Inventory.PlayerInventory.Gold -= unit.Cost;
+        if (Inventory.PlayerInventory.Gold >= unit.Cost)
+        {
+            Inventory.PlayerInventory.Gold -= unit.Cost;
 
-        UnitList.instance.AddUnit(unit);
-
-        selectedCity.unitsToBuy.RemoveAt(index);
+            UnitList.instance.AddUnit(unit);
+            selectedCity.unitsToBuy.RemoveAt(index);
+            return true;
+        }
+        return false;
     }
 
     public void SetCityInfo(City city)
@@ -48,7 +52,7 @@ public class UICity : MonoBehaviour
 
         selectedCity = city;
 
-        city.cityInventory.SetInventoryToUI(TraderInventory);
+        city.cityInventory.SetInventoryToUI(TraderInventoryUI);
 
         foreach (CreachureStats unit in city.unitsToBuy)
         {

@@ -23,12 +23,10 @@ public class UIGlobalMap : MonoBehaviour
 
     //[SerializeField]
     public GameObject unitsListPanel;
-    public GameObject playerGoldText;
     public GameObject MapObjectElementsPanel;
 
-    public GameObject PlayerInventory;
-    public GameObject LootInventory;
-    public GameObject TraderInventory;
+    public GameObject PlayerInventoryUI;
+    public GameObject LootInventoryUI;
 
     public static UIGlobalMap instance;
     void Awake()
@@ -62,22 +60,17 @@ public class UIGlobalMap : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            PlayerInventory.SetActive(!PlayerInventory.activeSelf);
-            if (PlayerInventory.activeSelf == false)
+            PlayerInventoryUI.SetActive(!PlayerInventoryUI.activeSelf);
+            if (PlayerInventoryUI.activeSelf == false)
             {
-                LootInventory.SetActive(false);
-                TraderInventory.SetActive(false);
+                LootInventoryUI.SetActive(false);
+                cityUI.TraderInventoryUI.gameObject.SetActive(false);
             }
-        }
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            TraderInventory.SetActive(!TraderInventory.activeSelf);
-            LootInventory.SetActive(false);
         }
         if (Input.GetKeyDown(KeyCode.L))
         {
-            LootInventory.SetActive(!LootInventory.activeSelf);
-            TraderInventory.SetActive(false);
+            LootInventoryUI.SetActive(!LootInventoryUI.activeSelf);
+            cityUI.TraderInventoryUI.gameObject.SetActive(false);
         }
 
         if (Input.GetKeyDown(KeyCode.U))

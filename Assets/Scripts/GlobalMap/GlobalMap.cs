@@ -27,6 +27,12 @@ public class GlobalMap : TileMap
     [SerializeField]
     private int maxEnemyLairs = 1;
     private int currentEnemyLairs = 0;
+    [SerializeField]
+    private float minLairSpawnCD = 150;
+    [SerializeField]
+    private float maxLairSpawnCD = 210;
+    private float currentLairSpawnCD;
+    
 
     // AWAKE INSTANCE
     public static GlobalMap instance;
@@ -45,7 +51,6 @@ public class GlobalMap : TileMap
     {
         if (SaveManager.instance.isLoadGame)
         {
-            //SaveManager.instance.LoadGame();
             SaveData save = SaveManager.instance.save;
 
             mapSizeX = save.MapSizeX;
@@ -72,6 +77,8 @@ public class GlobalMap : TileMap
             SpawnPlayer(x, z);
             GenerateMapObjects();
         }
+
+        currentLairSpawnCD = Random.Range(minLairSpawnCD, maxLairSpawnCD);
     }
 
     void Update()
@@ -96,12 +103,29 @@ public class GlobalMap : TileMap
         {
             GAMEPAUSED = !GAMEPAUSED;
         }
+        if (currentEnemyLairs < maxEnemyLairs)
+        {
+            currentLairSpawnCD -= Time.deltaTime;
+            if (currentLairSpawnCD <= 0)
+            {
+                int X, Z;
+                do
+                {
+                    X = Random.Range(0, mapSizeX);
+                    Z = Random.Range(0, mapSizeZ);
+                } while (tiles[X, Z].mapObjects.Count > 0 || !tiles[X, Z].type.isWalkable);
+                AddMapObject("EnemyLair", X, Z);
+                currentEnemyLairs++;
+                currentLairSpawnCD = Random.Range(minLairSpawnCD, maxLairSpawnCD);
+            }
+        }
     }
 
     public GameObject AddMapObject(string prefabName, int x, int z)
     {
         GameObject NewObject = GameObject.Instantiate(Resources.Load(prefabName)) as GameObject;
         MapObject mo = NewObject.GetComponent<MapObject>();
+        NewObject.name = prefabName;
 
         mo.tileX = x;
         mo.tileZ = z;
@@ -110,6 +134,11 @@ public class GlobalMap : TileMap
         mapObjects.Add(mo);
 
         NewObject.transform.position = ConvertTileCoordToWorld(x, z);
+
+        if (tiles[x, z].WarFogEnabled)
+        {
+            mo.SetGraphicActive(false);
+        }
 
         return NewObject;
     }
@@ -179,9 +208,10 @@ public class GlobalMap : TileMap
             }
     }
 
+    //TEST
     public void GenerateMapObjects()
     {
-        //UNDONE generate 3 enemys
+        //generate 3 enemies
         int enemyAmount = 3;
         for (int i = 0; i < enemyAmount; i++)
         {
@@ -192,21 +222,9 @@ public class GlobalMap : TileMap
                 Z = Random.Range(0, mapSizeZ);
             } while (tiles[X, Z].mapObjects.Count > 0 || !tiles[X, Z].type.isWalkable);
 
-            Tile tile = tiles[X, Z];
-            GameObject go = GameObject.Instantiate(Resources.Load("Enemy")) as GameObject;
-            go.name = "Enemy";
-            MapObject mapObject = go.GetComponent<MapObject>();
-
-            mapObject.tileX = X;
-            mapObject.tileZ = Z;
-
-            go.transform.position = GlobalMap.ConvertTileCoordToWorld(X, Z);
-            tile.mapObjects.Add(mapObject);
-            mapObjects.Add(mapObject);
-            if (tile.WarFogEnabled)
-                mapObject.SetGraphicActive(false);
+            AddMapObject("Enemy", X, Z);
         }
-        //generate 2 citys
+        //generate 2 cities
         int cityAmount = 2;
         for (int i = 0; i < cityAmount; i++)
         {
@@ -217,23 +235,10 @@ public class GlobalMap : TileMap
                 Z = Random.Range(0, mapSizeZ);
             } while (tiles[X, Z].mapObjects.Count > 0 || !tiles[X, Z].type.isWalkable);
 
-            Tile tile = tiles[X, Z];
-            GameObject go = GameObject.Instantiate(Resources.Load("City")) as GameObject;
-            go.name = "City";
-            MapObject mapObject = go.GetComponent<MapObject>();
-
-            mapObject.tileX = X;
-            mapObject.tileZ = Z;
-
-            go.transform.position = GlobalMap.ConvertTileCoordToWorld(X, Z);
-            tile.mapObjects.Add(mapObject);
-            mapObjects.Add(mapObject);
-            if (tile.WarFogEnabled)
-                mapObject.SetGraphicActive(false);
+            AddMapObject("City", X, Z);
         }
-        //END
     }
-
+    //END
     void SpawnPlayer(int x,int z)
     {
         selectedUnit = AddMapObject("PlayerUnit", x, z);

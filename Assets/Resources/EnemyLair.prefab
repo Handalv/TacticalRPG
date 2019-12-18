@@ -117,6 +117,6 @@ MonoBehaviour:
     relations: 
   highlight: {fileID: 0}
   maxUnits: 2
-  spawnCD: 300
+  spawnCD: 150
   enemyPrefab: {fileID: 2934691334514249080, guid: 6c9c94a73413d6244a704f463f13d97f,
     type: 3}

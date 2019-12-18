@@ -124,7 +124,7 @@ public class Inventory : MonoBehaviour
         {
             if (level == 1)
             {
-                UI = UIGlobalMap.instance.PlayerInventory.GetComponent<UIforInventory>();
+                UI = UIGlobalMap.instance.PlayerInventoryUI.GetComponent<UIforInventory>();
                 UI.CurrentInventory = this;
             }
             if (level == 2)

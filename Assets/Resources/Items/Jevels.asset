@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Jevels
   m_EditorClassIdentifier: 
   ID: 3
-  icon: {fileID: 21300000, guid: c66786a3cc835f34786d7fcfa94d44cc, type: 3}
+  icon: {fileID: 21300000, guid: d3bcc21d8272a7945ad495fa6de5102c, type: 3}
   Cost: 200

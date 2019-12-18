@@ -33,8 +33,10 @@ public class UIBuyUnitBButton : MonoBehaviour
     public void BuyUnitClick()
     {
         int index = transform.GetSiblingIndex();
-        UICity.instance.BuyUnit(index);
-        Destroy(gameObject);
+        if (UICity.instance.BuyUnit(index))
+        {
+            Destroy(gameObject);
+        }
     }
     
 }

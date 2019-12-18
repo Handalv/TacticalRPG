@@ -9,7 +9,7 @@ public class EnemySpawn : MapObject
     private int unitsAmount = 0;
 
     [SerializeField]
-    private float spawnCD = 300;
+    private float spawnCD = 150;
     private float currentSpawnCD;
 
     [SerializeField]

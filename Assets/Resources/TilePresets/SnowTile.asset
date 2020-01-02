@@ -15,4 +15,5 @@ MonoBehaviour:
   name: SnowTile
   material: {fileID: 2100000, guid: 812a25d9129a865468f10f2f63c12c9b, type: 2}
   isWalkable: 1
-  movementCost: 3
+  movementCost: 1.5
+  BattleMovementCost: 1

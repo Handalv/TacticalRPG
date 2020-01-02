@@ -192,14 +192,6 @@ public class GlobalMap : TileMap
     public void GenerateTiles()
     {
         //TODO just do it! (somehow)
-        //for (int x = 0; x < map.mapSizeX; x++)
-        //    for (int z = 0; z < map.mapSizeZ; z++)
-        //    {
-        //        if (z % 2 == 0)
-        //            map.tiles[x, z].SetTypeChanges(GameSettings.instance.tileTypes[0]);
-        //        else
-        //            map.tiles[x, z].SetTypeChanges(GameSettings.instance.tileTypes[1]);
-        //    }
         for (int x = 0; x < mapSizeX; x++)
             for (int z = 0; z < mapSizeZ; z++)
             {
@@ -315,7 +307,6 @@ public class GlobalMap : TileMap
                     GameSettings.instance.EnemyMapIndex = mapObjects.IndexOf(mapObject)-1;
                     Debug.Log("enenmy index " + GameSettings.instance.EnemyMapIndex);
 
-
                     GameSettings.instance.BattleTileType = tiles[x, z].type;
                     GameSettings.instance.Enemies = enemyUnitList.Enemies;
                     BattleOpponent = mapObject;
@@ -330,9 +321,13 @@ public class GlobalMap : TileMap
     public new List<Node> GeneratePathTo(int x, int z, int startX, int startZ)
     {
         if (UnitCanEnterTile(x, z))
+        {
             //TODO Movement richabletiles logic
             return base.GeneratePathTo(x, z, startX, startZ);
+        }
         else
+        {
             return null;
+        }
     }
 }

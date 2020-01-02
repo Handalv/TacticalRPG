@@ -33,6 +33,7 @@ public class UIforInventory : MonoBehaviour, IDropHandler
         currentInventory = inv;
         if (currentInventory != null)
         {
+            GoldText.text = "" + currentInventory.Gold;
             foreach (GameObject slot in ItemSlots)
             {
                 Destroy(slot);
@@ -41,7 +42,6 @@ public class UIforInventory : MonoBehaviour, IDropHandler
             {
                 CreateItemSlot(currentInventory.Items[i]);
             }
-            GoldText.text = "" + currentInventory.Gold;
         }
     }
 
@@ -54,14 +54,8 @@ public class UIforInventory : MonoBehaviour, IDropHandler
         ItemSlot slot = slotGO.GetComponent<ItemSlot>();
         slot.UI = this;
         slot.parentToReturn = ItemSlotsParent.transform;
-        if (SceneManager.sceneCount == 1)
-        {
-            slot.parentWhenDrag = UIGlobalMap.instance.transform;
-        }
-        else
-        {
-            slot.parentWhenDrag = UIBattleMap.instance.transform;
-        }
+
+        slot.parentWhenDrag = GameSettings.instance.CurrentCanvas.transform;
 
         if (item != null)
         {
@@ -86,5 +80,27 @@ public class UIforInventory : MonoBehaviour, IDropHandler
             itemSlot.parentToReturn = ItemSlotsParent.transform;
             itemSlot.UI = this;
         }
+    }
+
+    public void LootGold()
+    {
+        Inventory.PlayerInventory.Gold += CurrentInventory.Gold;
+        CurrentInventory.Gold = 0;
+    }
+    public void LootAll()
+    {
+        LootGold();
+        for(int i=0;i< CurrentInventory.Items.Count; i++)
+        {
+            if (Inventory.PlayerInventory.SpaceEnough())
+            {
+                Inventory.PlayerInventory.Items.Add(CurrentInventory.Items[i]);
+                CurrentInventory.Items.RemoveAt(i);
+                i--;
+            }
+            else break;
+        }
+        CurrentInventory = CurrentInventory;
+        Inventory.PlayerInventory.UI.CurrentInventory = Inventory.PlayerInventory;
     }
 }

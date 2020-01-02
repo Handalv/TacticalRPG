@@ -15,4 +15,5 @@ MonoBehaviour:
   name: GrassTile
   material: {fileID: 2100000, guid: f3c9f49fd14d22e4dbf52f93aa59d490, type: 2}
   isWalkable: 1
-  movementCost: 2
+  movementCost: 1
+  BattleMovementCost: 1

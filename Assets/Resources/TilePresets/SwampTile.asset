@@ -15,4 +15,5 @@ MonoBehaviour:
   name: SwampTile
   material: {fileID: 2100000, guid: f5a83c16e58c4f048884c44b56d36b8d, type: 2}
   isWalkable: 1
-  movementCost: 5
+  movementCost: 2
+  BattleMovementCost: 1

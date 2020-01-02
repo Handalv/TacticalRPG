@@ -92,9 +92,14 @@ public class SaveData
         SavePlayerUnits(unitList);
 
         // player's Inventory
+        SaveInventory(playerInventory);
+    }
+
+    public void SaveInventory(Inventory playerInventory)
+    {
         PlayerGold = playerInventory.Gold;
 
-        foreach(Item item in playerInventory.Items)
+        foreach (Item item in playerInventory.Items)
         {
             Items.Add(item.name);
         }

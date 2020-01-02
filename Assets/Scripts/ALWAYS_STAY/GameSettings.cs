@@ -15,6 +15,7 @@ public class GameSettings : MonoBehaviour
 {
     // New feature
     public TileMap CurrentMap;
+    public GameObject CurrentCanvas;
 
     //List of every possible game tile
     public List<TileType> tileTypes;
@@ -75,6 +76,7 @@ public class GameSettings : MonoBehaviour
         if (level == 1)
         {
             CurrentMap = GlobalMap.instance;
+            CurrentCanvas = UIGlobalMap.instance.gameObject;
             //playerGoldText = UIGlobalMap.instance.playerGoldText;
             //PlayerGold = PlayerGold;
             playTime = 0;
@@ -82,6 +84,7 @@ public class GameSettings : MonoBehaviour
         if(level == 2)
         {
             CurrentMap = BattleMap.instance;
+            CurrentCanvas = UIBattleMap.instance.gameObject;
         }
     }
 

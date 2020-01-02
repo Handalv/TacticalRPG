@@ -86,6 +86,13 @@ public class BattleUnit : MapObject
         }
         if (battleController.EnemyBattleList.Contains(this))
         {
+            //UNDONE Add Loot
+            LootGenerator lootGenerator = GetComponent<LootGenerator>();
+            lootGenerator.GenerateLoot();
+            Inventory loot = UIBattleMap.instance.LootInventory.GetComponent<Inventory>();
+            loot.Items.AddRange(lootGenerator.Items);
+            loot.Gold += lootGenerator.Gold;
+
             battleController.EnemyBattleList.Remove(this);
             if (battleController.EnemyBattleList.Count == 0)
             {

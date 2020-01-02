@@ -15,4 +15,5 @@ MonoBehaviour:
   name: RoadTile
   material: {fileID: 2100000, guid: 8decf98faad04464db5302db4555faf8, type: 2}
   isWalkable: 1
-  movementCost: 1
+  movementCost: 0.5
+  BattleMovementCost: 1

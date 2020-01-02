@@ -11,11 +11,10 @@ public class BattleSkillButton : MonoBehaviour
 
     public BattleUnit unit;
     public FightAction action;
-    bool isEnabled = true;
 
     public void Click()
     {
-        if (isEnabled)
+        if (unit.CurrentActionpoints - action.Cost>=0)
         {
             BattlePlayerControls.instance.isUsingSkill = true;
             BattlePlayerControls.instance.UsingSkill = action;

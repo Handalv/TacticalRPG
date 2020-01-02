@@ -15,4 +15,5 @@ MonoBehaviour:
   name: RockTile
   material: {fileID: 2100000, guid: 3e3272e6fcbb3524b8e0ae04e6e89a4b, type: 2}
   isWalkable: 1
-  movementCost: 5
+  movementCost: 2
+  BattleMovementCost: 1

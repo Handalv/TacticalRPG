@@ -30,7 +30,7 @@ public class EnemyAI : MonoBehaviour
         List<Node> avliableTiles = new List<Node>();
         foreach(Node n in GlobalMap.instance.graph[unit.tileX, unit.tileZ].neighbours)
         {
-            if (GlobalMap.instance.tiles[n.x, n.z].mapObjects.Count < 1)
+            if (GlobalMap.instance.tiles[n.x, n.z].mapObjects.Count < 1 && GlobalMap.instance.tiles[n.x, n.z].isWalkable)
                 avliableTiles.Add(n);
         }     
 

@@ -19,7 +19,9 @@ public class Attack : FightAction
         //    return;
         //}
         target.UnitHP -= user.UnitStats.Damage;
-        Debug.Log("target received " + user.UnitStats.Damage + " damage and left" + target.UnitHP + "hp");
+
+        //Debug.Log("target received " + user.UnitStats.Damage + " damage and left" + target.UnitHP + "hp");
+
         //in AI and Player logic
         //user.UnitStats.ActionPoints -= Cost;
     }

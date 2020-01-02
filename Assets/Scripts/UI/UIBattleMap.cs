@@ -16,6 +16,8 @@ public class UIBattleMap : MonoBehaviour
     public GameObject MapObjectElementsPanel;
 
     public GameObject PlayerInventory;
+    public GameObject LootInventory;
+    public GameObject EndBattleButton;
 
     public static UIBattleMap instance;
     void Awake()
@@ -47,12 +49,26 @@ public class UIBattleMap : MonoBehaviour
         BattleController.instance.EndTurn();
     }
 
+    public void EndBattle()
+    {
+        if (BattleController.instance.isWon)
+        {
+            SaveManager.instance.BattleResultSave();
+            SaveManager.instance.isLoadGame = true;
+            SceneManager.LoadScene(1);
+        }
+        else
+        {
+            SceneManager.LoadScene(0);
+        }
+    }
+
     //TEST
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.V))
         {
-            BattleController.instance.Victory();
+            EndBattle();
         }
     }
 }

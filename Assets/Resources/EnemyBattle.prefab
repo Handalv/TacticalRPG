@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 5781196465148413389}
   - component: {fileID: -4908693711069190861}
   - component: {fileID: -3742913409817015090}
+  - component: {fileID: 8361594434761000375}
   m_Layer: 0
   m_Name: EnemyBattle
   m_TagString: Untagged
@@ -101,6 +102,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: {fileID: 0}
   CurrentTarget: {fileID: 0}
+--- !u!114 &8361594434761000375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2934691334514249080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9687acfa8ee20e84c9684fd82a6d4027, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PossibleLoot:
+  - {fileID: 11400000, guid: dbb77d8a9e7c20e49ba4f1b2aa9e86ea, type: 2}
+  - {fileID: 11400000, guid: d21ccd048d87a854c80a40d9464745ed, type: 2}
+  - {fileID: 11400000, guid: 063d275facb615047a7c3da106cc512e, type: 2}
+  - {fileID: 11400000, guid: 608c7e6698fbc4e4d90837aa3dd0bc94, type: 2}
+  DropChance: 5a00000041000000230000000a000000
+  minGold: 0
+  maxGold: 135
+  Gold: 0
+  Items: []
 --- !u!1 &6930476553894308699
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,6 +18,8 @@ public class BattleController : MonoBehaviour
     UnitList playerUnits;
     [HideInInspector]
     public BattleMap map;
+    [HideInInspector]
+    public bool isWon = true;
 
     public static BattleController instance;
     void Awake()
@@ -192,15 +194,24 @@ public class BattleController : MonoBehaviour
     public void Defeat()
     {
         Debug.Log("Defeat");
-        SceneManager.LoadScene(0);
+        isWon = false;
+        UIBattleMap.instance.EndBattleButton.SetActive(true);
+
+        UIBattleMap.instance.EndTurnButton.SetActive(false);
+        UIBattleMap.instance.UnitSkillPanel.SetActive(false);
+        UIBattleMap.instance.BattleOrderPanel.SetActive(false);
     }
 
     public void Victory()
     {
         Debug.Log("Victory");
+        isWon = true;
+        UIBattleMap.instance.PlayerInventory.SetActive(true);
+        UIBattleMap.instance.LootInventory.SetActive(true);
+        UIBattleMap.instance.EndBattleButton.SetActive(true);
 
-        SaveManager.instance.BattleResultSave();
-        SaveManager.instance.isLoadGame = true;
-        SceneManager.LoadScene(1);
+        UIBattleMap.instance.EndTurnButton.SetActive(false);
+        UIBattleMap.instance.UnitSkillPanel.SetActive(false);
+        UIBattleMap.instance.BattleOrderPanel.SetActive(false);
     }
 }

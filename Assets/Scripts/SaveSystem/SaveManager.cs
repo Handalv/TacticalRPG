@@ -39,19 +39,13 @@ public class SaveManager : MonoBehaviour
         SaveSystem.Save(SaveName, save);
     }
 
-    //public void UpdateSave()
-    //{
-    //    SaveSystem.Save(SaveName, save);
-    //}
-
     public void BattleResultSave()
     {
         save.MapObjectName.RemoveAt(GameSettings.instance.EnemyMapIndex);
         save.MapObjectX.RemoveAt(GameSettings.instance.EnemyMapIndex);
         save.MapObjectZ.RemoveAt(GameSettings.instance.EnemyMapIndex);
 
-        //UNDONE
-        save.PlayerGold += 20;
+        save.SaveInventory(Inventory.PlayerInventory);
 
         save.SavePlayerUnits();
         
@@ -60,9 +54,7 @@ public class SaveManager : MonoBehaviour
 
     public void LoadData()
     {
-        Debug.Log("Load Game");
         save = (SaveData)SaveSystem.Load(SaveSystem.SaveDirectory + SaveName + ".save");
-        Debug.Log(save.MapSizeX + " - " + save.MapSizeZ);
     }
 
     public void LoadGame()
@@ -70,7 +62,9 @@ public class SaveManager : MonoBehaviour
         LoadData();
 
         Inventory.PlayerInventory.Gold = save.PlayerGold;
-        foreach(string itemName in save.Items)
+
+        Inventory.PlayerInventory.Items.Clear();
+        foreach (string itemName in save.Items)
         {
             Item item = Resources.Load("Items/"+itemName) as Item;
             Inventory.PlayerInventory.Items.Add(item);

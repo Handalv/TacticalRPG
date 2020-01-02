@@ -15,4 +15,5 @@ MonoBehaviour:
   name: WaterTile
   material: {fileID: 2100000, guid: c150ba8cdb4fb414282b52587d932018, type: 2}
   isWalkable: 0
-  movementCost: 6
+  movementCost: 666
+  BattleMovementCost: 1

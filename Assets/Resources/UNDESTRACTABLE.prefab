@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 8209547142694127071}
   - component: {fileID: 8209547142694127070}
   - component: {fileID: 6180953734577482444}
+  - component: {fileID: 2681684236259811344}
+  - component: {fileID: 4449054719841835672}
   m_Layer: 0
   m_Name: UNDESTRACTABLE
   m_TagString: Untagged
@@ -105,6 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentMap: {fileID: 0}
+  CurrentCanvas: {fileID: 0}
   tileTypes:
   - {fileID: 11400000, guid: 7ed5f2b82bdf05341a6c9b2f08616dbe, type: 2}
   - {fileID: 11400000, guid: a1bf49611a861ee4d8e6a6611c3fa765, type: 2}
@@ -113,6 +116,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 34de6782b7182544ca481ed22630d8db, type: 2}
   - {fileID: 11400000, guid: 29524d540860404418080dcb59d47084, type: 2}
   - {fileID: 11400000, guid: dd60610276046eb49960d41e6a3746ea, type: 2}
+  ItemList: []
   BattleTileType: {fileID: 0}
   Enemies:
   - {fileID: 11400000, guid: bc45b26be00ac0c49a5017cf194947b6, type: 2}
@@ -154,6 +158,7 @@ MonoBehaviour:
     MapSizeX: 0
     MapSizeZ: 0
     CityName: []
+    Items: []
     UnitHealth: 
     UnitDamage: 
     UnitSpeed: 
@@ -187,3 +192,52 @@ MonoBehaviour:
   gold: 30
   Space: 10
   type: 1
+--- !u!114 &2681684236259811344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8209547142694126628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b565c9fc23fdd184ab9b4e7d89496c5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sounds:
+  - Name: Background0
+    Clip: {fileID: 8300000, guid: 6b2b8a0e75618c24aa73c4ea7ae95d1d, type: 3}
+    volumeType: 1
+    source: {fileID: 0}
+  - Name: Background1
+    Clip: {fileID: 8300000, guid: cfe592f267b4ffc4585765a525290c14, type: 3}
+    volumeType: 1
+    source: {fileID: 0}
+  - Name: Background2
+    Clip: {fileID: 8300000, guid: 765af0c77521d5e4eb08fd6d2461476d, type: 3}
+    volumeType: 1
+    source: {fileID: 0}
+  - Name: Hit
+    Clip: {fileID: 8300000, guid: 297114a12dbbc7a4e96d405d43e63ca0, type: 3}
+    volumeType: 2
+    source: {fileID: 0}
+  - Name: Background3
+    Clip: {fileID: 8300000, guid: f7aa6607239430840b64d558b87a6ab8, type: 3}
+    volumeType: 1
+    source: {fileID: 0}
+  currentBackground:
+    Name: 
+    Clip: {fileID: 0}
+    volumeType: 0
+    source: {fileID: 0}
+  OverallVolume: 0.7
+  MusicVolume: 0.75
+  SoundVolume: 0.75
+--- !u!81 &4449054719841835672
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8209547142694126628}
+  m_Enabled: 1

@@ -26,26 +26,6 @@ public class GameSettings : MonoBehaviour
     public List<UnitPreset> Enemies;
     public int EnemyMapIndex;
 
-    //TEST playTime
-    private float playTime = 0;
-
-    //GameObject playerGoldText;
-
-    //[SerializeField]
-    //private int playerGold = 0;
-    //public int PlayerGold
-    //{
-    //    get
-    //    {
-    //        return playerGold;
-    //    }
-    //    set
-    //    {
-    //        playerGold = value;
-    //        playerGoldText.GetComponent<TextMeshProUGUI>().text = "" + PlayerGold;
-    //    }
-    //}
-
     public static GameSettings instance;
     void Awake()
     {
@@ -60,15 +40,6 @@ public class GameSettings : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    void Update()
-    {
-        playTime += Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            Debug.Log(playTime + " secs on global map");
-        }
-    }
-
     void OnLevelWasLoaded(int level)
     {
         //1 - global map
@@ -77,9 +48,6 @@ public class GameSettings : MonoBehaviour
         {
             CurrentMap = GlobalMap.instance;
             CurrentCanvas = UIGlobalMap.instance.gameObject;
-            //playerGoldText = UIGlobalMap.instance.playerGoldText;
-            //PlayerGold = PlayerGold;
-            playTime = 0;
         }
         if(level == 2)
         {

@@ -19,11 +19,11 @@ public class UIBuyUnitBButton : MonoBehaviour
 
     public void SetInfo(CreachureStats unit)
     {
-        levelText.text = unit.Level.ToString();
-        healthText.text = unit.MaxHealth.ToString();
-        strengthText.text = unit.Strength.ToString();
-        agilityText.text = unit.Agility.ToString();
-        speedText.text = unit.Speed.ToString();
+        levelText.text = "LVL: " + unit.Level.ToString();
+        healthText.text = "HP: " + unit.MaxHealth.ToString();
+        strengthText.text = "STR: " + unit.Strength.ToString();
+        agilityText.text = "AGI: " + unit.Agility.ToString();
+        speedText.text = "SPD: " + unit.Speed.ToString();
 
         costText.text = unit.Cost.ToString();
 

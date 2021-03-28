@@ -20,7 +20,7 @@ public class EnemyUnitList : MonoBehaviour
         gameObject.GetComponent<MapObject>().GraphicElements.Add(UIelement);
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (UIelement.GetComponent<TextMeshProUGUI>().gameObject.activeSelf)
         {

@@ -21,6 +21,7 @@ public class City : MapObject
         if (map == null)
             map = UIGlobalMap.instance;
         UICityNameText = Instantiate(Resources.Load("UnitAmountText"), UIGlobalMap.instance.MapObjectElementsPanel.transform) as GameObject;
+        UICityNameText.name = CityName + "Name";
         gameObject.GetComponent<MapObject>().GraphicElements.Add(UICityNameText);
         UICityNameText.GetComponent<TextMeshProUGUI>().text = CityName;
     }
@@ -45,6 +46,16 @@ public class City : MapObject
             ReforceUnits();
             ReforceInventory();
             currentReinforceCD = reinforceCD;
+        }
+    }
+
+    void LateUpdate()
+    {
+        if (UICityNameText.GetComponent<TextMeshProUGUI>().gameObject.activeSelf)
+        {
+            Vector3 position = Camera.main.WorldToScreenPoint(transform.position);
+            position.y += 50;
+            UICityNameText.transform.position = position;
         }
     }
 

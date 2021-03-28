@@ -116,11 +116,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 34de6782b7182544ca481ed22630d8db, type: 2}
   - {fileID: 11400000, guid: 29524d540860404418080dcb59d47084, type: 2}
   - {fileID: 11400000, guid: dd60610276046eb49960d41e6a3746ea, type: 2}
-  ItemList: []
+  ItemList:
+  - {fileID: 11400000, guid: dbb77d8a9e7c20e49ba4f1b2aa9e86ea, type: 2}
+  - {fileID: 11400000, guid: d21ccd048d87a854c80a40d9464745ed, type: 2}
+  - {fileID: 11400000, guid: 063d275facb615047a7c3da106cc512e, type: 2}
+  - {fileID: 11400000, guid: 608c7e6698fbc4e4d90837aa3dd0bc94, type: 2}
   BattleTileType: {fileID: 0}
-  Enemies:
-  - {fileID: 11400000, guid: bc45b26be00ac0c49a5017cf194947b6, type: 2}
-  - {fileID: 11400000, guid: bc45b26be00ac0c49a5017cf194947b6, type: 2}
+  Enemies: []
   EnemyMapIndex: 0
 --- !u!114 &8209547142694127071
 MonoBehaviour:

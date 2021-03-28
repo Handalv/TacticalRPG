@@ -25,12 +25,12 @@ public class GlobalMap : TileMap
     public List<MapObject> mapObjects = null;
 
     [SerializeField]
-    private int maxEnemyLairs = 1;
+    private int maxEnemyLairs = 2;
     private int currentEnemyLairs = 0;
     [SerializeField]
-    private float minLairSpawnCD = 150;
+    private float minLairSpawnCD = 60;
     [SerializeField]
-    private float maxLairSpawnCD = 210;
+    private float maxLairSpawnCD = 90;
     private float currentLairSpawnCD;
     
 
@@ -83,26 +83,6 @@ public class GlobalMap : TileMap
 
     void Update()
     {
-        //TEST Remove warfog
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            if (globalWarfogEnabled)
-            {
-                foreach (Tile tile in tiles)
-                    tile.WarFogEnabled = false;
-                globalWarfogEnabled = false;
-            }
-            else
-            {
-                globalWarfogEnabled = true;
-                ReShowWarFog();
-            }
-        }
-        //END TEST
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            GAMEPAUSED = !GAMEPAUSED;
-        }
         if (currentEnemyLairs < maxEnemyLairs)
         {
             currentLairSpawnCD -= Time.deltaTime;
@@ -203,7 +183,7 @@ public class GlobalMap : TileMap
     //TEST
     public void GenerateMapObjects()
     {
-        //generate 3 enemies
+        // Generate enemies
         int enemyAmount = 3;
         for (int i = 0; i < enemyAmount; i++)
         {
@@ -216,7 +196,7 @@ public class GlobalMap : TileMap
 
             AddMapObject("Enemy", X, Z);
         }
-        //generate 2 cities
+        // Generate cities
         int cityAmount = 2;
         for (int i = 0; i < cityAmount; i++)
         {
@@ -229,12 +209,25 @@ public class GlobalMap : TileMap
 
             AddMapObject("City", X, Z);
         }
+        // Generate enemy lairs
+        int enemyLairAmount = 1;
+        for (int i = 0; i < enemyLairAmount; i++)
+        {
+            int X, Z;
+            do
+            {
+                X = Random.Range(0, mapSizeX);
+                Z = Random.Range(0, mapSizeZ);
+            } while (tiles[X, Z].mapObjects.Count > 0 || !tiles[X, Z].type.isWalkable);
+
+            AddMapObject("EnemyLair", X, Z);
+        }
     }
     //END
     void SpawnPlayer(int x,int z)
     {
         selectedUnit = AddMapObject("PlayerUnit", x, z);
-        FindObjectOfType<PlayerControls>().playerUnit = selectedUnit.GetComponent<Unit>();
+        FindObjectOfType<PlayerControls>().PlaySetUp(selectedUnit);
         selectedUnit.name = "PlayerUnit";
 
         MapObject mo = selectedUnit.GetComponent<MapObject>();

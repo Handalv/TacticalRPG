@@ -97,7 +97,7 @@ public class TileMap : MonoBehaviour
             }
     }
 
-    protected void ReShowWarFog()
+    public void ReShowWarFog()
     {
         if (globalWarfogEnabled)
         {
@@ -129,7 +129,7 @@ public class TileMap : MonoBehaviour
         }
     }
 
-    // If i decieding to keep instance, this dont need to be static,
+    // If i decieding to keep instance(singleton), this dont need to be static,
     public static Vector3 ConvertTileCoordToWorld(int x, int z, int y = 0)
     {
         float worldZ = z * 1.55f;
